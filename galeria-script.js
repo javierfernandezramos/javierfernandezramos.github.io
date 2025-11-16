@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             name: "Creatividad | Foto",
-            id: "carpeta3",
+            id: "carpeta4",
             folder: "Fotos/Novios/",
             count: 5 // 👈 El script buscará de 1.jpg hasta 12.jpg
         },

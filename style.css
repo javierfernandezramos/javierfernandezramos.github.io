@@ -520,7 +520,7 @@ footer a {
         font-size: 1.2rem;
     }
     .gallery-grid {
-        column-count: 2; /* 2 columna en móviles */
+        column-count: 3; /* 3 columna en móviles */
     }
 
     .overlay span {
