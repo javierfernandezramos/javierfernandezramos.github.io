@@ -176,23 +176,10 @@ a:hover {
         
         /* Imagen 1 (Grande, en blanco y negro, central) */
         url('https://images.pexels.com/photos/346529/pexels-photo-346529.jpeg?cs=srgb&dl=pexels-bri-schneiter-28802-346529.jpg&fm=jpg');    
-        
-
-    
-    background-size: 
-        auto, /* Para el degradado */
-        100%, /* Imagen 1: Cubre todo el ancho */
-        250px, /* Imagen 2: Tamaño fijo pequeño */
-        350px; /* Imagen 3: Tamaño fijo mediano */
-
-    background-position: 
-        center, /* Para el degradado */
-        center center, /* Imagen 1: Centrada */
-        top 5% left 5%, /* Imagen 2: Esquina superior izquierda */
-        bottom 10% right 10%; /* Imagen 3: Esquina inferior derecha */
-        
+    background-size: auto, cover; 
+    background-position: center, center;
     background-repeat: no-repeat;
-    /* -------------------------------------------------------- */
+        
 }
 
 /* El pseudo-elemento ::before ya no es necesario ya que usamos linear-gradient */
@@ -229,6 +216,11 @@ a:hover {
     background-color: white;
     color: var(--color-secondary); 
 }
+.hero-links a{
+    font-size: 2rem;
+    margin: 5px;
+    display: inline-block;
+}
 
 
 /* --- ACERCA DE MÍ --- */
@@ -257,29 +249,39 @@ a:hover {
 
 /* --- GALERÍA (GRID MODERNO) --- */
 .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
+    /* Eliminamos el display: grid tradicional para usar columnas */
+    column-count: 3; /* Número predeterminado de columnas */
+    column-gap: 1.5rem; /* Espacio entre columnas */
+    padding: var(--spacing) 0;
 }
 
+
 .gallery-item {
+    /* Esto es crucial para que los ítems no se corten entre columnas */
+    break-inside: avoid;
     position: relative;
     overflow: hidden;
     cursor: pointer;
+    margin-bottom: 1.5rem; /* Margen para simular el espacio vertical */
+    display: block; /* Asegura que se comporten correctamente dentro de las columnas */
 }
 
 .gallery-item img {
     width: 100%;
-    height: 100%;
+    height: auto; /* Importante para respetar la proporción (vertical u horizontal) */
     object-fit: cover;
     display: block;
     transition: transform 0.5s ease;
 }
 
 .gallery-item:hover img {
-    transform: scale(1.05); /* Zoom suave al pasar el ratón */
+    transform: scale(1.03); /* Zoom suave, ajustado para evitar saltos */
+}
+#galeria {
+    padding-bottom: 3rem; /* Reduce el espacio debajo de las columnas */
 }
 
+/* Estilos de Overlay se mantienen */
 .overlay {
     position: absolute;
     top: 0;
@@ -494,9 +496,11 @@ footer a {
     footer p {
         margin-bottom: 1rem;
     }
-   .gallery-grid{
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-   }
+
+     .gallery-grid {
+        column-count: 3; /* 3 columnas en tablets */
+    }
+
 }
 
 @media (max-width: 600px) {
@@ -507,19 +511,21 @@ footer a {
     .hero-content h1 {
         font-size: 2rem;
     }
-
-    .nav-links {
+    #oculto{
         display: none;
     }
-
-    #navbar .container {
-        justify-content: center;
-    }
+    
 
     .logo {
         font-size: 1.2rem;
     }
-       .gallery-grid{
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-   }
+    .gallery-grid {
+        column-count: 2; /* 2 columna en móviles */
+    }
+
+    .overlay span {
+    font-size: 0.7rem;
+    text-transform: uppercase;
 }
+}
+

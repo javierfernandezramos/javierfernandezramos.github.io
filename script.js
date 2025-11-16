@@ -3,10 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. LOADER INICIAL
     const loader = document.getElementById('loader');
     setTimeout(() => {
-        // Inicia el fade-out del loader
         loader.style.opacity = '0';
         setTimeout(() => {
-            // Oculta completamente después de la transición
             loader.style.display = 'none';
         }, 500); 
     }, 1000); 
@@ -31,7 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
     galleryItems.forEach(item => {
         item.addEventListener('click', () => {
             lightbox.style.display = 'flex';
-            // Usa data-src para la imagen de alta resolución
             lightboxImg.src = item.getAttribute('data-src');
         });
     });
@@ -40,7 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
         lightbox.style.display = 'none';
     });
 
-    // Cierra el lightbox al hacer clic fuera de la imagen
     lightbox.addEventListener('click', (e) => {
         if (e.target === lightbox) {
             lightbox.style.display = 'none';
@@ -66,61 +62,75 @@ document.addEventListener('DOMContentLoaded', () => {
     revealElements.forEach(el => {
         observer.observe(el);
     });
+    
+    // 5. MODO CLARO/OSCURO (Se asume que la lógica está aquí, se omite para brevedad)
+    // ...
 
-
-
-    // 6. FORMULARIO DE CONTACTO (Validación)
+    // 6. FORMULARIO DE CONTACTO (IMPLEMENTACIÓN GMAIL URL CORREGIDA)
     const form = document.getElementById('contact-form');
     const formStatus = document.getElementById('form-status');
 
-    const validateEmail = (email) => {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(String(email).toLowerCase());
+    if (form) {
+        form.addEventListener('submit', (e) => {
+            
+            e.preventDefault(); 
+            
+            document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+            formStatus.textContent = '';
+            
+            const asunto = document.getElementById('asunto').value.trim();
+            const mensaje = document.getElementById('mensaje').value.trim();
+            let isValid = true;
+
+            // --- Validación ---
+            if (asunto.length < 5) {
+                document.getElementById('asunto-error').textContent = 'El asunto es muy corto.';
+                isValid = false;
+            }
+
+            if (mensaje.length < 10) {
+                document.getElementById('mensaje-error').textContent = 'El mensaje es muy corto.';
+                isValid = false;
+            }
+
+            // --- Lógica de redirección ---
+            if (isValid) {
+                const miCorreo = 'javierfernandezramos9@gmail.com'; // ⚠️ ¡REEMPLAZAR!
+                const bodyContent = `Hola Javier,\n\nTe contacto por un proyecto.\n\nMi nombre es: [Escribe aquí tu nombre]\n--- Mensaje Original ---\n${mensaje}`;
+
+                const subjectEncoded = encodeURIComponent(asunto);
+                const bodyEncoded = encodeURIComponent(bodyContent);
+
+                // --- Opción 1: Mailto (Mejor para abrir apps nativas en móvil) ---
+                const mailtoLink = `mailto:${miCorreo}?subject=${subjectEncoded}&body=${bodyEncoded}`;
+                
+                // --- Opción 2: URL de Gmail (Mejor para escritorio/navegador) ---
+                const gmailUrl = `https://mail.google.com/mail/u/0/?view=cm&fs=1&to=${miCorreo}&su=${subjectEncoded}&body=${bodyEncoded}`;
+                
+                
+                // 🛑 LÓGICA DE DETECCIÓN Y APERTURA 🛑
+
+                // Detección simple si es un móvil para priorizar 'mailto'
+                const isMobile = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+                if (isMobile) {
+                    // En móvil: Intentar abrir la aplicación nativa a través de mailto
+                    window.location.href = mailtoLink;
+                } else {
+                    // En escritorio: Abrir Gmail en una nueva pestaña
+                    window.open(gmailUrl, '_blank');
+                }
+
+                formStatus.style.color = 'var(--color-primary)';
+                formStatus.textContent = 'Abriendo el gestor de correo... Por favor, envía el mensaje desde allí.';
+                
+                setTimeout(() => form.reset(), 1000); 
+
+            } else {
+                formStatus.style.color = 'red';
+                formStatus.textContent = 'Por favor, corrige los errores en el formulario.';
+            }
+        });
     }
 
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        // Limpiar errores previos
-        document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
-        formStatus.textContent = '';
-        
-        const nombre = document.getElementById('nombre').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const asunto = document.getElementById('asunto').value.trim();
-        const mensaje = document.getElementById('mensaje').value.trim();
-        let isValid = true;
-
-        if (nombre.length < 3) {
-            document.getElementById('nombre-error').textContent = 'El nombre es muy corto.';
-            isValid = false;
-        }
-
-        if (!validateEmail(email)) {
-            document.getElementById('email-error').textContent = 'Introduce un correo válido.';
-            isValid = false;
-        }
-        
-        if (asunto.length < 5) {
-            document.getElementById('asunto-error').textContent = 'El asunto es muy corto.';
-            isValid = false;
-        }
-
-        if (mensaje.length < 10) {
-            document.getElementById('mensaje-error').textContent = 'El mensaje es muy corto.';
-            isValid = false;
-        }
-
-        if (isValid) {
-            // SIMULACIÓN de éxito: reemplaza esto por tu servicio de envío de formularios (e.g., Formspree, Netlify Forms, backend propio)
-            formStatus.style.color = 'green';
-            formStatus.textContent = '¡Mensaje enviado con éxito! Te contactaré pronto.';
-            form.reset();
-        } else {
-            formStatus.style.color = 'red';
-            formStatus.textContent = 'Por favor, corrige los errores en el formulario.';
-        }
-
-    });
-
-});
+}); // 👈 ÚNICO CIERRE DE DOMContentLoaded

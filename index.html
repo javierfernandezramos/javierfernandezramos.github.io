@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nombre del Fotógrafo | Portafolio de Fotografía Minimalista</title>
+    <title>Javi Photographer</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,12 +21,12 @@
 
    <header id="navbar">
         <div class="container">
-            <a href="#hero" class="logo">NOMBRE FOTO</a>
+            <a href="#hero" class="logo">JaviPhoto</a>
             <nav class="nav-links">
-                <a href="galeria.html">Galería</a>
-                <a href="#servicios">Servicios</a>
-                <a href="#acerca">Acerca de Mí</a>
-                <a href="#contacto">Contacto</a>
+                <a href="galeria.html">Galeria <i class="fa-regular fa-image"></i></a>
+                <a id="oculto" href="#servicios">Servicios</a>
+                <a id="oculto" href="#acerca">Acerca de Mí</a>
+                <a id="oculto" href="#contacto">Contacto</a>
             </nav>
             </div>
     </header>
@@ -34,9 +34,15 @@
     <main>
         <section id="hero" class="hero-section">
             <div class="hero-content">
-                <h1 class="fade-in">NOMBRE COMPLETO DEL FOTÓGRAFO</h1>
-                <p class="fade-in delay-1">"Capturando la esencia de momentos fugaces."</p>
+                <h1 class="fade-in">Javier Photography</h1>
+                <p class="fade-in delay-1">
+                    "Capturando la esencia de momentos fugaces." <br> <a href="#contacto">Contacto Aquí.</a>
+                </p>
+            
+                
+                
                 <a href="#galeria" class="btn fade-in delay-2">Ver Más <i class="fas fa-arrow-down"></i></a>
+                
             </div>
         </section>
 
@@ -44,7 +50,13 @@
             <div class="container acerca-grid reveal">
                 <div class="acerca-text">
                     <h2 class="section-title">Acerca de Mí</h2>
-                    <p>Soy [Tu Nombre], fotógrafo con sede en [Tu Ciudad], especializado en capturar la **belleza simple y cruda** de la vida. Mi enfoque minimalista busca el impacto a través de la composición y la luz, dejando que la historia hable por sí misma. Más que fotos, creo recuerdos atemporales.</p>
+                    <p>
+                        Soy Javier, fotógrafo en Valencia, especializado en capturar la **belleza simple y cruda** de la vida. Mi enfoque minimalista busca el impacto a través de la composición y la luz, dejando que la historia hable por sí misma. Más que fotos, creo recuerdos.
+                        <div>
+                        <a href="https://www.instagram.com/javier.fzr/"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fa-solid fa-envelope"></i></a>
+                        </div>
+                    </p>
                 </div>
                 <div class="acerca-img">
                     <img src="https://picsum.photos/id/66/400/500" alt="Retrato del fotógrafo">
@@ -55,32 +67,66 @@
         <section id="galeria" class="section-padding reveal">
             <div class="container">
                 <h2 class="section-title" id="galeriaDestacada">Galería Destacada</h2>
+
                 <div class="gallery-grid">
                     <div class="gallery-item" data-src="Fotos/portsaplaya-111.jpg">
-                        <img src="Fotos/portsaplaya-111.jpg" alt="Retrato minimalista">
+                        <img src="Fotos/Modelo/4.jpg" alt="Retrato minimalista">
                         <div class="overlay"><span>Retrato</span></div>
                     </div>
                     <div class="gallery-item" data-src="Fotos/playa-sunset-99.jpg">
-                        <img src="Fotos/playa-sunset-99.jpg" alt="Lifestyle">
-                        <div class="overlay"><span>Lifestyle</span></div>
+                        <img src="Fotos/playa-sunset-99.jpg" alt="Boda">
+                        <div class="overlay"><span>Novios</span></div>
                     </div>
                     <div class="gallery-item" data-src="Fotos/blackwhite.jpg">
-                        <img src="Fotos/blackwhite.jpg" alt="Producto">
+                        <img src="Fotos/blackwhite.jpg" alt="B&N">
                         <div class="overlay"><span>B&W</span></div>
                     </div>
                     <div class="gallery-item" data-src="Fotos/RicardoTormo31.jpg">
-                        <img src="Fotos/RicardoTormo31.jpg" alt="Arquitectura">
+                        <img src="Fotos/RicardoTormo31.jpg" alt="Coches">
                         <div class="overlay"><span>Coches</span></div>
                     </div>
                     <div class="gallery-item" data-src="Fotos/rio.jpg">
-                        <img src="Fotos/rio.jpg" alt="B&W">
-                        <div class="overlay"><span>B&W</span></div>
+                        <img src="Fotos/rio.jpg" alt="Espontaneo">
+                        <div class="overlay"><span>Momentos Fugazes</span></div>
                     </div>
 
-                     <div class="gallery-item" data-src="https://picsum.photos/id/112/800/600">
-                        <img src="https://picsum.photos/id/112/400/300" alt="B&W">
-                        <div class="overlay"><span>B&W</span></div>
+                     <div class="gallery-item" data-src="Fotos/novios1.jpg">
+                        <img src="Fotos/novios1.jpg" alt="Novios">
+                        <div class="overlay"><span>Novios</span></div>
                     </div>
+
+                    <div class="gallery-item" data-src="Fotos/pool.jpg">
+                        <img src="Fotos/Modelo/7.jpg" alt="Lifestyle">
+                        <div class="overlay"><span>Lifestyle</span></div>
+                    </div>
+                    <div class="gallery-item" data-src="Fotos/Fruteria036.jpg">
+                        <img src="Fotos/Fruteria036.jpg" alt="Lifestyle">
+                        <div class="overlay"><span>Lifestyle</span></div>
+                    </div>
+
+                     <div class="gallery-item" data-src="Fotos/arquitect.jpg">
+                        <img src="Fotos/arquitect.jpg" alt="Arquitectura">
+                        <div class="overlay"><span>Arquitectura</span></div>
+                    </div>
+
+                    <div class="gallery-item" data-src="Fotos/porsche.jpg">
+                        <img src="Fotos/porsche.jpg" alt="Lifestyle">
+                        <div class="overlay"><span>COCHES</span></div>
+                    </div>
+                      <div class="gallery-item" data-src="Fotos/gym-124.jpg">
+                        <img src="Fotos/Modelo/6.jpg" alt="Lifestyle">
+                        <div class="overlay"><span>COCHES</span></div>
+                    </div>
+                    <div class="gallery-item" data-src="Fotos/Modelo/2.jpg">
+                        <img src="Fotos/Modelo/2.jpg" alt="Lifestyle">
+                        <div class="overlay"><span>COCHES</span></div>
+                    </div>
+
+                    
+                    
+
+                    
+
                 </div>
             </div>
         </section>
@@ -98,35 +144,31 @@
                         <p>Cobertura discreta y emotiva para contar la historia completa de tu día especial.</p>
                     </div>
                     <div class="service-card">
-                        <h3>Fotografía de Producto</h3>
-                        <p>Imágenes limpias y profesionales para e-commerce y marketing que realzan tu marca.</p>
+                        <h3>Fotografía de Deportes</h3>
+                        <p>Imágenes limpias y profesionales para deportistas que buscan mostrar la belleza de su deporte favorito.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="contacto" class="section-padding reveal">
+       <section id="contacto" class="section-padding reveal">
             <div class="container">
                 <h2 class="section-title">Hablemos de tu Proyecto</h2>
-                <form id="contact-form" class="contact-form">
-                    <div class="form-group">
-                        <input type="text" id="nombre" name="nombre" placeholder="Nombre Completo" required>
-                        <div class="error-message" id="nombre-error"></div>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" id="email" name="email" placeholder="Correo Electrónico" required>
-                        <div class="error-message" id="email-error"></div>
-                    </div>
+                <form id="contact-form" class="contact-form"> 
+                    
                     <div class="form-group">
                         <input type="text" id="asunto" name="asunto" placeholder="Asunto" required>
                         <div class="error-message" id="asunto-error"></div>
                     </div>
+                    
                     <div class="form-group">
                         <textarea id="mensaje" name="mensaje" placeholder="Tu Mensaje..." rows="6" required></textarea>
                         <div class="error-message" id="mensaje-error"></div>
                     </div>
+                    
                     <button type="submit" class="btn submit-btn">Enviar Mensaje</button>
                     <p id="form-status" class="form-status"></p>
+                    <p class="small-note">Se abrirá tu cliente de correo (Gmail) para enviar el mensaje.</p>
                 </form>
             </div>
         </section>
@@ -135,9 +177,9 @@
 
     <footer>
         <div class="container container-social">
-            <p>&copy; 2025 Nombre del Fotógrafo. Todos los derechos reservados.</p>
+            <p>&copy; 2025 Javier Fernández. Todos los derechos reservados.</p>
             <div class="social-links">
-                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.instagram.com/javier.fzr/"><i class="fab fa-instagram"></i></a>
                 <a href="#"><i class="fab fa-twitter"></i></a>
             </div>
         </div>
