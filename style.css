@@ -494,6 +494,9 @@ footer a {
     footer p {
         margin-bottom: 1rem;
     }
+   .gallery-grid{
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+   }
 }
 
 @media (max-width: 600px) {
@@ -516,4 +519,7 @@ footer a {
     .logo {
         font-size: 1.2rem;
     }
+       .gallery-grid{
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+   }
 }

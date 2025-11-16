@@ -120,6 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
             formStatus.style.color = 'red';
             formStatus.textContent = 'Por favor, corrige los errores en el formulario.';
         }
+
     });
 
 });

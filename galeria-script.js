@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
             id: "carpeta1",
             folder: "img/carpeta1",
             photos: [
-                "https://picsum.photos/seed/p1_1/400/300",
+                "Fotos/portrait.jpg",
                 "https://picsum.photos/seed/p1_2/400/300",
                 "https://picsum.photos/seed/p1_3/400/300",
                 "https://picsum.photos/seed/p1_4/400/300",
