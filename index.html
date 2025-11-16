@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nombre del Fotógrafo | Portafolio de Fotografía Minimalista</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
+   <header id="navbar">
+        <div class="container">
+            <a href="#hero" class="logo">NOMBRE FOTO</a>
+            <nav class="nav-links">
+                <a href="galeria.html">Galería</a>
+                <a href="#servicios">Servicios</a>
+                <a href="#acerca">Acerca de Mí</a>
+                <a href="#contacto">Contacto</a>
+            </nav>
+            </div>
+    </header>
+
+    <main>
+        <section id="hero" class="hero-section">
+            <div class="hero-content">
+                <h1 class="fade-in">NOMBRE COMPLETO DEL FOTÓGRAFO</h1>
+                <p class="fade-in delay-1">"Capturando la esencia de momentos fugaces."</p>
+                <a href="#galeria" class="btn fade-in delay-2">Ver Más <i class="fas fa-arrow-down"></i></a>
+            </div>
+        </section>
+
+        <section id="acerca" class="section-padding">
+            <div class="container acerca-grid reveal">
+                <div class="acerca-text">
+                    <h2 class="section-title">Acerca de Mí</h2>
+                    <p>Soy [Tu Nombre], fotógrafo con sede en [Tu Ciudad], especializado en capturar la **belleza simple y cruda** de la vida. Mi enfoque minimalista busca el impacto a través de la composición y la luz, dejando que la historia hable por sí misma. Más que fotos, creo recuerdos atemporales.</p>
+                </div>
+                <div class="acerca-img">
+                    <img src="https://picsum.photos/id/66/400/500" alt="Retrato del fotógrafo">
+                </div>
+            </div>
+        </section>
+
+        <section id="galeria" class="section-padding reveal">
+            <div class="container">
+                <h2 class="section-title" id="galeriaDestacada">Galería Destacada</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item" data-src="Fotos/portsaplaya-111.jpg">
+                        <img src="Fotos/portsaplaya-111.jpg" alt="Retrato minimalista">
+                        <div class="overlay"><span>Retrato</span></div>
+                    </div>
+                    <div class="gallery-item" data-src="Fotos/playa-sunset-99.jpg">
+                        <img src="Fotos/playa-sunset-99.jpg" alt="Lifestyle">
+                        <div class="overlay"><span>Lifestyle</span></div>
+                    </div>
+                    <div class="gallery-item" data-src="https://picsum.photos/id/1083/800/600">
+                        <img src="https://picsum.photos/id/1083/400/300" alt="Producto">
+                        <div class="overlay"><span>Producto</span></div>
+                    </div>
+                    <div class="gallery-item" data-src="https://picsum.photos/id/111/800/600">
+                        <img src="https://picsum.photos/id/111/400/300" alt="Arquitectura">
+                        <div class="overlay"><span>Arquitectura</span></div>
+                    </div>
+                    <div class="gallery-item" data-src="https://picsum.photos/id/112/800/600">
+                        <img src="https://picsum.photos/id/112/400/300" alt="B&W">
+                        <div class="overlay"><span>B&W</span></div>
+                    </div>
+
+                     <div class="gallery-item" data-src="https://picsum.photos/id/112/800/600">
+                        <img src="https://picsum.photos/id/112/400/300" alt="B&W">
+                        <div class="overlay"><span>B&W</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="servicios" class="section-padding reveal">
+            <div class="container">
+                <h2 class="section-title">Mis Servicios</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <h3>Retratos Personales</h3>
+                        <p>Sesiones individuales enfocadas en capturar tu personalidad única con un toque de arte.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>Eventos y Bodas</h3>
+                        <p>Cobertura discreta y emotiva para contar la historia completa de tu día especial.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>Fotografía de Producto</h3>
+                        <p>Imágenes limpias y profesionales para e-commerce y marketing que realzan tu marca.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contacto" class="section-padding reveal">
+            <div class="container">
+                <h2 class="section-title">Hablemos de tu Proyecto</h2>
+                <form id="contact-form" class="contact-form">
+                    <div class="form-group">
+                        <input type="text" id="nombre" name="nombre" placeholder="Nombre Completo" required>
+                        <div class="error-message" id="nombre-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" placeholder="Correo Electrónico" required>
+                        <div class="error-message" id="email-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="asunto" name="asunto" placeholder="Asunto" required>
+                        <div class="error-message" id="asunto-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="mensaje" name="mensaje" placeholder="Tu Mensaje..." rows="6" required></textarea>
+                        <div class="error-message" id="mensaje-error"></div>
+                    </div>
+                    <button type="submit" class="btn submit-btn">Enviar Mensaje</button>
+                    <p id="form-status" class="form-status"></p>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container container-social">
+            <p>&copy; 2025 Nombre del Fotógrafo. Todos los derechos reservados.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <div id="lightbox" class="lightbox">
+        <span class="close-btn">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

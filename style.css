@@ -1,0 +1,519 @@
+/* --- RESET BÁSICO Y VARIABLES --- */
+:root {
+    /* Modo Claro */
+    --color-primary: #fff; /* Texto (blanco) */
+    --color-secondary: #121212; /* Fondo (negro oscuro) */
+    --color-accent: #333; /* Gris oscuro para detalles (mantener contraste sutil) */
+    --color-text-light: #aaa; /* Texto secundario (gris claro) */
+    --font-family: 'Inter', sans-serif;
+    --transition-speed: 0.4s;
+    --spacing: 4rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
+    line-height: 1.6;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+/* --- UTILIDADES Y LAYOUT --- */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-padding {
+    padding: var(--spacing) 0;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color var(--transition-speed);
+}
+
+a:hover {
+    color: var(--color-accent);
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--color-primary);
+    background-color: transparent;
+    color: var(--color-primary);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+.btn:hover {
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+}
+
+/* --- LOADER INICIAL --- */
+#loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-secondary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+}
+
+.spinner {
+    border: 3px solid var(--color-text-light);
+    border-top: 3px solid var(--color-primary);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* --- NAV BAR --- */
+#navbar {
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    padding: 1.5rem 0;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+#navbar.scrolled {
+    background-color: var(--color-secondary);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* En Modo Oscuro, la sombra debe ser clara */
+    .dark-mode & {
+        box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+    }
+}
+
+#navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+.nav-links a {
+    margin-left: 2rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+}
+
+.toggle-btn {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.toggle-btn:hover {
+    transform: scale(1.1);
+}
+
+
+/* --- HERO SECTION (FULLSCREEN) - COLLAGE CON TRANSLUCIDEZ --- */
+.hero-section {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-attachment: fixed; 
+    color: white; 
+    position: relative;
+    
+    /* >>> IMPLEMENTACIÓN DEL COLLAGE CON PICSUM PHOTOS <<< */
+    background-image: 
+        /* Overlay Oscuro/Translúcido que va encima de las imágenes */
+        linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+        
+        /* Imagen 1 (Grande, en blanco y negro, central) */
+        url('https://images.pexels.com/photos/346529/pexels-photo-346529.jpeg?cs=srgb&dl=pexels-bri-schneiter-28802-346529.jpg&fm=jpg');    
+        
+
+    
+    background-size: 
+        auto, /* Para el degradado */
+        100%, /* Imagen 1: Cubre todo el ancho */
+        250px, /* Imagen 2: Tamaño fijo pequeño */
+        350px; /* Imagen 3: Tamaño fijo mediano */
+
+    background-position: 
+        center, /* Para el degradado */
+        center center, /* Imagen 1: Centrada */
+        top 5% left 5%, /* Imagen 2: Esquina superior izquierda */
+        bottom 10% right 10%; /* Imagen 3: Esquina inferior derecha */
+        
+    background-repeat: no-repeat;
+    /* -------------------------------------------------------- */
+}
+
+/* El pseudo-elemento ::before ya no es necesario ya que usamos linear-gradient */
+.hero-section::before {
+    /* La capa translúcida se ha movido al background-image como linear-gradient */
+    content: none; 
+}
+
+.hero-content {
+    z-index: 10;
+    padding: 1rem;
+}
+
+.hero-content h1 {
+    font-size: 4rem;
+    margin-bottom: 0.5rem;
+    font-weight: 300;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    font-weight: 400;
+}
+
+.hero-content .btn {
+    border-color: white;
+    color: white;
+}
+
+.hero-content .btn:hover {
+    background-color: white;
+    color: var(--color-secondary); 
+}
+
+
+/* --- ACERCA DE MÍ --- */
+.acerca-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing);
+    align-items: center;
+}
+
+.acerca-text {
+    padding-right: 2rem;
+}
+
+.acerca-text .section-title {
+    text-align: left;
+    margin-bottom: 2rem;
+}
+
+.acerca-img img {
+    width: 100%;
+    aspect-ratio: 4/5; 
+    object-fit: cover;
+    display: block;
+}
+
+/* --- GALERÍA (GRID MODERNO) --- */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05); /* Zoom suave al pasar el ratón */
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0; 
+    transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover .overlay {
+    opacity: 1; 
+}
+
+.overlay span {
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* --- SERVICIOS --- */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    text-align: center;
+}
+
+.service-card {
+    padding: 2rem;
+    border: 1px solid var(--color-accent);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.service-card h3 {
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+}
+
+
+/* --- CONTACTO --- */
+.contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid var(--color-accent);
+    background-color: transparent;
+    color: var(--color-primary);
+    font-family: var(--font-family);
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: var(--color-primary);
+    outline: none;
+}
+
+.contact-form textarea {
+    resize: vertical;
+}
+
+.submit-btn {
+    width: 100%;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+}
+
+.form-status {
+    text-align: center;
+    margin-top: 1rem;
+    font-weight: 700;
+}
+
+
+/* --- FOOTER --- */
+footer {
+    background-color: var(--color-accent);
+    color: var(--color-primary);
+    padding: 2rem 0;
+    text-align: center;
+}
+
+footer .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+footer a {
+    color: var(--color-primary);
+    margin-left: 1rem;
+    font-size: 1.2rem;
+}
+
+
+/* --- LIGHTBOX --- */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: none; 
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.lightbox-content {
+    max-width: 90%;
+    max-height: 90%;
+    display: block;
+    margin: auto;
+    animation: zoom 0.3s; 
+}
+
+@keyframes zoom {
+    from {transform: scale(0.8)}
+    to {transform: scale(1)}
+}
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+
+
+/* --- ANIMACIONES (FADE-IN & REVEAL ON SCROLL) --- */
+/* Animación de entrada inicial para Hero */
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+.delay-1 { animation-delay: 0.5s; }
+.delay-2 { animation-delay: 1s; }
+
+
+/* Clase para revelar elementos al hacer scroll */
+.reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* --- MEDIA QUERIES (RESPONSIVE) --- */
+@media (max-width: 900px) {
+    .hero-content h1 {
+        font-size: 3rem;
+    }
+
+    .acerca-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .acerca-text {
+        padding-right: 0;
+    }
+
+    .acerca-text .section-title {
+        text-align: center;
+    }
+
+    footer .container {
+        flex-direction: column;
+    }
+
+    footer p {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    :root {
+        --spacing: 2rem;
+    }
+
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    #navbar .container {
+        justify-content: center;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+    }
+}

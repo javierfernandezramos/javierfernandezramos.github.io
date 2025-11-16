@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería | Colecciones Fotográficas</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        .gallery-page-header {
+            padding-top: 100px; /* Espacio para el nav fijo */
+            text-align: center;
+        }
+        .categories-menu {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--color-accent);
+            margin-bottom: 2rem;
+        }
+        .categories-menu a {
+            margin: 0 1rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid transparent;
+            text-transform: uppercase;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+        .categories-menu a:hover,
+        .categories-menu a.active {
+            border-color: var(--color-primary);
+        }
+        
+        /* Aseguramos que el grid de la galería se vea bien en esta página */
+        #photo-grid-container {
+            min-height: 50vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <header id="navbar" class="scrolled"> <div class="container">
+            <a href="index.html" class="logo">NOMBRE FOTO</a>
+            <nav class="nav-links">
+                <a href="index.html#servicios">Servicios</a>
+                <a href="index.html#acerca">Acerca de Mí</a>
+                <a href="index.html#contacto">Contacto</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <header class="gallery-page-header">
+            <h1 class="section-title">Colecciones</h1>
+        </header>
+
+        <nav id="categories-menu" class="categories-menu">
+            </nav>
+
+        <section id="photo-grid-container" class="gallery-grid section-padding">
+            </section>
+
+    </main>
+
+    <div id="lightbox" class="lightbox">
+        <span class="close-btn">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+    </div>
+
+    <script src="galeria-script.js"></script> 
+    
+    <script src="script.js"></script>
+
+</body>
+</html>
