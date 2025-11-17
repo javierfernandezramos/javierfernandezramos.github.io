@@ -3,7 +3,8 @@
     /* Modo Claro */
     --color-primary: #fff; /* Texto (blanco) */
     --color-secondary: #121212; /* Fondo (negro oscuro) */
-    --color-accent: #333; /* Gris oscuro para detalles (mantener contraste sutil) */
+    --color-accent: #333333; /* Gris oscuro para detalles (mantener contraste sutil) */
+    --color-hover: #84dde9;
     --color-text-light: #aaa; /* Texto secundario (gris claro) */
     --font-family: 'Inter', sans-serif;
     --transition-speed: 0.4s;
@@ -56,7 +57,7 @@ a {
 }
 
 a:hover {
-    color: var(--color-accent);
+    color: var(--color-hover);
 }
 
 .btn {
@@ -234,6 +235,10 @@ a:hover {
 .acerca-text {
     padding-right: 2rem;
 }
+.acerca-text p{
+    border-bottom: 1px solid var(--color-primary);
+    padding-bottom: 20px;
+}
 
 .acerca-text .section-title {
     text-align: left;
@@ -310,16 +315,23 @@ a:hover {
 
 /* --- SERVICIOS --- */
 .services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    display: flex;
+    flex-wrap: wrap; /* Permite que las tarjetas salten a la siguiente línea */
     gap: 2rem;
     text-align: center;
+    justify-content: center;
 }
 
 .service-card {
+    
     padding: 2rem;
     border: 1px solid var(--color-accent);
     transition: transform 0.3s, box-shadow 0.3s;
+
+    min-width: 300px; 
+    max-width: 350px;
+    padding: 2rem;
+    border: 1px solid var(--color-accent);
 }
 
 .service-card:hover {

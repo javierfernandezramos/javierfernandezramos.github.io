@@ -5,25 +5,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // El script asume que los archivos se llaman: 1.jpg, 2.jpg, 3.jpg, ...
     const galleryCollections = [
         {
-            name: "Modelo | Retratos",
+            name: "Modelo | Ver <i class='fa-solid fa-magnifying-glass'></i>",
             id: "carpeta1",
             folder: "Fotos/Modelo/",
             count: 8 // 👈 El script buscará de 1.jpg hasta 15.jpg en esa carpeta
         },
         {
-            name: "Eventos | Eventos",
+            name: "Eventos | Ver <i class='fa-solid fa-magnifying-glass'></i>",
             id: "carpeta2",
             folder: "Fotos/Eventos/",
             count: 15 // 👈 El script buscará de 1.jpg hasta 8.jpg en esa carpeta
         },
         {
-            name: "Novios | Novios",
+            name: "Novios | Ver <i class='fa-solid fa-magnifying-glass'></i>",
             id: "carpeta3",
             folder: "Fotos/Novios/",
             count: 5 // 👈 El script buscará de 1.jpg hasta 12.jpg
         },
         {
-            name: "Creatividad | Foto",
+            name: "Creatividad | Ver <i class='fa-solid fa-magnifying-glass'></i>",
             id: "carpeta4",
             folder: "Fotos/Novios/",
             count: 5 // 👈 El script buscará de 1.jpg hasta 12.jpg
