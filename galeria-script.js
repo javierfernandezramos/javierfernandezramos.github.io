@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
             count: 5 // 👈 El script buscará de 1.jpg hasta 12.jpg
         },
         {
-            name: "Creatividad | Ver <i class='fa-solid fa-magnifying-glass'></i>",
+            name: "Deportes | Ver <i class='fa-solid fa-magnifying-glass'></i>",
             id: "carpeta4",
             folder: "Fotos/Novios/",
             count: 5 // 👈 El script buscará de 1.jpg hasta 12.jpg

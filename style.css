@@ -526,6 +526,9 @@ footer a {
     #oculto{
         display: none;
     }
+    .hero-content p {
+        font-size: 0.9rem;
+}
     
 
     .logo {
