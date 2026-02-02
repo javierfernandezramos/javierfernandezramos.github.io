@@ -1,34 +1,38 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // 1. ESTRUCTURA DE LA GALERÍA CON CONTEO DE ARCHIVOS
-    // Para añadir más fotos a una carpeta, solo incrementa el número 'count'.
-    // El script asume que los archivos se llaman: 1.jpg, 2.jpg, 3.jpg, ...
+    // 1. ESTRUCTURA DE LA GALERÍA
+    // Puedes gestionar tus fotos de dos formas:
+    // A) NOMBRE SECUENCIAL: Si tus fotos se llaman 1.jpg, 2.jpg... solo pon el número en 'count'.
+    // B) NOMBRES PERSONALIZADOS: Si quieres usar nombres originales, añádelos en la lista 'images'.
     const galleryCollections = [
         {
             name: "Modelo | Ver <i class='fa-solid fa-magnifying-glass'></i>",
             id: "carpeta1",
             folder: "Fotos/Modelo/",
-            count: 8 // 👈 El script buscará de 1.jpg hasta 15.jpg en esa carpeta
+            count: 8, // Usa esto si tus fotos son 1.jpg, 2.jpg...
+            images: [] // O añade nombres aquí: ["foto1.jpg", "vacaciones.png"]
         },
         {
             name: "Eventos | Ver <i class='fa-solid fa-magnifying-glass'></i>",
             id: "carpeta2",
             folder: "Fotos/Eventos/",
-            count: 15 // 👈 El script buscará de 1.jpg hasta 8.jpg en esa carpeta
+            count: 15,
+            images: []
         },
         {
             name: "Novios | Ver <i class='fa-solid fa-magnifying-glass'></i>",
             id: "carpeta3",
             folder: "Fotos/Novios/",
-            count: 5 // 👈 El script buscará de 1.jpg hasta 12.jpg
+            count: 5,
+            images: []
         },
         {
             name: "Deportes | Ver <i class='fa-solid fa-magnifying-glass'></i>",
             id: "carpeta4",
-            folder: "Fotos/Novios/",
-            count: 5 // 👈 El script buscará de 1.jpg hasta 12.jpg
+            folder: "Fotos/Deportes/",
+            count: 10,
+            images: []
         },
-        // Añade más carpetas e incrementa 'count' cuando añadas más fotos.
     ];
 
     const menuContainer = document.getElementById('categories-menu');
@@ -37,29 +41,43 @@ document.addEventListener('DOMContentLoaded', () => {
     const lightboxImg = document.getElementById('lightbox-img');
     const closeBtn = document.querySelector('.close-btn');
 
-    // Función de URL de alta resolución (se mantiene)
-    function getHighResUrl(url) {
-        return url; 
-    }
+    // --- OPTIMIZACIÓN: Intersection Observer para Lazy Loading ---
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                img.classList.add('loaded');
+                observer.unobserve(img);
+            }
+        });
+    }, {
+        rootMargin: '50px 0px',
+        threshold: 0.01
+    });
 
-
-    // 2. FUNCIÓN PARA GENERAR EL MENÚ DE CATEGORÍAS (Se mantiene igual)
+    // 2. FUNCIÓN PARA GENERAR EL MENÚ DE CATEGORÍAS
     function renderCategoryMenu() {
-        menuContainer.innerHTML = ''; 
+        if (!menuContainer) return;
+
+        const fragment = document.createDocumentFragment();
         galleryCollections.forEach(collection => {
             const link = document.createElement('a');
-            link.href = `#${collection.id}`; 
-            link.textContent = collection.name.split('|')[0].trim(); 
+            link.href = `#${collection.id}`;
+            link.textContent = collection.name.split('|')[0].trim();
             link.setAttribute('data-category', collection.id);
-            
+
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 loadCategory(collection.id);
-                document.getElementById('photo-grid-container').scrollIntoView({ behavior: 'smooth' });
+                gridContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
-            menuContainer.appendChild(link);
+            fragment.appendChild(link);
         });
-        
+
+        menuContainer.innerHTML = '';
+        menuContainer.appendChild(fragment);
+
         if (galleryCollections.length > 0) {
             loadCategory(galleryCollections[0].id);
         }
@@ -68,65 +86,84 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. FUNCIÓN PARA CARGAR LAS FOTOS DE UNA CATEGORÍA
     function loadCategory(categoryId) {
         const selectedCollection = galleryCollections.find(c => c.id === categoryId);
-        gridContainer.innerHTML = ''; 
-        
-        if (!selectedCollection) return;
+        if (!selectedCollection || !gridContainer) return;
+
+        // Limpiar y preparar contenedor
+        gridContainer.innerHTML = '';
+        gridContainer.classList.add('loading');
 
         // Actualizar clase 'active' en el menú
         document.querySelectorAll('#categories-menu a').forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('data-category') === categoryId) {
-                link.classList.add('active');
-            }
+            link.classList.toggle('active', link.getAttribute('data-category') === categoryId);
         });
 
-        // 🛑 BUCLE FOR PARA GENERAR LAS IMÁGENES AUTOMÁTICAMENTE 🛑
-        for (let i = 1; i <= selectedCollection.count; i++) {
-            
-            // Construye el nombre del archivo (e.g., 1.jpg, 2.jpg)
-            const fileName = `${i}.jpg`; 
-            
-            // Combina la carpeta base (e.g., Fotos/Retratos/) + nombre del archivo
-            const photoUrl = selectedCollection.folder + fileName; 
-            
+        // Generar lista de URLs de fotos
+        const photoUrls = [];
+
+        // Añadir fotos por lista de nombres
+        if (selectedCollection.images && selectedCollection.images.length > 0) {
+            selectedCollection.images.forEach(name => {
+                photoUrls.push(selectedCollection.folder + name);
+            });
+        }
+
+        // Añadir fotos por conteo secuencial (si no hay lista o en combinación)
+        if (selectedCollection.count > 0) {
+            for (let i = 1; i <= selectedCollection.count; i++) {
+                photoUrls.push(`${selectedCollection.folder}${i}.jpg`);
+            }
+        }
+
+        const fragment = document.createDocumentFragment();
+
+        photoUrls.forEach(url => {
             const item = document.createElement('div');
-            item.classList.add('gallery-item');
-            
-            item.setAttribute('data-src', getHighResUrl(photoUrl));
-            
+            item.classList.add('gallery-item', 'fade-in');
+
+            // Usamos un placeholder transparente o color base mientras carga
             const img = document.createElement('img');
-            img.src = photoUrl; // Usa la ruta completa generada
-            img.alt = fileName;
-            
+            img.alt = "Fotografía de JaviPhoto";
+            img.dataset.src = url; // Fuente real para lazy load
+            img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; // Pixel transparente
+            img.loading = 'lazy';
+
             const overlay = document.createElement('div');
             overlay.classList.add('overlay');
-            overlay.innerHTML = `<span>${selectedCollection.name.split('|')[1].trim()}</span>`; 
+            overlay.innerHTML = `<span><i class='fa-solid fa-magnifying-glass'></i></span>`;
 
             item.appendChild(img);
             item.appendChild(overlay);
-            
-            item.addEventListener('click', openLightbox);
-            
-            gridContainer.appendChild(item);
-        }
+            item.addEventListener('click', () => openLightbox(url));
+
+            fragment.appendChild(item);
+            imageObserver.observe(img); // Activar lazy loading para esta imagen
+        });
+
+        gridContainer.appendChild(fragment);
+        gridContainer.classList.remove('loading');
     }
-    
-    // 4. LÓGICA DEL LIGHTBOX (Se mantiene igual)
-    function openLightbox() {
+
+    // 4. LÓGICA DEL LIGHTBOX
+    function openLightbox(url) {
+        if (!lightbox || !lightboxImg) return;
         lightbox.style.display = 'flex';
-        lightboxImg.src = this.getAttribute('data-src');
+        lightboxImg.src = url;
+        document.body.style.overflow = 'hidden'; // Evitar scroll de fondo
     }
 
-    // Eventos para cerrar el Lightbox (Se mantiene igual)
-    closeBtn.addEventListener('click', () => {
+    function closeLightbox() {
         lightbox.style.display = 'none';
-    });
-    lightbox.addEventListener('click', (e) => {
-        if (e.target === lightbox) {
-            lightbox.style.display = 'none';
-        }
-    });
+        lightboxImg.src = '';
+        document.body.style.overflow = 'auto';
+    }
 
-    // Iniciar el proceso
+    if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+    if (lightbox) {
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+    }
+
+    // Iniciar
     renderCategoryMenu();
 });

@@ -1,48 +1,81 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Galería | Colecciones JaviPhoto</title>
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;800&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
+
     <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+
         .gallery-page-header {
-            padding-top: 100px; /* Espacio para el nav fijo */
+            padding-top: 120px;
             text-align: center;
         }
+
         .categories-menu {
             display: flex;
             justify-content: center;
-            flex-wrap: wrap;
-            padding: 2rem 0;
-            border-bottom: 1px solid var(--color-accent);
+            gap: 1rem;
+            padding: 2rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             margin-bottom: 2rem;
+            overflow-x: auto;
+            scrollbar-width: none;
+            /* Firefox */
+            -ms-overflow-style: none;
+            /* IE/Edge */
+            white-space: nowrap;
         }
+
+        .categories-menu::-webkit-scrollbar {
+            display: none;
+            /* Chrome/Safari */
+        }
+
         .categories-menu a {
-            margin: 0 1rem;
-            padding: 0.5rem 1rem;
-            border: 1px solid transparent;
+            flex: 0 0 auto;
+            padding: 0.7rem 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
             text-transform: uppercase;
-            font-weight: 700;
-            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            color: var(--color-text-light);
+            background: rgba(255, 255, 255, 0.02);
         }
+
         .categories-menu a:hover,
         .categories-menu a.active {
-            border-color: var(--color-primary);
+            border-color: var(--color-gold);
+            color: #000;
+            background: var(--color-gold);
         }
-        
-        /* Aseguramos que el grid de la galería se vea bien en esta página */
+
         #photo-grid-container {
             min-height: 50vh;
         }
+
+        @media (max-width: 768px) {
+            .categories-menu {
+                justify-content: flex-start;
+                padding-bottom: 1.5rem;
+            }
+        }
     </style>
+
 </head>
 
 <body>
@@ -50,7 +83,8 @@
         <div class="spinner"></div>
     </div>
 
-    <header id="navbar" class="scrolled"> <div class="container">
+    <header id="navbar" class="scrolled">
+        <div class="container">
             <a href="index.html" class="logo">JaviPhoto</a>
             <nav class="nav-links">
                 <a href="index.html">Inicio</a>
@@ -62,16 +96,16 @@
     </header>
 
     <main class="container">
-        
+
         <header class="gallery-page-header">
             <h1 class="section-title">Colecciones</h1>
         </header>
 
         <nav id="categories-menu" class="categories-menu">
-            </nav>
+        </nav>
 
         <section id="photo-grid-container" class="gallery-grid section-padding">
-            </section>
+        </section>
 
     </main>
 
@@ -80,9 +114,10 @@
         <img class="lightbox-content" id="lightbox-img">
     </div>
 
-    <script src="galeria-script.js"></script> 
-    
+    <script src="galeria-script.js"></script>
+
     <script src="script.js"></script>
 
 </body>
+
 </html>

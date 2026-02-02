@@ -6,8 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
         loader.style.opacity = '0';
         setTimeout(() => {
             loader.style.display = 'none';
-        }, 500); 
-    }, 1000); 
+        }, 500);
+    }, 1000);
 
 
     // 2. NAVBAR STICKY Y EFECTO AL SCROLL
@@ -20,28 +20,52 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 3. LIGHTBOX PARA LA GALERÍA
+    // 3. LAZY LOADING Y LIGHTBOX PARA LA GALERÍA
     const galleryItems = document.querySelectorAll('.gallery-item');
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const closeBtn = document.querySelector('.close-btn');
 
+    // Intersection Observer para lazy loading en la página principal
+    const mainImageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target.querySelector('img');
+                if (img && img.dataset.src) {
+                    img.src = img.dataset.src;
+                    img.classList.add('loaded');
+                }
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { rootMargin: '50px' });
+
     galleryItems.forEach(item => {
+        mainImageObserver.observe(item);
+
         item.addEventListener('click', () => {
+            if (!lightbox || !lightboxImg) return;
+            const highRes = item.getAttribute('data-src');
             lightbox.style.display = 'flex';
-            lightboxImg.src = item.getAttribute('data-src');
+            lightboxImg.src = highRes;
+            document.body.style.overflow = 'hidden';
         });
     });
 
-    closeBtn.addEventListener('click', () => {
+    const hideLightbox = () => {
+        if (!lightbox) return;
         lightbox.style.display = 'none';
-    });
+        if (lightboxImg) lightboxImg.src = '';
+        document.body.style.overflow = 'auto';
+    };
 
-    lightbox.addEventListener('click', (e) => {
-        if (e.target === lightbox) {
-            lightbox.style.display = 'none';
-        }
-    });
+    if (closeBtn) closeBtn.addEventListener('click', hideLightbox);
+    if (lightbox) {
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) hideLightbox();
+        });
+    }
+
 
 
     // 4. ANIMACIONES AL HACER SCROLL (REVEAL)
@@ -56,13 +80,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, {
         rootMargin: '0px',
-        threshold: 0.1 
+        threshold: 0.1
     });
 
     revealElements.forEach(el => {
         observer.observe(el);
     });
-    
+
     // 5. MODO CLARO/OSCURO (Se asume que la lógica está aquí, se omite para brevedad)
     // ...
 
@@ -72,12 +96,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (form) {
         form.addEventListener('submit', (e) => {
-            
-            e.preventDefault(); 
-            
+
+            e.preventDefault();
+
             document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
             formStatus.textContent = '';
-            
+
             const asunto = document.getElementById('asunto').value.trim();
             const mensaje = document.getElementById('mensaje').value.trim();
             let isValid = true;
@@ -103,11 +127,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // --- Opción 1: Mailto (Mejor para abrir apps nativas en móvil) ---
                 const mailtoLink = `mailto:${miCorreo}?subject=${subjectEncoded}&body=${bodyEncoded}`;
-                
+
                 // --- Opción 2: URL de Gmail (Mejor para escritorio/navegador) ---
                 const gmailUrl = `https://mail.google.com/mail/u/0/?view=cm&fs=1&to=${miCorreo}&su=${subjectEncoded}&body=${bodyEncoded}`;
-                
-                
+
+
                 // 🛑 LÓGICA DE DETECCIÓN Y APERTURA 🛑
 
                 // Detección simple si es un móvil para priorizar 'mailto'
@@ -123,8 +147,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 formStatus.style.color = 'var(--color-primary)';
                 formStatus.textContent = 'Abriendo el gestor de correo... Por favor, envía el mensaje desde allí.';
-                
-                setTimeout(() => form.reset(), 1000); 
+
+                setTimeout(() => form.reset(), 1000);
 
             } else {
                 formStatus.style.color = 'red';
@@ -133,4 +157,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-}); // 👈 ÚNICO CIERRE DE DOMContentLoaded
+
+
+}); // 👈 CIERRE FINAL

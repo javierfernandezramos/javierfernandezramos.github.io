@@ -1,24 +1,28 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Javi Photographer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;800&display=swap" rel="stylesheet">
+
+
+
     <link rel="stylesheet" href="style.css">
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+
 <body>
 
     <div id="loader">
         <div class="spinner"></div>
     </div>
 
-   <header id="navbar">
+    <header id="navbar">
         <div class="container">
             <a href="#hero" class="logo">JaviPhoto</a>
             <nav class="nav-links">
@@ -27,7 +31,7 @@
                 <a id="oculto" href="#acerca">Acerca de Mí</a>
                 <a id="oculto" href="#contacto">Contacto</a>
             </nav>
-            </div>
+        </div>
     </header>
 
     <main>
@@ -35,31 +39,54 @@
             <div class="hero-content">
                 <h1 class="fade-in">Javier Photography</h1>
                 <p class="fade-in delay-1">
-                    "Capturando la esencia de momentos fugaces." <br> <a href="#contacto">Contáctame <i class="fa-solid fa-right-to-bracket"></i></a>
+                    "Capturando la esencia de momentos fugaces." <br> <a href="#contacto">Contáctame <i
+                            class="fa-solid fa-right-to-bracket"></i></a>
                 </p>
-            
-                
-                
+
+
+
                 <a href="#galeria" class="btn fade-in delay-2">Ver Más <i class="fas fa-arrow-down"></i></a>
-                
+
             </div>
         </section>
 
         <section id="acerca" class="section-padding">
             <div class="container acerca-grid reveal">
                 <div class="acerca-text">
-                    <h2 class="section-title">Acerca de Mí</h2>
-                    <p>
-                        Soy Javier, fotógrafo en Valencia, especializado en capturar la "belleza simple y cruda" de la vida. Mi enfoque minimalista busca el impacto a través de la composición y la luz, dejando que la historia hable por sí misma. Más que fotos, creo recuerdos.
-                        Puedes contactarme a mi correo-> <a target="_blank" href="mailto:javierfernandezramos9@gmail.com">javierfernandezramos9@gmail.com</a>
-                    </p>
-                    <a style="font-size: 30px;" target="_blank" href="https://www.instagram.com/javier.fzr/"><i class="fab fa-instagram"></i></a>
+                    <div class="acerca-profile-wrapper">
+                        <div class="acerca-mobile-profile">
+                            <img src="Fotos/photographer.jpg" alt="Retrato Javi">
+                        </div>
+                        <a target="_blank" href="https://www.instagram.com/javier.fzr/" class="instagram-profile-icon">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                    <h2 class="section-title main-title">El Arte de lo Esencial</h2>
+                    <div class="editorial-body">
+                        <p>
+                            Fotógrafo profesional con sede en Valencia. Me especializo en capturar la realidad desde una
+                            perspectiva limpia y directa, buscando siempre la fidelidad en cada imagen.
+                        </p>
+                        <p>
+                            Mi trabajo se define por la atención al detalle y la capacidad de capturar las cosas de la
+                            manera que las quieres ver. Con años de experiencia en retratos, eventos y deportes, ofrezco
+                            una visión técnica y profesional para cada proyecto.
+                        </p>
+                    </div>
+
+
+                    <div class="contact-links-luxury">
+                        <a target="_blank" href="mailto:javierfernandezramos9@gmail.com"
+                            class="luxury-cta-link">Cuéntame tu visión →</a>
+                    </div>
                 </div>
-                <div class="acerca-img">
+
+                <div class="acerca-img glass-frame">
                     <img src="Fotos/photographer.jpg" alt="Retrato del fotógrafo">
                 </div>
             </div>
         </section>
+
 
         <section id="galeria" class="section-padding reveal">
             <div class="container">
@@ -67,62 +94,75 @@
 
                 <div class="gallery-grid">
                     <div class="gallery-item" data-src="Fotos/Modelo/4.jpg">
-                        <img src="Fotos/Modelo/4.jpg" alt="Retrato minimalista">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                            data-src="Fotos/Modelo/4.jpg" alt="Retrato minimalista">
                         <div class="overlay"><span>Retrato</span></div>
                     </div>
                     <div class="gallery-item" data-src="Fotos/playa-sunset-99.jpg">
-                        <img src="Fotos/playa-sunset-99.jpg" alt="Boda">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                            data-src="Fotos/playa-sunset-99.jpg" alt="Boda">
                         <div class="overlay"><span>Novios</span></div>
                     </div>
                     <div class="gallery-item" data-src="Fotos/blackwhite.jpg">
-                        <img src="Fotos/blackwhite.jpg" alt="B&N">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                            data-src="Fotos/blackwhite.jpg" alt="B&N">
                         <div class="overlay"><span>B&W</span></div>
                     </div>
                     <div class="gallery-item" data-src="Fotos/RicardoTormo31.jpg">
-                        <img src="Fotos/RicardoTormo31.jpg" alt="Coches">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                            data-src="Fotos/RicardoTormo31.jpg" alt="Coches">
                         <div class="overlay"><span>Coches</span></div>
                     </div>
                     <div class="gallery-item" data-src="Fotos/rio.jpg">
-                        <img src="Fotos/rio.jpg" alt="Espontaneo">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                            data-src="Fotos/rio.jpg" alt="Espontaneo">
                         <div class="overlay"><span>Momentos Fugazes</span></div>
                     </div>
 
-                     <div class="gallery-item" data-src="Fotos/novios1.jpg">
-                        <img src="Fotos/novios1.jpg" alt="Novios">
+                    <div class="gallery-item" data-src="Fotos/novios1.jpg">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                            data-src="Fotos/novios1.jpg" alt="Novios">
                         <div class="overlay"><span>Novios</span></div>
                     </div>
 
                     <div class="gallery-item" data-src="Fotos/Modelo/7.jpg">
-                        <img src="Fotos/Modelo/7.jpg" alt="Lifestyle">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                            data-src="Fotos/Modelo/7.jpg" alt="Lifestyle">
                         <div class="overlay"><span>Lifestyle</span></div>
                     </div>
                     <div class="gallery-item" data-src="Fotos/Fruteria036.jpg">
-                        <img src="Fotos/Fruteria036.jpg" alt="Lifestyle">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                            data-src="Fotos/Fruteria036.jpg" alt="Lifestyle">
                         <div class="overlay"><span>Patrones</span></div>
                     </div>
 
-                     <div class="gallery-item" data-src="Fotos/arquitect.jpg">
-                        <img src="Fotos/arquitect.jpg" alt="Arquitectura">
+                    <div class="gallery-item" data-src="Fotos/arquitect.jpg">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                            data-src="Fotos/arquitect.jpg" alt="Arquitectura">
                         <div class="overlay"><span>Arquitectura</span></div>
                     </div>
 
                     <div class="gallery-item" data-src="Fotos/porsche.jpg">
-                        <img src="Fotos/porsche.jpg" alt="Lifestyle">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                            data-src="Fotos/porsche.jpg" alt="Lifestyle">
                         <div class="overlay"><span>COCHES</span></div>
                     </div>
-                      <div class="gallery-item" data-src="Fotos/Modelo/6.jpg">
-                        <img src="Fotos/Modelo/6.jpg" alt="Lifestyle">
+                    <div class="gallery-item" data-src="Fotos/Modelo/6.jpg">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                            data-src="Fotos/Modelo/6.jpg" alt="Lifestyle">
                         <div class="overlay"><span>DEPORTES</span></div>
                     </div>
                     <div class="gallery-item" data-src="Fotos/Modelo/2.jpg">
-                        <img src="Fotos/Modelo/2.jpg" alt="Lifestyle">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                            data-src="Fotos/Modelo/2.jpg" alt="Lifestyle">
                         <div class="overlay"><span>Lifestyle</span></div>
                     </div>
 
-                    
-                    
 
-                    
+
+
+
+
 
                 </div>
             </div>
@@ -131,38 +171,51 @@
         <section id="servicios" class="section-padding reveal">
             <div class="container">
                 <h2 class="section-title">Mis Servicios</h2>
-                <div class="services-grid">
-                    <div class="service-card">
-                        <h3>Retratos Personales</h3>
-                        <p>Sesiones individuales enfocadas en capturar tu personalidad única con un toque de arte.</p>
+                <div class="services-minimal-grid">
+                    <div class="service-item reveal">
+                        <div class="service-icon-box"><i class="fas fa-user-tie"></i></div>
+                        <h3>Retratos</h3>
+                        <p>Capturando la esencia y personalidad a través de la luz y la mirada profesionales.</p>
                     </div>
-                    <div class="service-card">
-                        <h3>Eventos y Bodas</h3>
-                        <p>Cobertura discreta y emotiva para contar la historia completa de tu día especial.</p>
+                    <div class="service-item reveal">
+                        <div class="service-icon-box"><i class="fas fa-heart"></i></div>
+                        <h3>Eventos</h3>
+                        <p>Documentando momentos irrepetibles con un enfoque narrativo y profesional.</p>
                     </div>
-                    <div class="service-card">
-                        <h3>Fotografía de Deportes</h3>
-                        <p>Imágenes limpias y profesionales para deportistas que buscan mostrar la belleza de su deporte favorito.</p>
+                    <div class="service-item reveal">
+                        <div class="service-icon-box"><i class="fas fa-running"></i></div>
+                        <h3>Deportes</h3>
+                        <p>Acción y emoción capturada en su estado más puro y profesional.</p>
                     </div>
+                    <div class="service-item reveal">
+                        <div class="service-icon-box"><i class="fas fa-ring"></i></div>
+                        <h3>Boda</h3>
+                        <p>Historias de amor contadas con un enfoque cinematográfico y de lujo.</p>
+                    </div>
+
                 </div>
+
+
+
             </div>
         </section>
 
-       <section id="contacto" class="section-padding reveal">
+
+        <section id="contacto" class="section-padding reveal">
             <div class="container">
                 <h2 class="section-title">Hablemos de tu Proyecto</h2>
-                <form id="contact-form" class="contact-form"> 
-                    
+                <form id="contact-form" class="contact-form">
+
                     <div class="form-group">
                         <input type="text" id="asunto" name="asunto" placeholder="Asunto" required>
                         <div class="error-message" id="asunto-error"></div>
                     </div>
-                    
+
                     <div class="form-group">
                         <textarea id="mensaje" name="mensaje" placeholder="Tu Mensaje..." rows="6" required></textarea>
                         <div class="error-message" id="mensaje-error"></div>
                     </div>
-                    
+
                     <button type="submit" class="btn submit-btn">Enviar Mensaje</button>
                     <p id="form-status" class="form-status"></p>
                     <p class="small-note">Se abrirá tu cliente de correo (Gmail) para enviar el mensaje.</p>
@@ -174,7 +227,7 @@
 
     <footer>
         <div class="container container-social">
-            <p>&copy; 2025 Javier Fernández. Todos los derechos reservados.</p>
+            <p>&copy; 2026 Javier Fernández. Todos los derechos reservados.</p>
             <div class="social-links">
                 <a target="_blank" href="https://www.instagram.com/javier.fzr/"><i class="fab fa-instagram"></i></a>
             </div>
@@ -188,4 +241,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>
