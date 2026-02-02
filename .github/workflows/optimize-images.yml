@@ -6,6 +6,10 @@ on:
       - main
     paths:
       - 'Fotos/**'
+  workflow_dispatch: # Permite ejecutarlo manualmente si hace falta
+
+permissions:
+  contents: write # Crucial para que pueda guardar los cambios en el repo
 
 jobs:
   build:
