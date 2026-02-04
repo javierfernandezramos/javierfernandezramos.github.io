@@ -133,6 +133,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             item.appendChild(img);
             item.appendChild(overlay);
+
+            // Añadimos data-src al contenedor para compatibilidad con script.js
+            item.setAttribute('data-src', url);
+
             item.addEventListener('click', () => openLightbox(url));
 
             fragment.appendChild(item);

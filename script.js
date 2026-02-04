@@ -46,6 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
         item.addEventListener('click', () => {
             if (!lightbox || !lightboxImg) return;
             const highRes = item.getAttribute('data-src');
+            if (!highRes) return; // Si no hay data-src, no hacemos nada (evita conflictos en galeria.html)
+
             lightbox.style.display = 'flex';
             lightboxImg.src = highRes;
             document.body.style.overflow = 'hidden';

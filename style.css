@@ -49,6 +49,13 @@ body {
     margin: 0 auto;
 }
 
+@media (max-width: 600px) {
+    .container {
+        width: 92%;
+        /* Margen estándar cómodo para la web en general */
+    }
+}
+
 .section-padding {
     padding: var(--spacing) 0;
 }
@@ -397,7 +404,7 @@ a:hover {
     filter: grayscale(0%);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1050px) {
     .acerca-grid {
         display: block;
         padding: 0 1rem;
@@ -837,40 +844,7 @@ footer a {
 
 }
 
-@media (max-width: 600px) {
-    :root {
-        --spacing: 2rem;
-    }
 
-    .hero-content h1 {
-        font-size: 2rem;
-    }
-
-    #oculto {
-        display: none;
-    }
-
-    .hero-content p {
-        font-size: 0.9rem;
-    }
-
-
-    .logo {
-        font-size: 1.2rem;
-    }
-
-    .gallery-grid {
-        column-count: 2;
-        column-gap: 0.8rem;
-    }
-
-
-
-    .overlay span {
-        font-size: 0.7rem;
-        text-transform: uppercase;
-    }
-}
 
 
 
@@ -937,4 +911,57 @@ footer a {
     text-transform: uppercase;
     letter-spacing: 3px;
     font-size: 1.1rem;
+}
+
+/* --- OVERRIDES FINALES PARA MÓVIL (Al final para ganar a los refinamientos) --- */
+@media (max-width: 850px) {
+    :root {
+        --spacing: 2rem;
+    }
+
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    #oculto {
+        display: none;
+    }
+
+    .hero-content p {
+        font-size: 0.9rem;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    .gallery-grid {
+        column-count: 2;
+        column-gap: 4px !important;
+        /* Gap ligeramente mayor */
+        padding: 0.5rem 0;
+    }
+
+    .gallery-item {
+        margin-bottom: 4px !important;
+        /* Margen ligeramente mayor */
+        border-radius: 4px;
+        /* Bordes un poco más definidos */
+    }
+
+    .overlay span {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+    }
+}
+
+/* --- AJUSTE ESPECÍFICO PARA QUE SOLO LA GALERÍA SEA ANCHA --- */
+@media (max-width: 600px) {
+
+    /* El contenedor del index y el de la página de galería se ensanchan */
+    #galeria .container,
+    .gallery-container {
+        width: 99% !important;
+        max-width: none;
+    }
 }
