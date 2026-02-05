@@ -17,10 +17,9 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Resize Images
-        uses: gonzalonaveira/gh-image-resizing@v1.0.2
-        with:
-          IMAGES_MAX_WIDTH: 1920
+      - name: Resize Large Images
+        run: |
+          find Fotos/ -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) -exec mogrify -resize '1920>' {} +
 
       - name: Compress Images
         uses: calibreapp/image-actions@main
