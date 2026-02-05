@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'Fotos/**'
   workflow_dispatch: # Permite ejecutarlo manualmente desde la pestaña Actions
 
 permissions:
@@ -33,4 +31,3 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Optimize images (smush)"
-          file_pattern: 'Fotos/**'
