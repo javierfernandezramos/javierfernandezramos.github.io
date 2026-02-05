@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Resize Images
-        uses: gonzalonaveira/gh-image-resizing@v1
+        uses: gonzalonaveira/gh-image-resizing@v1.0.2
         with:
           IMAGES_MAX_WIDTH: 1920
 
