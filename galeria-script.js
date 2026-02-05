@@ -131,6 +131,13 @@ document.addEventListener('DOMContentLoaded', () => {
             img.loading = 'lazy';
             img.setAttribute('decoding', 'async');
 
+            // Fallback: Si la miniatura no existe, cargar la original
+            img.onerror = function () {
+                if (this.dataset.src !== url) {
+                    this.src = url;
+                }
+            };
+
             const overlay = document.createElement('div');
             overlay.classList.add('overlay');
             overlay.innerHTML = `<span><i class='fa-solid fa-magnifying-glass'></i></span>`;

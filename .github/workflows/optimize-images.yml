@@ -25,12 +25,12 @@ jobs:
           # 1. Redimensionar originales a 1920px (si son más grandes)
           find Fotos/ -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) ! -name "*_thumb.*" -exec mogrify -resize '1920>' {} +
           
-          # 2. Generar miniaturas de 800px para el grid
+          # 2. Generar miniaturas de 400px para el grid (antes 800px)
           # Buscamos archivos que NO sean ya miniaturas y creamos su versión _thumb
           find Fotos/ -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) ! -name "*_thumb.*" | while read -r img; do
             thumb="${img%.*}_thumb.${img##*.}"
             if [ ! -f "$thumb" ] || [ "$img" -nt "$thumb" ]; then
-              convert "$img" -resize 800 "$thumb"
+              convert "$img" -resize 400 "$thumb"
             fi
           done
 

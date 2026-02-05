@@ -34,6 +34,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (img && img.dataset.src) {
                     img.src = img.dataset.src;
                     img.classList.add('loaded');
+
+                    // Fallback: Si la miniatura no existe (ej. _thumb.jpg), intentar cargar la original
+                    img.onerror = function () {
+                        const originalUrl = this.dataset.src.replace('_thumb', '');
+                        if (this.src !== originalUrl) {
+                            this.src = originalUrl;
+                        }
+                    };
                 }
                 observer.unobserve(entry.target);
             }
