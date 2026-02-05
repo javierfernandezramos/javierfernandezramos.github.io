@@ -555,9 +555,72 @@ a:hover {
     /* Zoom suave, ajustado para evitar saltos */
 }
 
-#galeria {
-    padding-bottom: 3rem;
-    /* Reduce el espacio debajo de las columnas */
+#galeria .container {
+    position: relative;
+    border-radius: 20px;
+    /* Igual que el glass para que nada sobresalga */
+    overflow: hidden;
+    /* Corta las imágenes que traspasan las esquinas redondas */
+}
+
+.gallery-grid {
+    column-count: 3;
+    column-gap: 1.5rem;
+    padding: var(--spacing) 0 8rem 0;
+    /* Añadimos padding abajo para que el botón no tape el pie de las fotos */
+}
+
+.gallery-floating-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 10rem;
+    /* Ajustado ligeramente */
+    background: rgba(18, 18, 18, 0.4);
+    /* Color sólido semitransparente, sin degradados */
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 0px 0px 20px 20px;
+    z-index: 30;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    pointer-events: auto;
+}
+
+.luxury-gallery-btn {
+    background-color: rgba(197, 160, 89, 0.1) !important;
+    /* Fondo glass dorado muy sutil */
+    border: 1px solid var(--color-gold) !important;
+    color: var(--color-gold) !important;
+    padding: 1rem 3rem !important;
+    border-radius: 50px;
+    font-size: 0.9rem !important;
+    letter-spacing: 2px !important;
+    text-transform: uppercase;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s ease !important;
+    backdrop-filter: blur(5px);
+    display: inline-flex;
+    align-items: center;
+}
+
+.luxury-gallery-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(197, 160, 89, 0.2);
+    background-color: var(--color-gold) !important;
+    color: var(--color-secondary) !important;
+}
+
+.luxury-gallery-btn i {
+    margin-left: 12px;
+    transition: transform 0.3s ease;
+}
+
+.luxury-gallery-btn:hover i {
+    transform: translateX(5px);
 }
 
 /* Estilos de Overlay se mantienen */
