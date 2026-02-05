@@ -17,17 +17,22 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
+      - name: Resize Images
+        uses: gonzalonaveira/gh-image-resizing@v1
+        with:
+          IMAGES_MAX_WIDTH: 1920
+
       - name: Compress Images
         uses: calibreapp/image-actions@main
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           compressOnly: true
-          jpegQuality: '80'
-          pngQuality: '80'
-          webpQuality: '80'
+          jpegQuality: '75'
+          pngQuality: '75'
+          webpQuality: '75'
           ignorePaths: 'node_modules/**,dist/**'
 
       - name: Auto Commit Optimized Images
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Optimize images (smush)"
+          commit_message: "Optimize images (resize & smush)"
