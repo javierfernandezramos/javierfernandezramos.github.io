@@ -100,13 +100,48 @@ document.addEventListener('DOMContentLoaded', () => {
     // 5. MODO CLARO/OSCURO (Se asume que la lógica está aquí, se omite para brevedad)
     // ...
 
-    // 6. FORMULARIO DE CONTACTO (IMPLEMENTACIÓN GMAIL URL CORREGIDA)
+    // 6. LÓGICA DE CONTACTO UNIFICADA (SMART REDIRECT)
+    const miCorreo = 'javierfernandezramos9@gmail.com';
+
+    function handleContactRedirect(asunto = '', mensaje = '') {
+        const subjectEncoded = encodeURIComponent(asunto || 'Consulta Portfolio');
+        const bodyContent = mensaje ?
+            `Hola Javier,\n\n${mensaje}` :
+            `Hola Javier,\n\nMe gustaría hablar contigo sobre un proyecto...`;
+        const bodyEncoded = encodeURIComponent(bodyContent);
+
+        // URLs de destino
+        const mailtoLink = `mailto:${miCorreo}?subject=${subjectEncoded}&body=${bodyEncoded}`;
+        const gmailUrl = `https://mail.google.com/mail/u/0/?view=cm&fs=1&to=${miCorreo}&su=${subjectEncoded}&body=${bodyEncoded}`;
+
+        // Detección de dispositivo
+        const isMobile = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+        if (isMobile) {
+            // En móvil: Usamos mailto: para que el sistema abra SU app de correo (Mail en iPhone, etc.)
+            // No usamos _blank para evitar pestañas vacías
+            window.location.href = mailtoLink;
+        } else {
+            // En escritorio: Abrir Gmail en pestaña nueva es lo más fiable
+            window.open(gmailUrl, '_blank');
+        }
+    }
+
+    // Manejador para el botón de Biografía "Cuéntame tu visión"
+    const visionBtn = document.querySelector('.luxury-cta-link');
+    if (visionBtn) {
+        visionBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            handleContactRedirect('Proyecto Fotografía');
+        });
+    }
+
+    // Manejador para el Formulario de contacto
     const form = document.getElementById('contact-form');
     const formStatus = document.getElementById('form-status');
 
     if (form) {
         form.addEventListener('submit', (e) => {
-
             e.preventDefault();
 
             document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
@@ -116,7 +151,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const mensaje = document.getElementById('mensaje').value.trim();
             let isValid = true;
 
-            // --- Validación ---
             if (asunto.length < 5) {
                 document.getElementById('asunto-error').textContent = 'El asunto es muy corto.';
                 isValid = false;
@@ -127,39 +161,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 isValid = false;
             }
 
-            // --- Lógica de redirección ---
             if (isValid) {
-                const miCorreo = 'javierfernandezramos9@gmail.com'; // ⚠️ ¡REEMPLAZAR!
-                const bodyContent = `Hola Javier,\n\nTe contacto por un proyecto.\n\nMi nombre es: [Escribe aquí tu nombre]\n--- Mensaje Original ---\n${mensaje}`;
-
-                const subjectEncoded = encodeURIComponent(asunto);
-                const bodyEncoded = encodeURIComponent(bodyContent);
-
-                // --- Opción 1: Mailto (Mejor para abrir apps nativas en móvil) ---
-                const mailtoLink = `mailto:${miCorreo}?subject=${subjectEncoded}&body=${bodyEncoded}`;
-
-                // --- Opción 2: URL de Gmail (Mejor para escritorio/navegador) ---
-                const gmailUrl = `https://mail.google.com/mail/u/0/?view=cm&fs=1&to=${miCorreo}&su=${subjectEncoded}&body=${bodyEncoded}`;
-
-
-                // 🛑 LÓGICA DE DETECCIÓN Y APERTURA 🛑
-
-                // Detección simple si es un móvil para priorizar 'mailto'
-                const isMobile = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-                if (isMobile) {
-                    // En móvil: Intentar abrir la aplicación nativa a través de mailto
-                    window.location.href = mailtoLink;
-                } else {
-                    // En escritorio: Abrir Gmail en una nueva pestaña
-                    window.open(gmailUrl, '_blank');
-                }
-
+                handleContactRedirect(asunto, mensaje);
                 formStatus.style.color = 'var(--color-primary)';
-                formStatus.textContent = 'Abriendo el gestor de correo... Por favor, envía el mensaje desde allí.';
+                formStatus.textContent = 'Abriendo el gestor de correo...';
 
                 setTimeout(() => form.reset(), 1000);
-
             } else {
                 formStatus.style.color = 'red';
                 formStatus.textContent = 'Por favor, corrige los errores en el formulario.';
