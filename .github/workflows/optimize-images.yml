@@ -6,10 +6,10 @@ on:
       - main
     paths:
       - 'Fotos/**'
-  workflow_dispatch: # Permite ejecutarlo manualmente si hace falta
+  workflow_dispatch: # Permite ejecutarlo manualmente desde la pestaña Actions
 
 permissions:
-  contents: write # Crucial para que pueda guardar los cambios en el repo
+  contents: write # Permite al bot subir los cambios al repositorio
 
 jobs:
   build:
@@ -20,10 +20,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Compress Images
-        uses: calibreapp/image-actions@main
+        uses: calibreapp/image-actions@v1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # For a more aggressive compression while maintaining quality
           jpegQuality: '80'
           pngQuality: '80'
           webpQuality: '80'
