@@ -17,6 +17,9 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
+      - name: Install ImageMagick
+        run: sudo apt-get update && sudo apt-get install -y imagemagick
+
       - name: Resize Large Images
         run: |
           find Fotos/ -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) -exec mogrify -resize '1920>' {} +
