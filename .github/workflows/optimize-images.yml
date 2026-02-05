@@ -20,11 +20,21 @@ jobs:
       - name: Install ImageMagick
         run: sudo apt-get update && sudo apt-get install -y imagemagick
 
-      - name: Resize Large Images
+      - name: Resize Large Images & Generate Thumbnails
         run: |
-          find Fotos/ -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) -exec mogrify -resize '1920>' {} +
+          # 1. Redimensionar originales a 1920px (si son más grandes)
+          find Fotos/ -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) ! -name "*_thumb.*" -exec mogrify -resize '1920>' {} +
+          
+          # 2. Generar miniaturas de 800px para el grid
+          # Buscamos archivos que NO sean ya miniaturas y creamos su versión _thumb
+          find Fotos/ -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) ! -name "*_thumb.*" | while read -r img; do
+            thumb="${img%.*}_thumb.${img##*.}"
+            if [ ! -f "$thumb" ] || [ "$img" -nt "$thumb" ]; then
+              convert "$img" -resize 800 "$thumb"
+            fi
+          done
 
-      - name: Compress Images
+      - name: Compress Everything
         uses: calibreapp/image-actions@main
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -37,4 +47,4 @@ jobs:
       - name: Auto Commit Optimized Images
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Optimize images (resize & smush)"
+          commit_message: "Optimize images (resize & thumbnails) [skip ci]"

@@ -120,12 +120,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const item = document.createElement('div');
             item.classList.add('gallery-item', 'fade-in');
 
-            // Usamos un placeholder transparente o color base mientras carga
+            // --- LÓGICA DE MINIATURAS ---
+            // Si la foto es 'Fotos/Modelo/1.jpg', la miniatura es 'Fotos/Modelo/1_thumb.jpg'
+            const thumbUrl = url.replace(/(\.jpg|\.jpeg|\.png)$/i, '_thumb$1');
+
             const img = document.createElement('img');
             img.alt = "Fotografía de JaviPhoto";
-            img.dataset.src = url; // Fuente real para lazy load
-            img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; // Pixel transparente
+            img.dataset.src = thumbUrl; // Usamos la miniatura para el grid
+            img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
             img.loading = 'lazy';
+            img.setAttribute('decoding', 'async');
 
             const overlay = document.createElement('div');
             overlay.classList.add('overlay');
