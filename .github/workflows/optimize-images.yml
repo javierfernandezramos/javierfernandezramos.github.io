@@ -22,8 +22,8 @@ jobs:
 
       - name: Resize Large Images & Generate Thumbnails
         run: |
-          # 1. Redimensionar originales a 1920px (si son más grandes)
-          find Fotos/ -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) ! -name "*_thumb.*" -exec mogrify -resize '1920>' {} +
+          # 1. Redimensionar originales para que no pasen de 1920px en NINGÚN eje (importante para fotos verticales)
+          find Fotos/ -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) ! -name "*_thumb.*" -exec mogrify -resize '1920x1920>' {} +
           
           # 2. Generar miniaturas de 600px para el grid (antes 400px)
           # Buscamos archivos que NO sean ya miniaturas y creamos su versión _thumb
