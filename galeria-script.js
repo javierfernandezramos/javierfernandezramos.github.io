@@ -88,8 +88,16 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 loadCategory(galleryCollections[0].id);
             }
+
+            // Animación de pista para móvil (indicador de scroll horizontal)
+            setTimeout(() => {
+                menuContainer.classList.add('hint-animation');
+                // Quitar la clase después para poder repetirla si fuera necesario en el futuro
+                setTimeout(() => menuContainer.classList.remove('hint-animation'), 1500);
+            }, 1500); // Esperar a que el loader principal desaparezca
         }
     }
+
 
     // 3. FUNCIÓN PARA CARGAR LAS FOTOS DE UNA CATEGORÍA
     function loadCategory(categoryId) {

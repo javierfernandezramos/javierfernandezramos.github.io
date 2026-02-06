@@ -21,6 +21,33 @@
     --radius-lg: 12px;
 }
 
+/* --- SCROLLBAR PERSONALIZADO --- */
+/* Para Chrome, Edge y Safari */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 10px;
+    border: 2px solid var(--color-secondary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-gold);
+}
+
+/* Para Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #333 var(--color-secondary);
+}
+
+
 
 
 html {
@@ -1114,11 +1141,70 @@ footer a {
 
 
 /* --- CATEGORÍAS MENU ELEGANCE --- */
+.categories-menu-wrapper {
+    position: relative;
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+/* Degradado que indica más contenido a la derecha */
+.categories-menu-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: 100%;
+    background: linear-gradient(to right, transparent, var(--color-secondary));
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+@media (max-width: 850px) {
+    .categories-menu-wrapper::after {
+        opacity: 1;
+    }
+}
+
 .categories-menu {
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 5px;
+}
+
+.categories-menu::-webkit-scrollbar {
+    display: none;
+}
+
+/* Animación de "pista" para indicar que se puede mover */
+.categories-menu.hint-animation {
+    animation: menuBounce 1.2s ease-in-out;
+}
+
+@keyframes menuBounce {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    30% {
+        transform: translateX(-30px);
+    }
+
+    60% {
+        transform: translateX(10px);
+    }
 }
 
 .categories-menu a {
+
     font-family: var(--font-sans);
     color: var(--color-text-light);
     letter-spacing: 2px;
