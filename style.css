@@ -650,66 +650,153 @@ a:hover {
     text-transform: uppercase;
 }
 
-/* --- SERVICIOS: ULTRA-MINIMAL GRID --- */
+/* --- SERVICIOS: PREMIUM GRID --- */
 .services-minimal-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2.5rem;
-    margin-top: 3rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    margin-top: 4rem;
+    padding: 20px 0;
 }
-
 
 .service-item {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 3rem 2rem;
-    background: var(--color-accent);
+    padding: 4rem 2rem;
+    background: rgba(255, 255, 255, 0.02);
+    /* Glass sutil */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border-radius: var(--radius-lg);
     border: 1px solid rgba(255, 255, 255, 0.05);
-    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), border-color 0.4s ease;
+    /* Borde inicial casi invisible */
+    position: relative;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    transform: translateZ(0);
+    /* Fix para evitar parpadeos y cortes en bordes */
+    isolation: isolate;
+    /* Controla el apilamiento de los hijos */
+    text-decoration: none;
+    /* Evita subrayados ya que ahora es un enlace */
+    color: inherit;
 }
 
+.service-item::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* Ocupa todo el espacio */
+    background: radial-gradient(circle at top right, rgba(197, 160, 89, 0.15), transparent 70%);
+    border-radius: inherit;
+    /* Hereda las esquinas redondeadas */
+    opacity: 0;
+    z-index: -1;
+    /* Se mantiene detrás del contenido */
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+}
 
 .service-item:hover {
-    transform: translateY(-10px);
+    transform: translateY(-15px);
     border-color: var(--color-gold);
+    /* Aquí se ilumina el borde */
+    background: rgba(197, 160, 89, 0.03);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.service-item:hover::before {
+    opacity: 1;
+}
+
+.service-item:active {
+    transform: translateY(0) scale(0.98);
+    transition: all 0.1s ease;
 }
 
 .service-icon-box {
-    font-size: 2.8rem;
+    font-size: 3rem;
     color: var(--color-gold);
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    transition: transform 0.5s ease;
+    z-index: 1;
+}
+
+.service-item:hover .service-icon-box {
+    transform: scale(1.1) rotate(5deg);
 }
 
 .service-item h3 {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 1rem;
+    letter-spacing: 3px;
+    margin-bottom: 1.2rem;
     color: #fff;
+    z-index: 1;
 }
 
 .service-item p {
-    font-size: 1rem;
-    line-height: 1.6;
+    font-size: 0.95rem;
+    line-height: 1.7;
     color: var(--color-text-light);
-    max-width: 320px;
-    margin: 0 auto;
+    opacity: 0.8;
+    z-index: 1;
 }
 
 @media (max-width: 1100px) {
     .services-minimal-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .services-minimal-grid {
-        grid-template-columns: 1fr;
-        gap: 2rem;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.2rem;
+    }
+
+    .service-item {
+        padding: 2.5rem 1.5rem;
+    }
+
+    .service-icon-box {
+        font-size: 2.2rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .service-item h3 {
+        font-size: 1.1rem;
+        letter-spacing: 2px;
+    }
+
+    .service-item p {
+        font-size: 0.85rem;
+    }
+
+    /* El tercer elemento se centra al fondo */
+    .service-item:nth-child(3):last-child {
+        grid-column: 1 / 3;
+        margin-top: 0.5rem;
+    }
+}
+
+@media (max-width: 500px) {
+    .services-minimal-grid {
+        gap: 0.8rem;
+        padding: 0 1rem;
+    }
+
+    .service-item {
+        padding: 1.8rem 1rem;
+    }
+
+    .service-item p {
+        font-size: 0.7rem;
+        line-height: 1.3;
+        opacity: 0.7;
     }
 }
 
@@ -745,7 +832,7 @@ a:hover {
 }
 
 .contact-form textarea {
-    resize: vertical;
+    resize: none;
 }
 
 .submit-btn {
@@ -758,10 +845,117 @@ a:hover {
     margin-top: 0.5rem;
 }
 
+@media (max-width: 600px) {
+    .contact-form {
+        padding: 0 1.5rem;
+        /* Margen a los lados */
+    }
+}
+
 .form-status {
     text-align: center;
     margin-top: 1rem;
     font-weight: 700;
+}
+
+
+/* --- SOCIAL SECTION --- */
+#social {
+    background-color: var(--color-secondary);
+    text-align: center;
+}
+
+.social-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.social-subtitle {
+    color: var(--color-text-light);
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+    opacity: 0.8;
+}
+
+.social-featured-grid {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.social-card {
+    background: var(--color-accent);
+    padding: 2.5rem 3.5rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 220px;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    color: #fff;
+    text-decoration: none;
+}
+
+.social-card i {
+    font-size: 2.5rem;
+    color: var(--color-gold);
+    margin-bottom: 1rem;
+    transition: transform 0.4s ease;
+}
+
+.social-card span {
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0.3rem;
+}
+
+.social-card small {
+    color: var(--color-text-light);
+    opacity: 0.6;
+}
+
+.social-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--color-gold);
+    background: rgba(197, 160, 89, 0.05);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.social-card:hover i {
+    transform: scale(1.1);
+}
+
+@media (max-width: 600px) {
+    .social-featured-grid {
+        gap: 0.5rem;
+        padding: 0 1rem;
+        /* Margen a los lados para que no toque los bordes del móvil */
+    }
+
+    .social-card {
+        min-width: 0;
+        flex: 1;
+        padding: 1.5rem 0.5rem;
+    }
+
+    .social-card i {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .social-card span {
+        font-size: 0.75rem;
+        letter-spacing: 1px;
+    }
+
+    .social-card small {
+        display: none;
+        /* Ocultamos el subtexto en móvil para que sea súper compacto */
+    }
 }
 
 
@@ -879,8 +1073,16 @@ footer a {
         font-size: 3rem;
     }
 
+    /* Márgenes para que el texto no toque los bordes en móviles */
+    .section-title,
+    .social-subtitle {
+        padding: 0 1.5rem;
+    }
+
     .acerca-grid {
         grid-template-columns: 1fr;
+        padding: 0 1.5rem;
+        /* Margen a los lados */
     }
 
     .acerca-text {

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Javi Photographer</title>
+    <title>JaviPhoto - Inicio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;800&display=swap" rel="stylesheet">
@@ -169,71 +169,101 @@
                             class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
-        </section>
 
-        <section id="servicios" class="section-padding reveal">
-            <div class="container">
-                <h2 class="section-title">Mis Servicios</h2>
-                <div class="services-minimal-grid">
-                    <div class="service-item reveal">
-                        <div class="service-icon-box"><i class="fas fa-user-tie"></i></div>
-                        <h3>Retratos</h3>
-                        <p>Capturando la esencia y personalidad a través de la luz y la mirada profesionales.</p>
+
+            <section id="servicios" class="section-padding reveal">
+                <div class="container">
+                    <h2 class="section-title">Mis Servicios</h2>
+                    <div class="services-minimal-grid">
+                        <a href="galeria.html?filter=carpeta1" class="service-item reveal">
+                            <div class="service-icon-box"><i class="fas fa-camera"></i></div>
+                            <h3>Retratos / Modelo</h3>
+                            <p>Sesiones individuales o de marca diseñadas para capturar tu mejor versión con un estilo
+                                editorial.</p>
+                        </a>
+                        <a href="galeria.html?filter=carpeta2" class="service-item reveal">
+                            <div class="service-icon-box"><i class="fas fa-glass-cheers"></i></div>
+                            <h3>Eventos</h3>
+                            <p>Cobertura profesional para eventos sociales y corporativos, capturando la energía de cada
+                                momento.</p>
+                        </a>
+                        <a href="galeria.html?filter=carpeta4" class="service-item reveal">
+                            <div class="service-icon-box"><i class="fas fa-bolt"></i></div>
+                            <h3>Deportes</h3>
+                            <p>Fotografía de alta velocidad para inmortalizar la intensidad, el esfuerzo y la victoria
+                                en la pista.</p>
+                        </a>
+                        <!-- Boda comentada por petición del usuario - Próximamente -->
+                        <!-- 
+                        <div class="service-item reveal">
+                            <div class="service-icon-box"><i class="fas fa-ring"></i></div>
+                            <h3>Boda</h3>
+                            <p>Historias de amor contadas con un enfoque cinematográfico y de lujo.</p>
+                        </div>
+                        -->
+
                     </div>
-                    <div class="service-item reveal">
-                        <div class="service-icon-box"><i class="fas fa-heart"></i></div>
-                        <h3>Eventos</h3>
-                        <p>Documentando momentos irrepetibles con un enfoque narrativo y profesional.</p>
-                    </div>
-                    <div class="service-item reveal">
-                        <div class="service-icon-box"><i class="fas fa-running"></i></div>
-                        <h3>Deportes</h3>
-                        <p>Acción y emoción capturada en su estado más puro y profesional.</p>
-                    </div>
-                    <div class="service-item reveal">
-                        <div class="service-icon-box"><i class="fas fa-ring"></i></div>
-                        <h3>Boda</h3>
-                        <p>Historias de amor contadas con un enfoque cinematográfico y de lujo.</p>
-                    </div>
+
+
 
                 </div>
+            </section>
 
-
-
-            </div>
-        </section>
-
-
-        <section id="contacto" class="section-padding reveal">
-            <div class="container">
-                <h2 class="section-title">Hablemos de tu Proyecto</h2>
-                <form id="contact-form" class="contact-form">
-
-                    <div class="form-group">
-                        <input type="text" id="asunto" name="asunto" placeholder="Asunto" required>
-                        <div class="error-message" id="asunto-error"></div>
+            <section id="social" class="section-padding reveal">
+                <div class="container">
+                    <div class="social-content">
+                        <h2 class="section-title">Contáctame</h2>
+                        <p class="social-subtitle"></p>
+                        <div class="social-featured-grid">
+                            <a href="https://www.instagram.com/javier.fzr/" target="_blank" class="social-card">
+                                <i class="fab fa-instagram"></i>
+                                <span>Instagram</span>
+                                <small>@javier.fzr</small>
+                            </a>
+                            <a href="https://wa.me/34665018516" target="_blank" class="social-card">
+                                <i class="fab fa-whatsapp"></i>
+                                <span>WhatsApp</span>
+                                <small>Contactar</small>
+                            </a>
+                            <a href="mailto:javierfernandezramos9@gmail.com" class="social-card" id="gmail-social-card">
+                                <i class="fas fa-envelope"></i>
+                                <span>Gmail</span>
+                                <small>Escríbeme</small>
+                            </a>
+                        </div>
                     </div>
+                </div>
+            </section>
 
-                    <div class="form-group">
-                        <textarea id="mensaje" name="mensaje" placeholder="Tu Mensaje..." rows="6" required></textarea>
-                        <div class="error-message" id="mensaje-error"></div>
-                    </div>
 
-                    <button type="submit" class="btn submit-btn">Enviar Mensaje</button>
-                    <p id="form-status" class="form-status"></p>
-                    <p class="small-note">Se abrirá tu cliente de correo (Gmail) para enviar el mensaje.</p>
-                </form>
-            </div>
-        </section>
+            <section id="contacto" class="section-padding reveal">
+                <div class="container">
+                    <h2 class="section-title">Hablemos de tu Proyecto</h2>
+                    <form id="contact-form" class="contact-form">
+
+                        <div class="form-group">
+                            <input type="text" id="asunto" name="asunto" placeholder="Asunto" required>
+                            <div class="error-message" id="asunto-error"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <textarea id="mensaje" name="mensaje" placeholder="Tu Mensaje..." rows="6"
+                                required></textarea>
+                            <div class="error-message" id="mensaje-error"></div>
+                        </div>
+
+                        <button type="submit" class="btn submit-btn">Enviar Mensaje</button>
+                        <p id="form-status" class="form-status"></p>
+                        <p class="small-note">Se abrirá tu cliente de correo (Gmail) para enviar el mensaje.</p>
+                    </form>
+                </div>
+            </section>
 
     </main>
 
     <footer>
-        <div class="container container-social">
+        <div class="container">
             <p>&copy; 2026 Javier Fernández. Todos los derechos reservados.</p>
-            <div class="social-links">
-                <a target="_blank" href="https://www.instagram.com/javier.fzr/"><i class="fab fa-instagram"></i></a>
-            </div>
         </div>
     </footer>
 

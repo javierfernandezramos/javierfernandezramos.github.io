@@ -79,7 +79,15 @@ document.addEventListener('DOMContentLoaded', () => {
         menuContainer.appendChild(fragment);
 
         if (galleryCollections.length > 0) {
-            loadCategory(galleryCollections[0].id);
+            // Lógica para cargar categoría desde la URL (ej: galeria.html?filter=carpeta4)
+            const urlParams = new URLSearchParams(window.location.search);
+            const filterId = urlParams.get('filter');
+
+            if (filterId && galleryCollections.some(c => c.id === filterId)) {
+                loadCategory(filterId);
+            } else {
+                loadCategory(galleryCollections[0].id);
+            }
         }
     }
 

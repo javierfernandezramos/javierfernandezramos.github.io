@@ -174,6 +174,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Manejador para el botón de Gmail en Redes Sociales (Smart Redirect)
+    const gmailCard = document.getElementById('gmail-social-card');
+    if (gmailCard) {
+        gmailCard.addEventListener('click', (e) => {
+            e.preventDefault();
+            handleContactRedirect('Consulta desde Portfolio Web');
+        });
+    }
+
 
 
 }); // 👈 CIERRE FINAL
