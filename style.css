@@ -265,7 +265,8 @@ a:hover {
         linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
 
         /* Imagen 1 (Grande, en blanco y negro, central) */
-        url('fotos/hero-image.jpg');
+        /* url('Fotos/hero-image.jpg'); */
+        url('Fotos/hero-image.jpg');
     filter: grayscale(0%);
     background-size: auto, cover;
     background-position: center, center;
