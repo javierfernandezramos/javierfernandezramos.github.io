@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }, {
-        rootMargin: '50px 0px',
+        rootMargin: '300px 0px',
         threshold: 0.01
     });
 

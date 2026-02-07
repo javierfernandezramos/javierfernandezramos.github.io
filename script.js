@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 observer.unobserve(entry.target);
             }
         });
-    }, { rootMargin: '50px' });
+    }, { rootMargin: '300px' });
 
     galleryItems.forEach(item => {
         mainImageObserver.observe(item);
@@ -89,8 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }, {
-        rootMargin: '0px',
-        threshold: 0.1
+        rootMargin: '0px 0px 50px 0px',
+        threshold: 0
     });
 
     revealElements.forEach(el => {

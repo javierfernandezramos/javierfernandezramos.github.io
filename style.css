@@ -265,7 +265,8 @@ a:hover {
         linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
 
         /* Imagen 1 (Grande, en blanco y negro, central) */
-        url('https://images.pexels.com/photos/346529/pexels-photo-346529.jpeg?cs=srgb&dl=pexels-bri-schneiter-28802-346529.jpg&fm=jpg');
+        url('fotos/hero-image.jpg');
+    filter: grayscale(0%);
     background-size: auto, cover;
     background-position: center, center;
     background-repeat: no-repeat;
@@ -449,13 +450,13 @@ a:hover {
         box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
         width: 100%;
         box-sizing: border-box;
-        padding: 5rem 3rem 4rem !important;
-        /* Blindaje de padding */
+        padding: 4rem 2rem 3rem !important;
+        /* Reducido para ser más "cuadradito" */
     }
 
     .acerca-profile-wrapper {
         position: absolute;
-        top: -50px;
+        top: -60px;
         left: 50%;
         transform: translateX(-50%);
         display: flex;
@@ -481,22 +482,25 @@ a:hover {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        object-position: center 10%;
     }
 
     .instagram-profile-icon {
-        width: 44px;
-        height: 44px;
+        position: absolute;
+        top: 0;
+        right: -10px;
+        width: 32px;
+        height: 32px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.5rem;
+        font-size: 1.1rem;
         color: var(--color-gold);
-        margin-top: -20px;
         background: var(--color-secondary);
         border-radius: 50%;
-        border: 1px solid rgba(255, 255, 255, 0.15);
+        border: 2px solid var(--color-gold);
         z-index: 2;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     }
 
     .main-title {
@@ -516,15 +520,16 @@ a:hover {
     .editorial-body {
         width: 100% !important;
         margin: 0 auto !important;
-        text-align: center !important;
+        text-align: justify !important;
+        hyphens: auto;
     }
 
     .editorial-body p {
         font-size: 0.95rem;
-        line-height: 1.8;
-        margin: 0 auto 2rem;
+        line-height: 1.6;
+        margin: 0 auto 1.2rem;
         color: rgba(255, 255, 255, 0.85);
-        text-align: center;
+        text-align: justify;
         width: 100%;
         padding: 0;
     }
@@ -1085,7 +1090,7 @@ footer a {
 .reveal {
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
 }
 
 .reveal.active {
@@ -1270,20 +1275,27 @@ footer a {
         --spacing: 2rem;
     }
 
-    .hero-content h1 {
-        font-size: 2rem;
+    .hero-content {
+        padding: 0 2rem;
     }
 
-    #oculto {
-        display: none;
+    .hero-content h1 {
+        font-size: 1.6rem;
+        letter-spacing: 4px;
+        margin-bottom: 0.5rem;
     }
 
     .hero-content p {
         font-size: 0.9rem;
     }
 
+    #oculto {
+        display: none;
+    }
+
     .logo {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
+        letter-spacing: 3px;
     }
 
     .gallery-grid {
