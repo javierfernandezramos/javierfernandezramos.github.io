@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: "Modelo | Ver <i class='fa-solid fa-magnifying-glass'></i>",
             id: "carpeta1",
             folder: "Fotos/Modelo/",
-            count: 8, // Usa esto si tus fotos son 1.jpg, 2.jpg...
+            count: 10, // Usa esto si tus fotos son 1.jpg, 2.jpg...
             images: [] // O añade nombres aquí: ["foto1.jpg", "vacaciones.png"]
         },
         {
