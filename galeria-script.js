@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: "Eventos | Ver <i class='fa-solid fa-magnifying-glass'></i>",
             id: "carpeta2",
             folder: "Fotos/Eventos/",
-            count: 15,
+            count: 19,
             images: []
         },
         {
