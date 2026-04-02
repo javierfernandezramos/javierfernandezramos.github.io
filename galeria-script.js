@@ -33,6 +33,13 @@ document.addEventListener('DOMContentLoaded', () => {
             count: 10,
             images: []
         },
+        {
+            name: "Marca | Ver <i class='fa-solid fa-magnifying-glass'></i>",
+            id: "carpeta5",
+            folder: "Fotos/Marca/",
+            count: 5,
+            images: []
+        },
     ];
 
     const menuContainer = document.getElementById('categories-menu');
