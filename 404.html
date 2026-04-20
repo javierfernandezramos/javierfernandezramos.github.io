@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JaviPhoto - 404 Página no encontrada</title>
+    
+    <!-- Meta etiquetas para SEO -->
+    <meta name="description" content="Página no encontrada en JaviPhoto. Vuelve a la página principal para ver el trabajo de Javier Fernández Ramos.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="icon" type="image/png" class="favicon" href="favicon.png">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        .error-section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('Fotos/hero-image.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        .error-content {
+            z-index: 10;
+            padding: 1rem;
+        }
+
+        .error-content h1 {
+            font-family: var(--font-sans);
+            font-size: clamp(6rem, 15vw, 12rem);
+            font-weight: 800;
+            letter-spacing: 10px;
+            margin-bottom: 0px;
+            line-height: 1;
+            background: linear-gradient(to right, #fff, var(--color-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .error-content h2 {
+            font-family: var(--font-sans);
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .error-content p {
+            font-family: var(--font-sans);
+            font-size: 1.1rem;
+            color: var(--color-text-light);
+            margin-bottom: 3rem;
+            font-weight: 300;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .error-content .btn {
+            border-color: var(--color-gold);
+            color: var(--color-gold);
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            background-color: rgba(197, 160, 89, 0.05); /* very subtle gold tint */
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.4s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .error-content .btn:hover {
+            background-color: var(--color-gold);
+            color: var(--color-secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(197, 160, 89, 0.2);
+        }
+
+        .error-content .btn i {
+            margin-right: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .error-content .btn:hover i {
+            transform: translateX(-5px);
+        }
+
+        /* Animations for elements without scrolling needed */
+        @keyframes fadeUpStart {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .error-content > * {
+            opacity: 0;
+            animation: fadeUpStart 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        .error-content h1 {
+            animation-delay: 0.1s;
+        }
+        .error-content h2 {
+            animation-delay: 0.3s;
+        }
+        .error-content p {
+            animation-delay: 0.5s;
+        }
+        .error-content .btn {
+            animation-delay: 0.7s;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Loader idéntico al de index.html para la transición -->
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Header simplificado, solo enlaces funcionales desde esta página -->
+    <header id="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">JaviPhoto</a>
+            <nav class="nav-links">
+                <a href="index.html">Inicio</a>
+                <a href="galeria.html">Galería</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="error-section">
+            <div class="error-content">
+                <h1>404</h1>
+                <h2>Página no encontrada</h2>
+                <p>
+                    Parece que te has perdido buscando la luz perfecta. La página que buscas no existe o ha sido movida. Vuelve al inicio para seguir viendo mi portfolio.
+                </p>
+                <a href="index.html" class="btn"><i class="fas fa-arrow-left"></i> Volver al Inicio</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Usamos el script principal, esto removerá el loader también -->
+    <script src="script.js"></script>
+</body>
+
+</html>
