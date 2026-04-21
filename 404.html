@@ -5,19 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JaviPhoto - 404 Página no encontrada</title>
-    
+
     <!-- Meta etiquetas para SEO -->
-    <meta name="description" content="Página no encontrada en JaviPhoto. Vuelve a la página principal para ver el trabajo de Javier Fernández Ramos.">
-    
+    <meta name="description"
+        content="Página no encontrada en JaviPhoto. Vuelve a la página principal para ver el trabajo de Javier Fernández Ramos.">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;800&display=swap" rel="stylesheet">
-    
+
     <link rel="icon" type="image/png" class="favicon" href="favicon.png">
-    
+
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
+
     <style>
         .error-section {
             height: 100vh;
@@ -50,7 +51,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         .error-content h2 {
@@ -79,7 +80,8 @@
             color: var(--color-gold);
             padding: 1rem 3rem;
             border-radius: 50px;
-            background-color: rgba(197, 160, 89, 0.05); /* very subtle gold tint */
+            background-color: rgba(197, 160, 89, 0.05);
+            /* very subtle gold tint */
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
@@ -112,13 +114,14 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
-        .error-content > * {
+        .error-content>* {
             opacity: 0;
             animation: fadeUpStart 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
@@ -126,12 +129,15 @@
         .error-content h1 {
             animation-delay: 0.1s;
         }
+
         .error-content h2 {
             animation-delay: 0.3s;
         }
+
         .error-content p {
             animation-delay: 0.5s;
         }
+
         .error-content .btn {
             animation-delay: 0.7s;
         }
@@ -166,7 +172,8 @@
                 <h1>404</h1>
                 <h2>Página no encontrada</h2>
                 <p>
-                    Parece que te has perdido buscando la luz perfecta. La página que buscas no existe o ha sido movida. Vuelve al inicio para seguir viendo mi portfolio.
+                    Parece que te has perdido buscando la luz perfecta. La página que buscas no existe o ha sido movida.
+                    Vuelve al inicio para seguir viendo mi portfolio.
                 </p>
                 <a href="index.html" class="btn"><i class="fas fa-arrow-left"></i> Volver al Inicio</a>
             </div>
@@ -175,6 +182,11 @@
 
     <!-- Usamos el script principal, esto removerá el loader también -->
     <script src="script.js"></script>
+    <!-- Vercel Web Analytics -->
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
 </body>
 
 </html>
