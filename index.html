@@ -4,9 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0a">
+
+    <!-- SEO Básico -->
     <title>JaviPhoto - Inicio</title>
+    <meta name="description"
+        content="Portafolio oficial de Javier Fernández Ramos, fotógrafo experto en retratos, eventos y deportes. Descubre una visión técnica y profesional de la fotografía.">
+    <meta name="author" content="Javier Fernández Ramos">
+
+    <!-- Open Graph / Redes Sociales -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="JaviPhoto | Fotógrafo Valencia">
+    <meta property="og:description"
+        content="Portafolio oficial de Javier Fernández Ramos, fotógrafo experto en retratos, eventos y deportes.">
+    <meta property="og:image" content="https://javierfernandezramos.github.io/favicon.png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://player.mediadelivery.net" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;800&display=swap" rel="stylesheet">
 
     <link rel="icon" type="image/png" class="favicon" href="favicon.png">
@@ -25,7 +40,7 @@
     <header id="navbar">
         <div class="container">
             <a href="#hero" class="logo">JaviPhoto</a>
-            <button class="menu-toggle" id="mobile-menu-btn">
+            <button class="menu-toggle" id="mobile-menu-btn" aria-label="Abrir menú de navegación">
                 <i class="fas fa-bars"></i>
             </button>
             <nav class="nav-links" id="nav-links">
@@ -59,7 +74,7 @@
                 <div class="acerca-text">
                     <div class="acerca-profile-wrapper">
                         <div class="acerca-mobile-profile">
-                            <img src="Fotos/photographer.jpg" alt="Javier Fernández Ramos">
+                            <img src="Fotos/photographer.jpg" alt="Javier Fernández Ramos" loading="lazy">
                         </div>
                         <a target="_blank" href="https://www.instagram.com/javier.fzr/" class="instagram-profile-icon">
                             <i class="fab fa-instagram"></i>
@@ -86,7 +101,7 @@
                 </div>
 
                 <div class="acerca-img glass-frame">
-                    <img src="Fotos/photographer_thumb.jpg" alt="Retrato del fotógrafo">
+                    <img src="Fotos/photographer_thumb.jpg" alt="Retrato del fotógrafo" loading="lazy">
                 </div>
             </div>
         </section>
@@ -276,6 +291,11 @@
         <span class="close-btn">&times;</span>
         <img class="lightbox-content" id="lightbox-img">
     </div>
+
+    <!-- Botón Volver Arriba -->
+    <button id="back-to-top" class="back-to-top" aria-label="Volver arriba">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
     <script src="script.js"></script>
     <!-- Vercel Web Analytics -->
