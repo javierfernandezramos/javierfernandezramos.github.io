@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const thumbUrl = url.replace(/(\.jpg|\.jpeg|\.png)$/i, '_thumb$1');
 
             const img = document.createElement('img');
-            img.alt = "Fotografía de JaviPhoto";
+            img.alt = `Fotografía de ${selectedCollection.name.split('|')[0].trim()} - JaviPhoto`;
             img.dataset.src = thumbUrl; // Usamos la miniatura para el grid
             img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
             img.loading = 'lazy';
