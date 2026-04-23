@@ -634,7 +634,8 @@ footer {
         width: 100% !important;
         margin: 0 auto !important;
         text-align: justify !important;
-        hyphens: auto;
+        hyphens: none;
+        overflow-wrap: break-word;
     }
 
     .editorial-body p {
