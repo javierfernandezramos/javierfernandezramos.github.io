@@ -171,7 +171,12 @@ document.addEventListener('DOMContentLoaded', () => {
             // Añadimos data-src al contenedor para compatibilidad con script.js
             item.setAttribute('data-src', url);
 
-            item.addEventListener('click', () => openLightbox(url));
+            item.addEventListener('click', () => {
+                // Usamos el motor avanzado global del slider de script.js
+                if (window.openSmartLightbox) {
+                    window.openSmartLightbox(url, photoUrls);
+                }
+            });
 
             fragment.appendChild(item);
             imageObserver.observe(img); // Activar lazy loading para esta imagen
@@ -179,27 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         gridContainer.appendChild(fragment);
         gridContainer.classList.remove('loading');
-    }
-
-    // 4. LÓGICA DEL LIGHTBOX
-    function openLightbox(url) {
-        if (!lightbox || !lightboxImg) return;
-        lightbox.style.display = 'flex';
-        lightboxImg.src = url;
-        document.body.style.overflow = 'hidden'; // Evitar scroll de fondo
-    }
-
-    function closeLightbox() {
-        lightbox.style.display = 'none';
-        lightboxImg.src = '';
-        document.body.style.overflow = 'auto';
-    }
-
-    if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
-    if (lightbox) {
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox) closeLightbox();
-        });
     }
 
     // Iniciar

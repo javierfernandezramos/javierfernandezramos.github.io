@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 500);
     }, 1000);
 
-
     // 2. NAVBAR STICKY Y EFECTO AL SCROLL
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
@@ -48,17 +47,83 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, { rootMargin: '300px' });
 
+    // --- NUEVA LÓGICA DE NAVEGACIÓN DEL LIGHTBOX (SLIDER) ---
+    window.lightboxState = {
+        images: [],
+        currentIndex: 0
+    };
+
+    const btnPrev = document.getElementById('lightbox-prev');
+    const btnNext = document.getElementById('lightbox-next');
+
+    window.updateLightboxImage = function () {
+        if (!lightboxImg || window.lightboxState.images.length === 0) return;
+        lightboxImg.src = window.lightboxState.images[window.lightboxState.currentIndex];
+    };
+
+    window.showNextImage = function () {
+        if (window.lightboxState.images.length <= 1) return;
+        window.lightboxState.currentIndex = (window.lightboxState.currentIndex + 1) % window.lightboxState.images.length;
+        window.updateLightboxImage();
+    };
+
+    window.showPrevImage = function () {
+        if (window.lightboxState.images.length <= 1) return;
+        window.lightboxState.currentIndex = (window.lightboxState.currentIndex - 1 + window.lightboxState.images.length) % window.lightboxState.images.length;
+        window.updateLightboxImage();
+    };
+
+    if (btnNext) btnNext.addEventListener('click', (e) => { e.stopPropagation(); window.showNextImage(); });
+    if (btnPrev) btnPrev.addEventListener('click', (e) => { e.stopPropagation(); window.showPrevImage(); });
+
+    // Eventos de deslizamiento (Swipe) táctil
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    if (lightbox) {
+        lightbox.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        lightbox.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            const threshold = 50;
+            if (touchEndX < touchStartX - threshold) {
+                window.showNextImage(); 
+            }
+            if (touchEndX > touchStartX + threshold) {
+                window.showPrevImage(); 
+            }
+        }, { passive: true });
+    }
+
+    // Función universal para abrir el slider
+    window.openSmartLightbox = function (clickedUrl, allUrls) {
+        if (!lightbox || !lightboxImg) return;
+        window.lightboxState.images = allUrls;
+        window.lightboxState.currentIndex = allUrls.indexOf(clickedUrl);
+        if (window.lightboxState.currentIndex === -1) window.lightboxState.currentIndex = 0;
+
+        const multiple = allUrls.length > 1;
+        if (btnPrev) btnPrev.style.display = multiple ? 'flex' : 'none';
+        if (btnNext) btnNext.style.display = multiple ? 'flex' : 'none';
+
+        lightbox.style.display = 'flex';
+        window.updateLightboxImage();
+        document.body.style.overflow = 'hidden';
+    };
+
     galleryItems.forEach(item => {
         mainImageObserver.observe(item);
 
         item.addEventListener('click', () => {
-            if (!lightbox || !lightboxImg) return;
             const highRes = item.getAttribute('data-src');
-            if (!highRes) return; // Si no hay data-src, no hacemos nada (evita conflictos en galeria.html)
+            if (!highRes) return;
 
-            lightbox.style.display = 'flex';
-            lightboxImg.src = highRes;
-            document.body.style.overflow = 'hidden';
+            const allItems = Array.from(document.querySelectorAll('.gallery-grid .gallery-item'));
+            const allUrls = allItems.map(i => i.getAttribute('data-src')).filter(src => src);
+
+            window.openSmartLightbox(highRes, allUrls);
         });
     });
 
@@ -75,8 +140,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.target === lightbox) hideLightbox();
         });
     }
-
-
 
     // 4. ANIMACIONES AL HACER SCROLL (REVEAL)
     const revealElements = document.querySelectorAll('.reveal');
@@ -97,9 +160,6 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(el);
     });
 
-    // 5. MODO CLARO/OSCURO (Se asume que la lógica está aquí, se omite para brevedad)
-    // ...
-
     // 6. LÓGICA DE CONTACTO UNIFICADA (SMART REDIRECT)
     const miCorreo = 'javierfernandezramos9@gmail.com';
 
@@ -110,24 +170,18 @@ document.addEventListener('DOMContentLoaded', () => {
             `Hola Javier,\n\nMe gustaría hablar contigo sobre un proyecto...`;
         const bodyEncoded = encodeURIComponent(bodyContent);
 
-        // URLs de destino
         const mailtoLink = `mailto:${miCorreo}?subject=${subjectEncoded}&body=${bodyEncoded}`;
         const gmailUrl = `https://mail.google.com/mail/u/0/?view=cm&fs=1&to=${miCorreo}&su=${subjectEncoded}&body=${bodyEncoded}`;
 
-        // Detección de dispositivo
         const isMobile = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
         if (isMobile) {
-            // En móvil: Usamos mailto: para que el sistema abra SU app de correo (Mail en iPhone, etc.)
-            // No usamos _blank para evitar pestañas vacías
             window.location.href = mailtoLink;
         } else {
-            // En escritorio: Abrir Gmail en pestaña nueva es lo más fiable
             window.open(gmailUrl, '_blank');
         }
     }
 
-    // Manejador para el botón de Biografía "Cuéntame tu visión"
     const visionBtn = document.querySelector('.luxury-cta-link');
     if (visionBtn) {
         visionBtn.addEventListener('click', (e) => {
@@ -136,7 +190,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Manejador para el Formulario de contacto
     const form = document.getElementById('contact-form');
     const formStatus = document.getElementById('form-status');
 
@@ -174,7 +227,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Manejador para el botón de Gmail en Redes Sociales (Smart Redirect)
     const gmailCard = document.getElementById('gmail-social-card');
     if (gmailCard) {
         gmailCard.addEventListener('click', (e) => {
@@ -200,7 +252,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Cerrar menú al hacer clic en un enlace
         const links = navLinksMenu.querySelectorAll('a');
         links.forEach(link => {
             link.addEventListener('click', () => {
