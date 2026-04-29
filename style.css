@@ -97,6 +97,10 @@ body {
     padding: var(--spacing) 0;
 }
 
+.text-center {
+    text-align: center;
+}
+
 .section-title {
     text-align: center;
     font-family: var(--font-sans);
@@ -669,7 +673,7 @@ footer {
     /* Eliminamos el display: grid tradicional para usar columnas */
     column-count: 3;
     /* Número predeterminado de columnas */
-    column-gap: 1.5rem;
+    column-gap: 3rem;
     /* Espacio entre columnas */
     padding: var(--spacing) 0;
 }
@@ -711,7 +715,7 @@ footer {
 
 .gallery-grid {
     column-count: 3;
-    column-gap: 1.5rem;
+    column-gap: 3rem;
     padding: var(--spacing) 0 8rem 0;
     /* Añadimos padding abajo para que el botón no tape el pie de las fotos */
 }
@@ -1728,5 +1732,235 @@ footer a {
         width: 40px;
         height: 40px;
         font-size: 1rem;
+    }
+}
+/* --- SERVICIOS PAGE STYLES --- */
+.services-hero {
+    padding: 15vh 0 5vh;
+    text-align: center;
+}
+
+.section-subtitle {
+    font-size: 1rem;
+    color: var(--color-text-light);
+    max-width: 600px;
+    margin: 0 auto;
+    opacity: 0.7;
+    line-height: 1.6;
+}
+
+.service-detail-section {
+    padding: 4rem 0;
+}
+
+.service-detail-row {
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+    margin-bottom: 2rem;
+}
+
+.service-detail-row.reverse {
+    flex-direction: row-reverse;
+}
+
+.service-detail-img {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.service-detail-img img {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.6s ease;
+}
+
+.service-detail-img:hover img {
+    transform: scale(1.05);
+}
+
+.service-detail-text {
+    flex: 1;
+}
+
+.service-tag {
+    color: var(--color-gold);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.service-detail-text h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.service-detail-text p {
+    color: var(--color-text-light);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+/* Ajuste de título para móvil */
+@media (max-width: 900px) {
+    .services-hero {
+        padding: 14vh 0 4vh; /* Ajustamos para que no esté tan abajo */
+    }
+
+    .section-title {
+        font-size: 1.6rem !important;
+        letter-spacing: 3px !important;
+    }
+    .section-subtitle {
+        font-size: 0.85rem !important;
+        padding: 0 10%;
+        margin-bottom: 1rem;
+    }
+}
+
+/* Slider de Servicios para Móvil */
+@media (max-width: 900px) {
+    main {
+        /* Eliminamos overflow-x: hidden para evitar bloqueos de scroll vertical */
+    }
+
+    .services-wrapper-mobile {
+        display: flex;
+        overflow-x: auto;
+        overflow-y: hidden; /* Evitamos scroll vertical dentro del slider */
+        scroll-snap-type: x mandatory;
+        padding: 0.5rem 4% 2rem;
+        gap: 1.2rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        align-items: stretch;
+    }
+
+    .services-wrapper-mobile::-webkit-scrollbar {
+        display: none;
+    }
+
+    .service-detail-section {
+        flex: 0 0 85%;
+        padding: 0 !important;
+        display: flex;
+        scroll-snap-align: center; /* Alineación perfecta al deslizar */
+        scroll-snap-stop: always; /* Obliga a parar en cada tarjeta */
+    }
+
+    /* Eliminar espacios del container en móvil para el slider */
+    .service-detail-section .container {
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .service-detail-row, .service-detail-row.reverse {
+        flex-direction: column !important;
+        gap: 0 !important; /* Eliminamos el gap de 4rem de desktop */
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        overflow: hidden;
+        margin-bottom: 0 !important;
+        display: flex;
+        height: auto;
+    }
+
+    .service-detail-img {
+        width: 100% !important;
+        aspect-ratio: 1 / 1 !important; /* Volvemos a formato cuadrado */
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+
+    .service-detail-img img {
+        height: 100% !important;
+        aspect-ratio: auto !important; /* Reseteamos el 1/1 de desktop */
+        object-fit: cover;
+    }
+
+    .service-detail-text {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0.6rem 1rem 1.2rem !important; /* Padding superior aún más reducido */
+        background: transparent !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        border: none !important;
+        text-align: left !important;
+    }
+
+    .service-detail-text h2 {
+        font-size: 1.1rem !important;
+        margin-bottom: 0.4rem !important;
+        margin-top: 0 !important;
+        letter-spacing: 1px !important;
+    }
+
+    .service-detail-text p {
+        font-size: 0.75rem !important;
+        line-height: 1.4 !important;
+        margin-bottom: 1rem !important;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        opacity: 0.8;
+    }
+
+    .service-tag {
+        font-size: 0.65rem !important;
+        margin-bottom: 0.2rem !important;
+        margin-top: 0 !important;
+        letter-spacing: 2px !important;
+    }
+
+    /* Botón compacto para que quepa bien */
+    .service-detail-text .btn {
+        padding: 0.6rem 1.2rem !important;
+        font-size: 0.7rem !important;
+        letter-spacing: 1px !important;
+        border-radius: 4px;
+        display: inline-flex;
+        align-items: center;
+        width: auto;
+    }
+
+    /* CTA más pequeño */
+    #cta-servicios {
+        padding: 3rem 0;
+    }
+
+    #cta-servicios h2 {
+        font-size: 1.4rem;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Animación premium para el hint de servicios */
+    @keyframes hintSwipe {
+        0% { transform: translateX(0); }
+        30% { transform: translateX(-80px); }
+        100% { transform: translateX(0); }
+    }
+
+    /* Aplicamos la animación a las tarjetas individuales para que no se "corte" el contenedor */
+    .services-wrapper-mobile.hint-active .service-detail-section {
+        animation: hintSwipe 1.4s cubic-bezier(0.45, 0.05, 0.55, 0.95);
     }
 }

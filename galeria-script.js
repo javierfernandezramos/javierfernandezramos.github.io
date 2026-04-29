@@ -7,35 +7,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const galleryCollections = [
         {
             name: "Modelo | Ver <i class='fa-solid fa-magnifying-glass'></i>",
-            id: "carpeta1",
+            id: "modelo",
             folder: "Fotos/Modelo/",
             count: 13, // Usa esto si tus fotos son 1.jpg, 2.jpg...
             images: [] // O añade nombres aquí: ["foto1.jpg", "vacaciones.png"]
         },
         {
             name: "Eventos | Ver <i class='fa-solid fa-magnifying-glass'></i>",
-            id: "carpeta2",
+            id: "eventos",
             folder: "Fotos/Eventos/",
             count: 19,
             images: []
         },
         {
             name: "Novios | Ver <i class='fa-solid fa-magnifying-glass'></i>",
-            id: "carpeta3",
+            id: "novios",
             folder: "Fotos/Novios/",
             count: 5,
             images: []
         },
         {
             name: "Deportes | Ver <i class='fa-solid fa-magnifying-glass'></i>",
-            id: "carpeta4",
+            id: "deportes",
             folder: "Fotos/Deportes/",
             count: 10,
             images: []
         },
         {
             name: "Marca | Ver <i class='fa-solid fa-magnifying-glass'></i>",
-            id: "carpeta5",
+            id: "marca",
             folder: "Fotos/Marca/",
             count: 9,
             images: []
