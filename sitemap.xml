@@ -4,30 +4,26 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
-
 
 <url>
   <loc>https://javiphoto.es/</loc>
-  <lastmod>2026-04-22T19:35:07+00:00</lastmod>
+  <lastmod>2026-04-29T12:00:00+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
   <loc>https://javiphoto.es/galeria</loc>
-  <lastmod>2026-04-22T19:35:08+00:00</lastmod>
+  <lastmod>2026-04-29T12:00:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://javiphoto.es/videos</loc>
-  <lastmod>2026-04-22T19:35:08+00:00</lastmod>
+  <lastmod>2026-04-29T12:00:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://javiphoto.es/servicios</loc>
-  <lastmod>2026-04-28T10:52:00+00:00</lastmod>
+  <lastmod>2026-04-29T12:00:00+00:00</lastmod>
   <priority>0.90</priority>
 </url>
-
-
 
 </urlset>
