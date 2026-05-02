@@ -89,10 +89,10 @@ document.addEventListener('DOMContentLoaded', () => {
             touchEndX = e.changedTouches[0].screenX;
             const threshold = 50;
             if (touchEndX < touchStartX - threshold) {
-                window.showNextImage(); 
+                window.showNextImage();
             }
             if (touchEndX > touchStartX + threshold) {
-                window.showPrevImage(); 
+                window.showPrevImage();
             }
         }, { passive: true });
     }
@@ -110,7 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         lightbox.style.display = 'flex';
         window.updateLightboxImage();
-        document.body.style.overflow = 'hidden';
     };
 
     galleryItems.forEach(item => {
@@ -131,7 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!lightbox) return;
         lightbox.style.display = 'none';
         if (lightboxImg) lightboxImg.src = '';
-        document.body.style.overflow = 'auto';
     };
 
     if (closeBtn) closeBtn.addEventListener('click', hideLightbox);
@@ -246,9 +244,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (navLinksMenu.classList.contains('active')) {
                 icon.classList.remove('fa-bars');
                 icon.classList.add('fa-times');
+                document.body.style.overflow = 'hidden';
             } else {
                 icon.classList.remove('fa-times');
                 icon.classList.add('fa-bars');
+                document.body.style.overflow = 'auto';
             }
         });
 
@@ -256,6 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
         links.forEach(link => {
             link.addEventListener('click', () => {
                 navLinksMenu.classList.remove('active');
+                document.body.style.overflow = 'auto';
                 const icon = mobileMenuBtn.querySelector('i');
                 if (icon) {
                     icon.classList.remove('fa-times');
@@ -283,6 +284,64 @@ document.addEventListener('DOMContentLoaded', () => {
                 behavior: 'smooth'
             });
         });
+    }
+
+    // 9. SLIDER DE TESTIMONIOS (Auto-scroll e Interactivo)
+    const testimonialSlider = document.getElementById('testimonials-slider');
+    const tSlides = document.querySelectorAll('.testimonial-item');
+    const tWrapper = document.querySelector('.testimonials-slider-wrapper');
+    let tCurrentSlide = 0;
+    let tInterval;
+    let startX = 0;
+    let isDragging = false;
+    let currentTranslate = 0;
+    let prevTranslate = 0;
+
+    function updateSliderPosition() {
+        if (!tSlides.length) return;
+        const slideWidth = tSlides[0].offsetWidth;
+        currentTranslate = -tCurrentSlide * slideWidth;
+        testimonialSlider.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        testimonialSlider.style.transform = `translateX(${currentTranslate}px)`;
+    }
+
+    function startAutoScroll() {
+        stopAutoScroll();
+        tInterval = setInterval(() => {
+            tCurrentSlide = (tCurrentSlide + 1) % tSlides.length;
+            updateSliderPosition();
+        }, 5000);
+    }
+
+    function stopAutoScroll() {
+        if (tInterval) clearInterval(tInterval);
+    }
+
+    if (testimonialSlider && tSlides.length > 0) {
+        startAutoScroll();
+
+        // Botones de Navegación (Solo Desktop)
+        const prevBtn = document.getElementById('testimonial-prev');
+        const nextBtn = document.getElementById('testimonial-next');
+
+        if (prevBtn && nextBtn) {
+            prevBtn.addEventListener('click', () => {
+                stopAutoScroll();
+                tCurrentSlide = (tCurrentSlide - 1 + tSlides.length) % tSlides.length;
+                updateSliderPosition();
+                startAutoScroll();
+            });
+
+            nextBtn.addEventListener('click', () => {
+                stopAutoScroll();
+                tCurrentSlide = (tCurrentSlide + 1) % tSlides.length;
+                updateSliderPosition();
+                startAutoScroll();
+            });
+        }
+
+        // Reajuste en cambio de tamaño de ventana
+        window.addEventListener('resize', updateSliderPosition);
     }
 
 }); // 👈 CIERRE FINAL
