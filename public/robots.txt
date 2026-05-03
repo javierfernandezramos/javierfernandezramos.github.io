@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /debug
+Disallow: /404
 
-# Sitemap Location
-Sitemap: https://javiphoto.es/sitemap-index.xml
+# Sitemap Location (Directo a la lista de páginas)
+Sitemap: https://javiphoto.es/sitemap-0.xml
