@@ -1,0 +1,212 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+// Import fixed images
+import photographerImg from '../assets/Fotos/photographer.webp';
+import heroImg from '../assets/Fotos/hero-image.webp';
+
+// Import gallery images for the "Featured Gallery" section
+const galleryImages = import.meta.glob<{ default: ImageMetadata }>('../assets/Fotos/**/*.{jpg,jpeg,png,webp}', { eager: true });
+const getImg = (path: string) => {
+    const fullPath = `../assets/Fotos/${path}`;
+    if (!galleryImages[fullPath]) {
+        console.warn(`Imagen no encontrada: ${fullPath}`);
+        return null;
+    }
+    return galleryImages[fullPath].default;
+};
+---
+
+<Layout 
+    title="JaviPhoto | Fotógrafo en Valencia - Retratos, Eventos y Deportes" 
+    description="Javier Fernández Ramos, fotógrafo profesional en Valencia. Especializado en retratos, eventos corporativos, deportes y marca personal. Capturando la esencia de cada momento."
+    activePage="inicio"
+>
+    <section id="hero" class="hero-section" style={`--hero-url: url('${heroImg.src}')`}>
+        <div class="hero-content">
+            <h1 class="fade-in">Javier Photography <span class="sr-only">| Fotógrafo en Valencia</span></h1>
+            <p class="fade-in delay-1">
+                "Capturando la esencia de momentos fugaces." <br> <a href="/contacto">Contáctame <i
+                        class="fa-solid fa-right-to-bracket"></i></a>
+            </p>
+            <a href="#galeria" class="btn fade-in delay-2">Ver Más <i class="fas fa-arrow-down"></i></a>
+        </div>
+    </section>
+
+    <section id="acerca" class="section-padding">
+        <div class="container acerca-grid reveal">
+            <div class="acerca-text">
+                <div class="acerca-profile-wrapper">
+                    <div class="acerca-mobile-profile">
+                        <Image src={photographerImg} alt="Javier Fernández Ramos" width={300} height={300} class="photographer-main-img loaded" style="object-fit: cover; border-radius: 50%;" />
+                    </div>
+                    <a target="_blank" href="https://www.instagram.com/javier.fzr/" class="instagram-profile-icon">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+                <h2 class="section-title main-title">El Arte de lo Esencial</h2>
+                <div class="editorial-body">
+                    <p>
+                        Javier Fernández Ramos <a href="https://www.instagram.com/javier.fzr/">@javier.fzr</a>,
+                        fotógrafo profesional en Valencia. Me especializo en
+                        capturar la realidad desde una perspectiva limpia y directa, buscando siempre la fidelidad
+                        en cada imagen.
+                    </p>
+                    <p>
+                        Mi trabajo se define por la atención al detalle y la capacidad de capturar las cosas de la
+                        manera que las quieres ver. Con experiencia en retratos, eventos y deportes, ofrezco
+                        una visión técnica y profesional para cada proyecto.
+                    </p>
+                </div>
+                <div class="contact-links-luxury">
+                    <a href="#" class="luxury-cta-link">Cuéntame tu visión →</a>
+                </div>
+            </div>
+            <div class="acerca-img glass-frame reveal">
+                <Image src={photographerImg} alt="Retrato del fotógrafo" width={800} />
+            </div>
+        </div>
+    </section>
+
+    <section id="galeria" class="section-padding">
+        <div class="container reveal">
+            <h2 class="section-title" id="galeriaDestacada">Galería Destacada</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item reveal active" data-src={getImg('Modelo/4.webp')?.src}>
+                    <Image src={getImg('Modelo/4.webp') || heroImg} alt="Retrato minimalista" width={600} class="loaded" data-src={getImg('Modelo/4.webp')?.src} />
+                    <div class="overlay"><span>Retrato</span></div>
+                </div>
+                <div class="gallery-item reveal active" data-src={getImg('playa-sunset-99.webp')?.src}>
+                    <Image src={getImg('playa-sunset-99.webp') || heroImg} alt="Novios en la playa" width={600} data-src={getImg('playa-sunset-99.webp')?.src} />
+                    <div class="overlay"><span>Novios</span></div>
+                </div>
+                <div class="gallery-item reveal active" data-src={getImg('blackwhite.webp')?.src}>
+                    <Image src={getImg('blackwhite.webp') || heroImg} alt="Fotografía Blanco y Negro" width={600} data-src={getImg('blackwhite.webp')?.src} />
+                    <div class="overlay"><span>B&W</span></div>
+                </div>
+                <div class="gallery-item reveal active" data-src={getImg('RicardoTormo31.webp')?.src}>
+                    <Image src={getImg('RicardoTormo31.webp') || heroImg} alt="Fotografía de Coches" width={600} data-src={getImg('RicardoTormo31.webp')?.src} />
+                    <div class="overlay"><span>Coches</span></div>
+                </div>
+                <div class="gallery-item reveal active" data-src={getImg('rio.webp')?.src}>
+                    <Image src={getImg('rio.webp') || heroImg} alt="Momentos Espontáneos" width={600} data-src={getImg('rio.webp')?.src} />
+                    <div class="overlay"><span>Momentos Fugazes</span></div>
+                </div>
+                <div class="gallery-item reveal active" data-src={getImg('novios1.webp')?.src}>
+                    <Image src={getImg('novios1.webp') || heroImg} alt="Sesión de Novios" width={600} data-src={getImg('novios1.webp')?.src} />
+                    <div class="overlay"><span>Novios</span></div>
+                </div>
+                <div class="gallery-item reveal active" data-src={getImg('Modelo/7.webp')?.src}>
+                    <Image src={getImg('Modelo/7.webp') || heroImg} alt="Lifestyle y Retrato" width={600} data-src={getImg('Modelo/7.webp')?.src} />
+                    <div class="overlay"><span>Lifestyle</span></div>
+                </div>
+                <div class="gallery-item reveal active" data-src={getImg('Fruteria036.webp')?.src}>
+                    <Image src={getImg('Fruteria036.webp') || heroImg} alt="Fotografía de Negocios" width={600} data-src={getImg('Fruteria036.webp')?.src} />
+                </div>
+                <div class="gallery-item reveal active" data-src={getImg('cubas-31.webp')?.src}>
+                    <Image src={getImg('cubas-31.webp') || heroImg} alt="Fotografía de Marca" width={600} data-src={getImg('cubas-31.webp')?.src} />
+                    <div class="overlay"><span>Marca</span></div>
+                </div>
+                <div class="gallery-item reveal active" data-src={getImg('porsche.webp')?.src}>
+                    <Image src={getImg('porsche.webp') || heroImg} alt="Porsche Lifestyle" width={600} data-src={getImg('porsche.webp')?.src} />
+                    <div class="overlay"><span>COCHES</span></div>
+                </div>
+                <div class="gallery-item reveal active" data-src={getImg('Modelo/6.webp')?.src}>
+                    <Image src={getImg('Modelo/6.webp') || heroImg} alt="Fotografía de Deportes" width={600} data-src={getImg('Modelo/6.webp')?.src} />
+                    <div class="overlay"><span>DEPORTES</span></div>
+                </div>
+                <div class="gallery-item reveal active" data-src={getImg('Modelo/2.webp')?.src}>
+                    <Image src={getImg('Modelo/2.webp') || heroImg} alt="Retrato Editorial" width={600} data-src={getImg('Modelo/2.webp')?.src} />
+                    <div class="overlay"><span>Lifestyle</span></div>
+                </div>
+            </div>
+            <div class="gallery-floating-container">
+                <a href="/galeria" class="btn luxury-gallery-btn">Ver Galería Completa <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonios" class="section-padding">
+        <div class="container reveal" style="overflow: visible;">
+            <h2 class="section-title">Testimonios</h2>
+            <div class="testimonials-nav-wrapper">
+                <button class="slider-nav-btn prev" id="testimonial-prev" aria-label="Anterior testimonio"><i class="fas fa-chevron-left"></i></button>
+                <button class="slider-nav-btn next" id="testimonial-next" aria-label="Siguiente testimonio"><i class="fas fa-chevron-right"></i></button>
+                <div class="testimonials-slider-wrapper">
+                    <div class="testimonials-slider" id="testimonials-slider">
+                        <div class="testimonial-item">
+                            <div class="testimonial-content">
+                                <div class="testimonial-img"><Image src={getImg('Modelo/2.webp') || heroImg} alt="Elena G." width={100} height={100} /></div>
+                                <p>"Increíbles fotos de retrato que contraté. Javier captó exactamente lo que quería."</p>
+                                <span class="testimonial-author">Mike A.</span>
+                                <span class="testimonial-role">Deportista</span>
+                            </div>
+                        </div>
+                        <div class="testimonial-item">
+                            <div class="testimonial-content">
+                                <div class="testimonial-img"><Image src={getImg('Deportes/1.webp') || heroImg} alt="Club Tenis Valencia" width={100} height={100} /></div>
+                                <p>"Las fotos de mi partido de tenis son espectaculares. La rapidez de entrega y la calidad me fascinó."</p>
+                                <span class="testimonial-author">Jorge P.</span>
+                                <span class="testimonial-role">Jugador de Tenis</span>
+                            </div>
+                        </div>
+                        <div class="testimonial-item">
+                            <div class="testimonial-content">
+                                <div class="testimonial-img"><Image src={getImg('Modelo/11.webp') || heroImg} alt="Marc R." width={100} height={100} /></div>
+                                <p>"La sesion de fotos de gimnasio de me hizo Javier fueron espectaculares y con mucha calidad."</p>
+                                <span class="testimonial-author">Jose Manuel</span>
+                                <span class="testimonial-role">Modelo gym</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="social" class="section-padding">
+        <div class="container reveal">
+            <div class="social-content">
+                <h2 class="section-title">Contáctame</h2>
+                <div class="social-featured-grid">
+                    <a href="https://www.instagram.com/javier.fzr/" target="_blank" class="social-card">
+                        <i class="fab fa-instagram"></i>
+                        <span>Instagram</span>
+                        <small>@javier.fzr</small>
+                    </a>
+                    <a href="mailto:javierfernandezramos9@gmail.com" class="social-card" id="gmail-social-card">
+                        <i class="fas fa-envelope"></i>
+                        <span>Gmail</span>
+                        <small>Escríbeme</small>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" class="section-padding">
+        <div class="container reveal">
+            <h2 class="section-title">Hablemos de tu Proyecto</h2>
+            <div class="contact-intro" style="text-align: center; margin-bottom: 3rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                <p style="margin-bottom: 1.5rem; color: var(--color-text-light);">¿Buscas <strong>fotógrafos en Valencia</strong> para tu próximo evento o sesión? Puedes enviarme un mensaje rápido aquí o visitar mi página dedicada para reservas.</p>
+                <a href="/contacto" class="btn luxury-gallery-btn">Página de Reserva y Tarifas <i class="fas fa-calendar-check"></i></a>
+            </div>
+            <form id="contact-form" class="contact-form">
+                <div class="form-group">
+                    <input type="text" id="asunto" name="asunto" placeholder="Asunto" required>
+                    <div class="error-message" id="asunto-error"></div>
+                </div>
+                <div class="form-group">
+                    <textarea id="mensaje" name="mensaje" placeholder="Tu Mensaje..." rows="6" required></textarea>
+                    <div class="error-message" id="mensaje-error"></div>
+                </div>
+                <button type="submit" class="btn submit-btn">Enviar Mensaje</button>
+                <p id="form-status" class="form-status"></p>
+                <p class="small-note">Se abrirá tu cliente de correo (Gmail) para enviar el mensaje.</p>
+            </form>
+        </div>
+    </section>
+
+</Layout>

@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro';
+import heroImg from '../assets/Fotos/hero-image.webp';
+---
+
+<Layout title="404 - Página no encontrada" description="Lo sentimos, la página que buscas no existe.">
+    <section class="error-hero" style={`background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.5)), url(${heroImg.src});`}>
+        <div class="container">
+            <h1 class="reveal" style="font-size: 8rem; color: var(--color-gold); line-height: 1; margin-bottom: 1rem;">404</h1>
+            <h2 class="reveal" style="font-size: 2.5rem; margin-bottom: 2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px;">Página no encontrada</h2>
+            <p class="reveal" style="margin-bottom: 3rem; color: var(--color-text-light); max-width: 600px; margin-left: auto; margin-right: auto; font-size: 1.1rem;">Parece que te has perdido en el enfoque. No te preocupes, siempre podemos volver al inicio para retomar la sesión.</p>
+            <div class="reveal">
+                <a href="/" class="btn luxury-gallery-btn"><i class="fas fa-arrow-left"></i> Volver al Inicio</a>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .error-hero {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Efecto parallax/fijo */
+            padding-top: 80px;
+        }
+    </style>
+</Layout>

@@ -1,0 +1,19 @@
+---
+const { activePage } = Astro.props;
+---
+<header id="navbar">
+    <div class="container">
+        <a href="/" class="logo">JaviPhoto</a>
+        <button class="menu-toggle" id="mobile-menu-btn" aria-label="Abrir menú de navegación">
+            <i class="fas fa-bars"></i>
+        </button>
+        <nav class="nav-links" id="nav-links">
+            <a href="/" class={activePage === 'inicio' ? 'active' : ''}>Inicio</a>
+            <a href="/galeria" class={activePage === 'galeria' ? 'active' : ''}>Galería</a>
+            <a href="/videos" class={activePage === 'videos' ? 'active' : ''}>Vídeos</a>
+            <a href="/servicios" class={activePage === 'servicios' ? 'active' : ''}>Servicios</a>
+            <a href="/#acerca">Acerca de Mí</a>
+            <a href="/contacto" class={activePage === 'contacto' ? 'active' : ''}>Contacto</a>
+        </nav>
+    </div>
+</header>

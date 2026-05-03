@@ -1,0 +1,93 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+// Import images
+const galleryImages = import.meta.glob<{ default: ImageMetadata }>('../../assets/Fotos/**/*.{jpg,jpeg,png,webp}', { eager: true });
+const getImg = (path: string) => {
+  const fullPath = `../../assets/Fotos/${path}`;
+  return galleryImages[fullPath]?.default;
+};
+
+const title = 'Fotógrafo Deportivo en Valencia | Acción y Competición';
+const description = 'Fotografía deportiva especializada en Valencia. Capturo la intensidad y emoción de cada competición, desde deportes de motor hasta tenis y fitness.';
+const heroImg = getImg('Deportes/2.webp');
+const mainTitle = 'Pasión por la Acción';
+const mainText = 'Como fotógrafo de eventos deportivos en Valencia, mi objetivo es capturar ese instante irrepetible donde la técnica se encuentra con la emoción. Especializado en maratones, torneos de tenis, ciclismo y competiciones de motor.';
+const mainImg = getImg('Deportes/1.webp');
+
+const features = [
+  { icon: 'fas fa-running', title: 'Cobertura de Maratones', text: 'Seguimiento detallado en maratones y carreras populares.' },
+  { icon: 'fas fa-video', title: 'Videógrafo de Competiciones', text: 'Vídeo dinámico para eventos deportivos y redes sociales.' },
+  { icon: 'fas fa-camera-retro', title: 'Sesiones Individuales', text: 'Shooting profesional para potenciar tu marca personal.' }
+];
+
+const faqs = [
+  { q: '¿Qué tipo de eventos deportivos cubres en Valencia?', a: 'Cubro una amplia gama de disciplinas, incluyendo competiciones de atletismo (maratones, 10K), deportes de raqueta, eventos de motor en el circuito Ricardo Tormo y deportes acuáticos.' },
+  { q: '¿Ofreces también servicios de videógrafo para competiciones?', a: 'Sí, combino la fotografía de alta velocidad con la creación de contenido en vídeo para ofrecer una cobertura 360º de cualquier competición en Valencia.' },
+  { q: '¿Cuál es el tiempo de entrega de las fotos?', a: 'Entiendo la importancia de la inmediatez en el deporte. Ofrezco un adelanto de fotos para redes sociales en menos de 24 horas y la galería completa en 5-7 días laborables.' }
+];
+---
+
+<Layout title={title} description={description} activePage="servicios">
+    <section class="services-hero" style={`background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('${heroImg?.src}'); background-size: cover; background-position: center; min-height: 60vh; display: flex; align-items: center; justify-content: center; text-align: center;`}>
+        <div class="container">
+            <h1 class="section-title reveal" style="color: white; margin-bottom: 1rem;">{title}</h1>
+            <p class="section-subtitle reveal" style="color: rgba(255,255,255,0.9); font-size: 1.2rem;">{description}</p>
+        </div>
+    </section>
+
+    <section class="section-padding reveal">
+        <div class="container">
+            <div class="acerca-grid">
+                <div class="acerca-text">
+                    <h2 class="main-title">{mainTitle}</h2>
+                    <div class="editorial-body">
+                        <p>{mainText}</p>
+                    </div>
+                </div>
+                <div class="acerca-img glass-frame">
+                    <Image src={mainImg} alt={title} width={600} class="loaded" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding bg-accent reveal" style="background: var(--color-accent);">
+        <div class="container">
+            <h2 class="section-title">Servicios Incluidos</h2>
+            <div class="services-minimal-grid">
+                {features.map((feature) => (
+                    <div class="service-item">
+                        <div class="service-icon-box"><i class={feature.icon}></i></div>
+                        <h3>{feature.title}</h3>
+                        <p>{feature.text}</p>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding reveal">
+        <div class="container">
+            <h2 class="section-title">Preguntas Frecuentes</h2>
+            <div style="max-width: 800px; margin: 0 auto;">
+                {faqs.map((faq) => (
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--color-gold);">{faq.q}</h3>
+                        <p>{faq.a}</p>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </section>
+
+    <section id="cta-servicios" class="section-padding">
+        <div class="container text-center reveal">
+            <h2>¿Quieres saber más?</h2>
+            <p style="margin-bottom: 2rem;">Solicita un presupuesto sin compromiso para tu sesión en Valencia.</p>
+            <a href="/contacto" class="btn luxury-gallery-btn">Contactar Ahora <i class="fas fa-calendar-check"></i></a>
+        </div>
+    </section>
+</Layout>

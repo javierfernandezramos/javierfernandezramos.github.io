@@ -1,0 +1,126 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+// Import images
+const galleryImages = import.meta.glob<{ default: ImageMetadata }>('../assets/Fotos/**/*.{jpg,jpeg,png,webp}', { eager: true });
+const getImg = (path: string) => {
+  const fullPath = `../assets/Fotos/${path}`;
+  return galleryImages[fullPath]?.default;
+};
+
+const heroImg = getImg('hero-image.webp');
+const sideImg = getImg('Modelo/11.webp');
+---
+
+<Layout 
+    title="Contactar Fotógrafo en Valencia | Reservas y Presupuestos" 
+    description="¿Buscas un fotógrafo en Valencia? Contacta con JaviPhoto para reservar tu sesión de fotos o solicitar un presupuesto personalizado para tu proyecto o evento."
+    activePage="contacto"
+>
+    <section class="services-hero" style={`background-image: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('${heroImg?.src}'); background-size: cover; background-position: center; min-height: 50vh; display: flex; align-items: center; justify-content: center; text-align: center;`}>
+        <div class="container">
+            <h1 class="section-title reveal" style="color: white; margin-bottom: 1rem; text-shadow: 0 5px 15px rgba(0,0,0,0.5);">Reservar Fotógrafo en Valencia</h1>
+            <p class="section-subtitle reveal" style="color: white; font-size: 1.1rem; font-weight: 400; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">Tu próximo gran proyecto comienza con un mensaje.</p>
+        </div>
+    </section>
+
+    <section class="section-padding reveal">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-content-block">
+                    <h2 class="minimal-title text-center">¿Por qué elegir a JaviPhoto?</h2>
+                    <div class="editorial-body" style="text-align: left !important;">
+                        <p>Si estás buscando <strong>fotógrafos en Valencia</strong> que combinen técnica, creatividad y un estilo moderno, has llegado al lugar indicado. Me especializo en capturar momentos únicos, ya sea en eventos deportivos, corporativos o sesiones de marca personal.</p>
+                        <p><strong>Reservar un fotógrafo en Valencia</strong> con JaviPhoto es garantía de profesionalidad y resultados de alta calidad. Entiendo la importancia de cada imagen y trabajo estrechamente contigo para que el resultado final supere tus expectativas.</p>
+                        <ul style="list-style: none; padding: 0; margin-top: 2rem;">
+                            <li style="margin-bottom: 1.2rem;"><i class="fas fa-check-circle" style="color: var(--color-gold); margin-right: 12px;"></i> Entrega rápida de material optimizado.</li>
+                            <li style="margin-bottom: 1.2rem;"><i class="fas fa-check-circle" style="color: var(--color-gold); margin-right: 12px;"></i> Equipamiento de última generación (Sony Alpha).</li>
+                            <li style="margin-bottom: 1.2rem;"><i class="fas fa-check-circle" style="color: var(--color-gold); margin-right: 12px;"></i> Presupuestos claros y adaptados a tu proyecto.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="acerca-img glass-frame">
+                    <Image src={sideImg} alt="Sesión de fotos profesional Valencia - JaviPhoto" width={600} class="loaded" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="formulario-contacto" class="section-padding reveal" style="background: rgba(255,255,255,0.01);">
+        <div class="container">
+            <h2 class="section-title">Formulario de Reserva</h2>
+            <form id="contact-form" class="contact-form">
+                <div class="form-group">
+                    <input type="text" id="asunto" name="asunto" placeholder="¿Qué servicio necesitas? (Deportes, Eventos, Marca...)" required>
+                    <div class="error-message" id="asunto-error"></div>
+                </div>
+                <div class="form-group">
+                    <textarea id="mensaje" name="mensaje" placeholder="Cuéntame los detalles de tu proyecto..." rows="6" required></textarea>
+                    <div class="error-message" id="mensaje-error"></div>
+                </div>
+                <button type="submit" class="btn submit-btn">Solicitar Disponibilidad</button>
+                <p id="form-status" class="form-status"></p>
+                <p class="small-note" style="margin-top: 1.5rem; text-align: center; color: var(--color-text-light);">Se abrirá tu cliente de correo (Gmail) para finalizar el envío.</p>
+            </form>
+        </div>
+    </section>
+
+    <section class="section-padding reveal text-center">
+        <div class="container">
+            <h2 class="minimal-title">Servicios Disponibles en Valencia</h2>
+            <div class="services-minimal-grid">
+                <div class="service-item">
+                    <div class="service-icon-box"><i class="fas fa-camera-retro"></i></div>
+                    <h3>Sesiones de Fotos</h3>
+                    <p>Retratos profesionales y branding personal en localizaciones exclusivas de Valencia.</p>
+                </div>
+                <div class="service-item">
+                    <div class="service-icon-box"><i class="fas fa-running"></i></div>
+                    <h3>Eventos Deportivos</h3>
+                    <p>Cobertura de competiciones y sesiones para deportistas de élite.</p>
+                </div>
+                <div class="service-item">
+                    <div class="service-icon-box"><i class="fas fa-briefcase"></i></div>
+                    <h3>Eventos de Empresa</h3>
+                    <p>Documentación de galas, congresos y jornadas corporativas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</Layout>
+
+<style>
+    .contact-content-block {
+        padding: 2rem 0;
+    }
+    
+    .minimal-title {
+        font-size: 1.8rem;
+        letter-spacing: 2px;
+        margin-bottom: 2rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    .contact-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        align-items: flex-start;
+        gap: 4rem;
+    }
+
+    @media (max-width: 1050px) {
+        .contact-grid {
+            display: block;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .minimal-title {
+            font-size: 1.3rem;
+        }
+    }
+</style>

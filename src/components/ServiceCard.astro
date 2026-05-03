@@ -1,0 +1,24 @@
+---
+import { Image } from 'astro:assets';
+const { title, tag, description, link, image, reverse, galleryLink } = Astro.props;
+---
+<section class="service-detail-section reveal">
+    <div class="container">
+        <div class={`service-detail-row ${reverse ? 'reverse' : ''}`}>
+            <div class="service-detail-img">
+                <Image src={image} alt={title} width={600} height={600} class="loaded" />
+            </div>
+            <div class="service-detail-text">
+                <span class="service-tag">{tag}</span>
+                <h2>{title}</h2>
+                <div class="service-description">
+                    <p>{description}</p>
+                </div>
+                <div class="service-actions">
+                    {galleryLink && <a href={galleryLink} class="btn">Ver Trabajos <i class="fas fa-camera"></i></a>}
+                    <a href={link} class="btn luxury-gallery-btn">Detalles y Tarifas <i class="fas fa-info-circle"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,93 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+// Import images
+const galleryImages = import.meta.glob<{ default: ImageMetadata }>('../../assets/Fotos/**/*.{jpg,jpeg,png,webp}', { eager: true });
+const getImg = (path: string) => {
+  const fullPath = `../../assets/Fotos/${path}`;
+  return galleryImages[fullPath]?.default;
+};
+
+const title = 'Fotógrafo de Eventos en Valencia | Corporativos y Sociales';
+const description = 'Cobertura profesional de eventos en Valencia. Fotografía para congresos, fiestas corporativas y celebraciones sociales con una visión técnica y elegante.';
+const heroImg = getImg('Eventos/1.webp');
+const mainTitle = 'Tu Evento, Tu Historia';
+const mainText = 'La cobertura de eventos corporativos en Valencia requiere una mirada atenta que sepa capturar no solo lo que ocurre, sino la esencia de la marca. Especialista en galas, conferencias y lanzamientos de producto.';
+const mainImg = getImg('Eventos/3.webp');
+
+const features = [
+  { icon: 'fas fa-building', title: 'Eventos de Empresa', text: 'Documentación profesional de reuniones, convenciones y jornadas de networking.' },
+  { icon: 'fas fa-film', title: 'Vídeo para Empresas', text: 'Creación de Aftermovies y contenido en vídeo para resumir la energía de tus eventos.' },
+  { icon: 'fas fa-calendar-check', title: 'Eventos Sociales', text: 'Fotografía creativa para celebraciones privadas y galas con un estilo editorial.' }
+];
+
+const faqs = [
+  { q: '¿Qué tendencias en fotografía de eventos veremos en 2026?', a: 'La tendencia principal es la autenticidad: menos fotos posadas y más "documentary style". El uso de iluminación natural y la entrega rápida son fundamentales.' },
+  { q: '¿Realizas vídeos para eventos de empresa en Valencia?', a: 'Sí, ofrezco servicios combinados de fotografía y vídeo para que tengas una cobertura completa y coherente de tu evento.' },
+  { q: '¿Te desplazas por toda la Comunidad Valenciana?', a: 'Principalmente trabajo en Valencia capital, pero realizo reportajes en toda la provincia y alrededores según las necesidades.' }
+];
+---
+
+<Layout title={title} description={description} activePage="servicios">
+    <section class="services-hero" style={`background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('${heroImg?.src}'); background-size: cover; background-position: center; min-height: 60vh; display: flex; align-items: center; justify-content: center; text-align: center;`}>
+        <div class="container">
+            <h1 class="section-title reveal" style="color: white; margin-bottom: 1rem;">{title}</h1>
+            <p class="section-subtitle reveal" style="color: rgba(255,255,255,0.9); font-size: 1.2rem;">{description}</p>
+        </div>
+    </section>
+
+    <section class="section-padding reveal">
+        <div class="container">
+            <div class="acerca-grid">
+                <div class="acerca-text">
+                    <h2 class="main-title">{mainTitle}</h2>
+                    <div class="editorial-body">
+                        <p>{mainText}</p>
+                    </div>
+                </div>
+                <div class="acerca-img glass-frame">
+                    <Image src={mainImg} alt={title} width={600} class="loaded" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding bg-accent reveal" style="background: var(--color-accent);">
+        <div class="container">
+            <h2 class="section-title">Servicios Incluidos</h2>
+            <div class="services-minimal-grid">
+                {features.map((feature) => (
+                    <div class="service-item">
+                        <div class="service-icon-box"><i class={feature.icon}></i></div>
+                        <h3>{feature.title}</h3>
+                        <p>{feature.text}</p>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding reveal">
+        <div class="container">
+            <h2 class="section-title">Preguntas Frecuentes</h2>
+            <div style="max-width: 800px; margin: 0 auto;">
+                {faqs.map((faq) => (
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--color-gold);">{faq.q}</h3>
+                        <p>{faq.a}</p>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </section>
+
+    <section id="cta-servicios" class="section-padding">
+        <div class="container text-center reveal">
+            <h2>¿Planeando un evento?</h2>
+            <p style="margin-bottom: 2rem;">Asegúrate un reportaje profesional que destaque los valores de tu marca.</p>
+            <a href="/contacto" class="btn luxury-gallery-btn">Solicitar Presupuesto <i class="fas fa-paper-plane"></i></a>
+        </div>
+    </section>
+</Layout>

@@ -1,0 +1,71 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import type { ImageMetadata } from 'astro';
+
+// Import images for services
+const galleryImages = import.meta.glob<{ default: ImageMetadata }>('../assets/Fotos/**/*.{jpg,jpeg,png,webp}', { eager: true });
+const getImg = (path: string) => galleryImages[`../assets/Fotos/${path}`]?.default;
+const heroImg = getImg('hero-image.webp');
+---
+
+<Layout 
+    title="Servicios de Fotografía Profesional en Valencia | Tarifas y Sesiones" 
+    description="Descubre los servicios de fotografía en Valencia: desde retratos profesionales hasta cobertura de eventos y fotografía deportiva. Calidad y profesionalidad garantizada."
+    activePage="servicios"
+>
+    <section class="services-hero">
+        <div class="container">
+            <h1 class="section-title reveal">Servicios de Fotografía en Valencia</h1>
+            <p class="section-subtitle reveal">Capturando la excelencia en cada disciplina. Fotografía creativa y profesional en Valencia.</p>
+        </div>
+    </section>
+
+    <div class="services-wrapper-mobile">
+        <ServiceCard 
+            title="Fotógrafo Deportivo Valencia"
+            tag="Velocidad y Acción"
+            description="Especializado en capturar la adrenalina y la intensidad del deporte. Desde la rapidez en la pista de tenis hasta la emoción de cualquier disciplina deportiva."
+            link="/servicios/fotografo-deportivo-valencia"
+            galleryLink="/galeria?filter=deportes"
+            image={getImg('Deportes/1.webp')}
+        />
+
+        <ServiceCard 
+            title="Fotografo de eventos en Valencia"
+            tag="Momentos Inolvidables"
+            description="Cada evento tiene una historia única. Ofrezco una fotografía creativa en Valencia para eventos sociales, corporativos y lifestyle, buscando siempre la naturalidad y la esencia del momento."
+            link="/servicios/fotografo-eventos-valencia"
+            galleryLink="/galeria?filter=eventos"
+            image={getImg('Eventos/3.webp')}
+            reverse={true}
+        />
+
+        <ServiceCard 
+            title="Retrato Profesional Valencia"
+            tag="Esencia Personal"
+            description="Sesiones de retrato personalizadas para modelos, profesionales y marcas. Nos enfocamos en resaltar tu mejor versión a través de una iluminación experta y una dirección artística de primer nivel."
+            link="/servicios/retratos-profesionales-valencia"
+            galleryLink="/galeria?filter=modelo"
+            image={getImg('Modelo/4.webp')}
+        />
+
+        <ServiceCard 
+            title="Fotografía de Marca y Negocios"
+            tag="Identidad Corporativa"
+            description="Ayudo a empresas y emprendedores a comunicar su valor a través de imágenes potentes. Desde fotografía de marca en Valencia hasta retratos corporativos y contenido para redes sociales."
+            link="/servicios/fotografia-marca-personal-valencia"
+            galleryLink="/galeria?filter=marca"
+            image={getImg('cubas-31.webp')}
+            reverse={true}
+        />
+    </div>
+
+    <section id="cta-servicios" class="section-padding">
+        <div class="container text-center reveal">
+            <h2>¿No encuentras lo que buscas?</h2>
+            <p style="margin-bottom: 2rem;">Cuéntame tu idea y diseñaremos una sesión a tu medida.</p>
+            <a href="/contacto" class="btn luxury-gallery-btn">Contactar Ahora <i class="fas fa-envelope"></i></a>
+        </div>
+    </section>
+</Layout>

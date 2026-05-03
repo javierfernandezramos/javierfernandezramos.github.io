@@ -1,0 +1,83 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/style.css';
+
+interface Props {
+	title: string;
+    description?: string;
+    activePage?: string;
+}
+
+const { title, description = "JaviPhoto: Tu fotógrafo en Valencia. Especialista en retratos profesionales, cobertura de eventos corporativos y fotografía deportiva.", activePage } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a0a0a">
+    
+    <!-- SEO Básico -->
+    <title>{title} | JaviPhoto</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Javier Fernández Ramos" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+
+    <!-- Open Graph / Redes Sociales -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content={Astro.url}>
+    <meta property="og:title" content={title}>
+    <meta property="og:description" content={description}>
+    <meta property="og:image" content={new URL('/favicon.png', Astro.site)}>
+    <meta property="og:locale" content="es_ES">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content={Astro.url}>
+    <meta name="twitter:title" content={title}>
+    <meta name="twitter:description" content={description}>
+    <meta name="twitter:image" content={new URL('/favicon.png', Astro.site)}>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://player.mediadelivery.net" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <Header activePage={activePage} />
+
+    <main>
+        <slot />
+    </main>
+
+    <Footer />
+
+    <div id="lightbox" class="lightbox">
+        <span class="close-btn">&times;</span>
+        <button id="lightbox-prev" class="lightbox-nav prev" aria-label="Foto anterior"><i class="fas fa-chevron-left"></i></button>
+        <img class="lightbox-content" id="lightbox-img">
+        <button id="lightbox-next" class="lightbox-nav next" aria-label="Foto siguiente"><i class="fas fa-chevron-right"></i></button>
+        <div class="swipe-hint">
+            <div class="hint-top"></div>
+            <span class="hint-text">Desliza para navegar</span>
+            <div class="hint-bottom"></div>
+        </div>
+    </div>
+
+    <!-- Botón Volver Arriba -->
+    <button id="back-to-top" class="back-to-top" aria-label="Volver arriba">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="../scripts/script.js"></script>
+</body>
+</html>

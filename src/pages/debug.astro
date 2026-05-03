@@ -1,0 +1,10 @@
+---
+import Layout from '../layouts/Layout.astro';
+const galleryImages = import.meta.glob('../assets/Fotos/**/*.{jpg,jpeg,png,webp}', { eager: true });
+const keys = Object.keys(galleryImages);
+---
+<Layout title="Debug">
+    <ul>
+        {keys.map(key => <li>{key}</li>)}
+    </ul>
+</Layout>

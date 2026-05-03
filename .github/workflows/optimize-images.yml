@@ -20,18 +20,14 @@ jobs:
       - name: Install ImageMagick
         run: sudo apt-get update && sudo apt-get install -y imagemagick
 
-      - name: Resize Large Images & Generate Thumbnails
+      - name: Resize & Convert to WebP
         run: |
-          # 1. Redimensionar originales para que no pasen de 1920px en NINGÚN eje (importante para fotos verticales)
-          find Fotos/ -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) ! -name "*_thumb.*" -exec mogrify -resize '1920x1920>' {} +
-          
-          # 2. Generar miniaturas de 600px para el grid (antes 400px)
-          # Buscamos archivos que NO sean ya miniaturas y creamos su versión _thumb
-          find Fotos/ -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) ! -name "*_thumb.*" | while read -r img; do
-            thumb="${img%.*}_thumb.${img##*.}"
-            if [ ! -f "$thumb" ] || [ "$img" -nt "$thumb" ]; then
-              convert "$img" -resize 600 "$thumb"
-            fi
+          # Convertir todas las imágenes a WebP (max 1798px) y borrar originales
+          find src/assets/Fotos/ -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) | while read -r img; do
+            echo "Processing $img..."
+            # Convertir a webp con calidad 80 y redimensionar
+            convert "$img" -resize '1798x1798>' "${img%.*}.webp"
+            rm "$img"
           done
 
       - name: Compress Everything
