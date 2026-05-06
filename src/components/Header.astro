@@ -5,7 +5,9 @@ const { activePage } = Astro.props;
     <div class="container">
         <a href="/" class="logo">JaviPhoto</a>
         <button class="menu-toggle" id="mobile-menu-btn" aria-label="Abrir menú de navegación">
-            <i class="fas fa-bars"></i>
+            <span></span>
+            <span></span>
+            <span></span>
         </button>
         <nav class="nav-links" id="nav-links">
             <a href="/" class={activePage === 'inicio' ? 'active' : ''}>Inicio</a>

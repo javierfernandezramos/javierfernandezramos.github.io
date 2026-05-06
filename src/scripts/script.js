@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // 1. LOADER INICIAL
+    // --- 0. LOADER INICIAL (PRIORIDAD MÁXIMA) ---
     const loader = document.getElementById('loader');
     if (loader) {
         setTimeout(() => {
@@ -11,21 +11,60 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 100);
     }
 
-    // 2. NAVBAR STICKY
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
+    // --- 1. INICIALIZACIÓN DE LENIS (CON PROTECCIÓN) ---
+    let lenis = null;
+    if (typeof Lenis !== 'undefined') {
+        lenis = new Lenis({
+            duration: 1.8,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1.1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+            infinite: false,
+        });
 
-    // 3. LAZY LOADING Y LIGHTBOX
+        function raf(time) {
+            if (lenis) lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+        window.lenis = lenis;
+    }
+
+    // --- 2. OPTIMIZACIÓN DE SCROLL UNIFICADA ---
+    const navbar = document.getElementById('navbar');
+    const backToTopBtn = document.getElementById('back-to-top');
+
+    const onScroll = () => {
+        const scrollY = lenis ? lenis.animatedScroll : window.scrollY;
+        if (navbar) {
+            if (scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        }
+        if (backToTopBtn) {
+            backToTopBtn.classList.toggle('show', scrollY > 400);
+        }
+    };
+
+    if (lenis) {
+        lenis.on('scroll', onScroll);
+    } else {
+        window.addEventListener('scroll', onScroll, { passive: true });
+    }
+
+    // --- 3. LIGHTBOX & INTERFACE CONSOLIDADA ---
     const galleryItems = document.querySelectorAll('.gallery-item');
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
-    const closeBtn = document.querySelector('.close-btn');
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const navLinksMenu = document.getElementById('nav-links');
+    
+    window.lightboxState = { images: [], currentIndex: 0, isOpen: false };
+    const btnPrev = document.getElementById('lightbox-prev');
+    const btnNext = document.getElementById('lightbox-next');
 
     const mainImageObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
@@ -39,10 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }, { rootMargin: '300px' });
-
-    window.lightboxState = { images: [], currentIndex: 0 };
-    const btnPrev = document.getElementById('lightbox-prev');
-    const btnNext = document.getElementById('lightbox-next');
 
     window.updateLightboxImage = function () {
         if (!lightboxImg || window.lightboxState.images.length === 0) return;
@@ -78,12 +113,32 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!lightbox || !lightboxImg) return;
         window.lightboxState.images = allUrls;
         window.lightboxState.currentIndex = allUrls.indexOf(clickedUrl);
+        window.lightboxState.isOpen = true;
+        
         const multiple = allUrls.length > 1;
         if (btnPrev) btnPrev.style.display = multiple ? 'flex' : 'none';
         if (btnNext) btnNext.style.display = multiple ? 'flex' : 'none';
+        
         lightbox.style.display = 'flex';
+        document.documentElement.style.overflow = 'hidden'; 
+        document.body.style.overflow = 'hidden';            
+        if (lenis) lenis.stop(); 
+
+        if (mobileMenuBtn) mobileMenuBtn.classList.add('active');
         window.updateLightboxImage();
     };
+
+    const hideLightbox = () => { 
+        if (lightbox) lightbox.style.display = 'none'; 
+        if (lightboxImg) lightboxImg.src = ''; 
+        window.lightboxState.isOpen = false;
+        document.documentElement.style.overflow = ''; 
+        document.body.style.overflow = '';            
+        if (lenis) lenis.start();
+        if (mobileMenuBtn) mobileMenuBtn.classList.remove('active');
+    };
+
+    if (lightbox) lightbox.addEventListener('click', (e) => { if (e.target === lightbox) hideLightbox(); });
 
     galleryItems.forEach(item => {
         mainImageObserver.observe(item);
@@ -96,11 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    const hideLightbox = () => { if (lightbox) lightbox.style.display = 'none'; if (lightboxImg) lightboxImg.src = ''; };
-    if (closeBtn) closeBtn.addEventListener('click', hideLightbox);
-    if (lightbox) lightbox.addEventListener('click', (e) => { if (e.target === lightbox) hideLightbox(); });
-
-    // 4. ANIMACIONES REVEAL
+    // --- 5. ANIMACIONES REVEAL ---
     const revealElements = document.querySelectorAll('.reveal');
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -112,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { rootMargin: '0px 0px 50px 0px' });
     revealElements.forEach(el => revealObserver.observe(el));
 
-    // 6. CONTACTO
+    // --- 6. CONTACTO ---
     const miCorreo = 'javierfernandezramos9@gmail.com';
     function handleContactRedirect(asunto = '', mensaje = '') {
         const sub = encodeURIComponent(asunto || 'Consulta Portfolio');
@@ -125,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     ['luxury-cta-link', 'gmail-social-card', 'footer-gmail-link'].forEach(id => {
-        const el = id.startsWith('.') ? document.querySelector(id) : document.getElementById(id) || document.querySelector('.'+id);
+        const el = document.getElementById(id) || document.querySelector('.' + id);
         if (el) el.addEventListener('click', (e) => { e.preventDefault(); handleContactRedirect(); });
     });
 
@@ -142,41 +193,49 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 7. MENÚ MÓVIL
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-    const navLinksMenu = document.getElementById('nav-links');
+    // --- 7. MENÚ MÓVIL & LÓGICA DUAL ---
     if (mobileMenuBtn && navLinksMenu) {
         mobileMenuBtn.addEventListener('click', () => {
+            if (window.lightboxState.isOpen) {
+                hideLightbox();
+                return;
+            }
             navLinksMenu.classList.toggle('active');
-            const icon = mobileMenuBtn.querySelector('i');
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-times');
-            document.body.style.overflow = navLinksMenu.classList.contains('active') ? 'hidden' : 'auto';
+            mobileMenuBtn.classList.toggle('active');
+            const isActive = navLinksMenu.classList.contains('active');
+            document.body.style.overflow = isActive ? 'hidden' : 'auto';
+            if (lenis) isActive ? lenis.stop() : lenis.start();
+        });
+
+        navLinksMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinksMenu.classList.remove('active');
+                mobileMenuBtn.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                if (lenis) lenis.start();
+            });
         });
     }
 
-    // 8. VOLVER ARRIBA
-    const backToTopBtn = document.getElementById('back-to-top');
+    // --- 8. VOLVER ARRIBA ---
     if (backToTopBtn) {
-        window.addEventListener('scroll', () => {
-            backToTopBtn.classList.toggle('show', window.scrollY > 400);
+        backToTopBtn.addEventListener('click', () => {
+            if (lenis) lenis.scrollTo(0);
+            else window.scrollTo({ top: 0, behavior: 'smooth' });
         });
-        backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     }
 
-    // 9. SLIDER DE TESTIMONIOS (Optimizado para evitar forced reflows)
+    // --- 9. SLIDER DE TESTIMONIOS ---
     const testimonialSlider = document.getElementById('testimonials-slider');
     const tSlides = document.querySelectorAll('.testimonial-item');
     let tCurrentSlide = 0;
     let tInterval;
 
     if (testimonialSlider && tSlides.length > 0) {
-        let slideWidth = tSlides[0].offsetWidth; // Cacheamos el valor inicial
-        
+        let slideWidth = tSlides[0].offsetWidth; 
         function updateSliderPosition() {
             testimonialSlider.style.transform = `translateX(${-tCurrentSlide * slideWidth}px)`;
         }
-
         function startAutoScroll() {
             if (tInterval) clearInterval(tInterval);
             tInterval = setInterval(() => {
@@ -184,19 +243,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateSliderPosition();
             }, 5000);
         }
-
         const prevBtn = document.getElementById('testimonial-prev');
         const nextBtn = document.getElementById('testimonial-next');
         if (prevBtn && nextBtn) {
             prevBtn.addEventListener('click', () => { tCurrentSlide = (tCurrentSlide - 1 + tSlides.length) % tSlides.length; updateSliderPosition(); startAutoScroll(); });
             nextBtn.addEventListener('click', () => { tCurrentSlide = (tCurrentSlide + 1) % tSlides.length; updateSliderPosition(); startAutoScroll(); });
         }
-
         startAutoScroll();
         window.addEventListener('resize', () => {
-            slideWidth = tSlides[0].offsetWidth; // Solo recalculamos al redimensionar
+            slideWidth = tSlides[0].offsetWidth; 
             updateSliderPosition();
         });
     }
-
 });
