@@ -1,0 +1,198 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+
+const articulos = await getCollection('articulos');
+// Ordenar por fecha descendente
+articulos.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const title = "Artículos y Consejos de Fotografía";
+const description = "Explora mis artículos sobre fotografía en Valencia: consejos, mejores localizaciones y guías para tus sesiones profesionales.";
+---
+
+<Layout title={title} description={description} activePage="articulos" noIndex={true}>
+    <header class="articles-page-header">
+        <div class="container">
+            <h1 class="section-title reveal">Artículos</h1>
+            <p class="section-intro text-center reveal">
+                Consejos, guías y localizaciones para amantes de la fotografía y profesionales en Valencia.
+            </p>
+        </div>
+    </header>
+
+    <section class="section-padding pt-0">
+        <div class="container text-center">
+            <div class="coming-soon-box reveal">
+                <i class="fas fa-camera-retro"></i>
+                <h2>Próximamente</h2>
+                <p>Estoy preparando contenido de valor para ayudarte con tus sesiones en Valencia. Vuelve pronto.</p>
+                <div class="divider-gold"></div>
+                <a href="/" class="btn">Volver al Inicio</a>
+            </div>
+        </div>
+    </section>
+</Layout>
+
+<style>
+    .articles-page-header {
+        padding-top: 140px; /* Suficiente espacio para el navbar fijo */
+        text-align: center;
+    }
+
+    .pt-0 {
+        padding-top: 0 !important;
+    }
+
+    .section-intro {
+        max-width: 700px;
+        margin: -2rem auto 4rem;
+        color: var(--color-text-light);
+        font-size: 1.1rem;
+    }
+
+    .articles-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 3rem;
+        margin-top: 2rem;
+    }
+
+    .article-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 0;
+        overflow: hidden;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        height: 100%;
+    }
+
+    .article-card:hover {
+        transform: translateY(-10px);
+        border-color: var(--color-gold);
+        background: rgba(255, 255, 255, 0.05);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .article-image-wrapper {
+        position: relative;
+        height: 250px;
+        overflow: hidden;
+    }
+
+    .article-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.7s ease;
+    }
+
+    .article-card:hover .article-image {
+        transform: scale(1.1);
+    }
+
+    .article-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .article-overlay span {
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        border: 1px solid #fff;
+        padding: 0.5rem 1.5rem;
+    }
+
+    .article-card:hover .article-overlay {
+        opacity: 1;
+    }
+
+    .article-content {
+        padding: 2rem;
+    }
+
+    .article-date {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--color-gold);
+        display: block;
+        margin-bottom: 0.8rem;
+    }
+
+    .article-title {
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+        color: #fff;
+        line-height: 1.3;
+        font-weight: 700;
+    }
+
+    .article-description {
+        color: var(--color-text-light);
+        font-size: 0.95rem;
+        line-height: 1.6;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    @media (max-width: 768px) {
+        .articles-grid {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        .article-image-wrapper {
+            height: 200px;
+        }
+    }
+
+    /* Estilos Próximamente */
+    .coming-soon-box {
+        padding: 5rem 2rem;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .coming-soon-box i {
+        font-size: 3rem;
+        color: var(--color-gold);
+        margin-bottom: 1.5rem;
+        display: block;
+    }
+
+    .coming-soon-box h2 {
+        font-size: 2.5rem;
+        color: #fff;
+        margin-bottom: 1rem;
+    }
+
+    .coming-soon-box p {
+        color: var(--color-text-light);
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+    }
+
+    .divider-gold {
+        width: 50px;
+        height: 2px;
+        background: var(--color-gold);
+        margin: 0 auto 2rem;
+    }
+</style>

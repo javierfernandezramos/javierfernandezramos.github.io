@@ -7,9 +7,17 @@ interface Props {
 	title: string;
     description?: string;
     activePage?: string;
+    preloadImage?: string;
+    noIndex?: boolean;
 }
 
-const { title, description = "JaviPhoto: Tu fotógrafo en Valencia. Especialista en retratos profesionales, cobertura de eventos corporativos y fotografía deportiva.", activePage } = Astro.props;
+const { 
+    title, 
+    description = "JaviPhoto: Tu fotógrafo en Valencia. Especialista en retratos profesionales, cobertura de eventos corporativos y fotografía deportiva.", 
+    activePage,
+    preloadImage,
+    noIndex = false
+} = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -19,11 +27,21 @@ const { title, description = "JaviPhoto: Tu fotógrafo en Valencia. Especialista
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0a0a0a">
     
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
+    
     <!-- SEO Básico -->
     <title>{title} | JaviPhoto</title>
     <meta name="description" content={description} />
     <meta name="author" content="Javier Fernández Ramos" />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+
+    <!-- Preloads Críticos -->
+    {preloadImage && <link rel="preload" href={preloadImage} as="image" fetchpriority="high" />}
+    
+    <!-- DNS Prefetch & Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 
     <!-- Open Graph / Redes Sociales -->
     <meta property="og:type" content="website">
@@ -40,14 +58,14 @@ const { title, description = "JaviPhoto: Tu fotógrafo en Valencia. Especialista
     <meta name="twitter:description" content={description}>
     <meta name="twitter:image" content={new URL('/favicon.png', Astro.site)}>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://www.youtube.com" crossorigin>
-    <link rel="preconnect" href="https://s.ytimg.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;800&display=swap" rel="stylesheet">
+    <!-- Fuentes y Estilos (Optimizado no-bloqueante) -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;800&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;800&display=swap" media="print" onload="this.media='all'">
+    
+    <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" media="print" onload="this.media='all'">
     
     <link rel="icon" type="image/png" href="/favicon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div id="loader">

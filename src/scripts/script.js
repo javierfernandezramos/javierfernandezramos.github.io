@@ -2,12 +2,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 1. LOADER INICIAL
     const loader = document.getElementById('loader');
-    setTimeout(() => {
-        loader.style.opacity = '0';
+    if (loader) {
+        // Reducimos el retardo artificial a casi cero para que se oculte en cuanto cargue el DOM
         setTimeout(() => {
-            loader.style.display = 'none';
-        }, 500);
-    }, 1000);
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 500);
+        }, 100); // 100ms solo para asegurar que la transición de opacidad se registre
+    }
 
     // 2. NAVBAR STICKY Y EFECTO AL SCROLL
     const navbar = document.getElementById('navbar');

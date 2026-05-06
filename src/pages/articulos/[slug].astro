@@ -1,0 +1,176 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const articulos = await getCollection('articulos');
+  return articulos.map(entry => ({
+    params: { slug: entry.slug }, props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+const title = entry.data.title;
+const description = entry.data.description;
+---
+
+<Layout title={title} description={description} activePage="articulos" noIndex={true}>
+    <article class="article-single">
+        <header class="article-header" style={`background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url(${entry.data.image ? entry.data.image.src : '/assets/Fotos/hero-image.webp'})`}>
+            <div class="container">
+                <div class="header-content reveal">
+                    <span class="article-meta">
+                        {entry.data.pubDate.toLocaleDateString('es-ES', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        })}
+                    </span>
+                    <h1>{entry.data.title}</h1>
+                    <p class="lead">{entry.data.description}</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="article-body reveal">
+                <Content />
+                
+                <div class="article-footer-cta">
+                    <hr />
+                    <h3>¿Te gusta lo que ves?</h3>
+                    <p>Si quieres una sesión profesional en Valencia similar a lo que has leído, hablemos.</p>
+                    <a href="/contacto" class="btn">Reservar Sesión <i class="fas fa-calendar-alt"></i></a>
+                </div>
+            </div>
+        </div>
+    </article>
+</Layout>
+
+<style>
+    .article-header {
+        height: 60vh;
+        min-height: 450px;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 4rem;
+        padding-top: 100px; /* Espacio para el navbar */
+    }
+
+    .header-content {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .article-meta {
+        color: var(--color-gold);
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        display: block;
+        margin-bottom: 1.5rem;
+    }
+
+    .article-header h1 {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        color: #fff;
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
+        font-weight: 800;
+    }
+
+    .lead {
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: 300;
+    }
+
+    .article-body {
+        max-width: 800px;
+        margin: 0 auto 8rem;
+        font-size: 1.15rem;
+        line-height: 1.8;
+        color: rgba(255, 255, 255, 0.85);
+    }
+
+    /* Estilos para el contenido Markdown */
+    .article-body :global(h2) {
+        color: #fff;
+        font-size: 2rem;
+        margin: 3rem 0 1.5rem;
+        font-weight: 700;
+    }
+
+    .article-body :global(h3) {
+        color: var(--color-gold);
+        font-size: 1.5rem;
+        margin: 2rem 0 1rem;
+    }
+
+    .article-body :global(p) {
+        margin-bottom: 1.5rem;
+    }
+
+    .article-body :global(strong) {
+        color: #fff;
+    }
+
+    .article-body :global(ul) {
+        margin-bottom: 2rem;
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .article-body :global(li) {
+        margin-bottom: 1rem;
+        padding-left: 1.5rem;
+        position: relative;
+    }
+
+    .article-body :global(li::before) {
+        content: '→';
+        position: absolute;
+        left: 0;
+        color: var(--color-gold);
+    }
+
+    .article-footer-cta {
+        margin-top: 5rem;
+        text-align: center;
+        padding: 3rem;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .article-footer-cta hr {
+        border: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+        margin-bottom: 3rem;
+        opacity: 0.3;
+    }
+
+    .article-footer-cta h3 {
+        margin-top: 0;
+    }
+
+    .article-footer-cta p {
+        margin-bottom: 2rem;
+    }
+
+    @media (max-width: 768px) {
+        .article-header {
+            height: 50vh;
+        }
+        
+        .article-body {
+            font-size: 1.05rem;
+        }
+    }
+</style>

@@ -24,15 +24,17 @@ const getImg = (path: string) => {
 <Layout
     title="JaviPhoto | Fotógrafo en Valencia - Retratos, Eventos y Deportes"
     description="Javier Fernández Ramos, fotógrafo profesional en Valencia. Especializado en retratos, eventos corporativos, deportes y marca personal. Capturando la esencia de cada momento."
-    activePage="inicio">
+    activePage="inicio"
+    preloadImage={heroImg.src}
+>
     <section id="hero" class="hero-section" style={`--hero-url: url('${heroImg.src}')`}>
         <div class="hero-content">
-            <h1 class="fade-in">Javier Photography <span class="sr-only">| Fotógrafo en Valencia</span></h1>
-            <p class="fade-in delay-1">
+            <h1 class="reveal">Javier Photography <span class="sr-only">| Fotógrafo en Valencia</span></h1>
+            <p class="reveal">
                 "Capturando la esencia de momentos fugaces." <br />
                 <a href="/contacto">Contáctame <i class="fa-solid fa-right-to-bracket"></i></a>
             </p>
-            <a href="#galeria" class="btn fade-in delay-2">Ver Más <i class="fas fa-arrow-down"></i></a>
+            <a href="#galeria" class="btn reveal">Ver Más <i class="fas fa-arrow-down"></i></a>
         </div>
     </section>
 
