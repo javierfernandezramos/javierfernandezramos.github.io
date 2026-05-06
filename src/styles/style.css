@@ -32,6 +32,18 @@ html, body {
     --radius-lg: 12px;
 }
 
+/* Optimización de Fuentes Iconos */
+@font-face {
+    font-family: 'Font Awesome 6 Free';
+    font-display: swap;
+    src: local('Font Awesome 6 Free');
+}
+@font-face {
+    font-family: 'Font Awesome 6 Brands';
+    font-display: swap;
+    src: local('Font Awesome 6 Brands');
+}
+
 /* --- SCROLLBAR PERSONALIZADO --- */
 /* Para Chrome, Edge y Safari */
 ::-webkit-scrollbar {
