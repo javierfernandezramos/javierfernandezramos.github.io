@@ -55,6 +55,9 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('scroll', onScroll, { passive: true });
     }
 
+    // Ejecutar una vez al cargar para setear el estado inicial
+    onScroll();
+
     // --- 3. LIGHTBOX & INTERFACE CONSOLIDADA ---
     const galleryItems = document.querySelectorAll('.gallery-item');
     const lightbox = document.getElementById('lightbox');
@@ -79,9 +82,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, { rootMargin: '300px' });
 
+    const preloadImage = (url) => {
+        if (!url) return;
+        const img = new Image();
+        img.src = url;
+    };
+
     window.updateLightboxImage = function () {
         if (!lightboxImg || window.lightboxState.images.length === 0) return;
-        lightboxImg.src = window.lightboxState.images[window.lightboxState.currentIndex];
+        
+        const currentUrl = window.lightboxState.images[window.lightboxState.currentIndex];
+        lightboxImg.src = currentUrl;
+
+        // Pre-carga predictiva: Siguiente y Anterior
+        const nextIdx = (window.lightboxState.currentIndex + 1) % window.lightboxState.images.length;
+        const prevIdx = (window.lightboxState.currentIndex - 1 + window.lightboxState.images.length) % window.lightboxState.images.length;
+        
+        preloadImage(window.lightboxState.images[nextIdx]);
+        preloadImage(window.lightboxState.images[prevIdx]);
     };
 
     window.showNextImage = () => {
@@ -120,8 +138,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (btnNext) btnNext.style.display = multiple ? 'flex' : 'none';
         
         lightbox.style.display = 'flex';
+
+        // Bloqueamos scroll y compensamos el salto de la barra en desktop
+        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
         document.documentElement.style.overflow = 'hidden'; 
         document.body.style.overflow = 'hidden';            
+        document.body.style.paddingRight = `${scrollbarWidth}px`;
+        if (navbar) navbar.style.paddingRight = `${scrollbarWidth}px`;
+
         if (lenis) lenis.stop(); 
 
         if (mobileMenuBtn) mobileMenuBtn.classList.add('active');
@@ -134,10 +158,15 @@ document.addEventListener('DOMContentLoaded', () => {
         window.lightboxState.isOpen = false;
         document.documentElement.style.overflow = ''; 
         document.body.style.overflow = '';            
-        if (lenis) lenis.start();
+        document.body.style.paddingRight = '';
+        if (navbar) navbar.style.paddingRight = '';
+
+        if (window.lenis) window.lenis.start();
         if (mobileMenuBtn) mobileMenuBtn.classList.remove('active');
     };
 
+    const redCloseBtn = document.getElementById('lightbox-close-red');
+    if (redCloseBtn) redCloseBtn.addEventListener('click', hideLightbox);
     if (lightbox) lightbox.addEventListener('click', (e) => { if (e.target === lightbox) hideLightbox(); });
 
     galleryItems.forEach(item => {

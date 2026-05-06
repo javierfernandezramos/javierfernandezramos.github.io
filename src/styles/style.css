@@ -1855,11 +1855,36 @@ footer .container {
     align-items: center;
     z-index: 2000;
     transition: all 0.3s ease;
+    padding-top: 90px; /* Margen para el logo y el menú en desktop */
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    .lightbox {
+        padding-top: 65px; /* Menos espacio en móvil para ganar tamaño de foto */
+    }
+    .lightbox-content {
+        max-height: 85vh; /* Un poco más alta en móvil */
+    }
+}
+
+.lightbox-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none; /* Dejamos que los clics pasen al fondo si es necesario */
+}
+
+.lightbox-wrapper > * {
+    pointer-events: auto; /* Activamos clics para el contenido */
 }
 
 .lightbox-content {
     max-width: 90%;
-    max-height: 85vh;
+    max-height: 80vh;
     display: block;
     margin: auto;
     border-radius: 4px;
@@ -1936,6 +1961,43 @@ footer .container {
 
 .close-btn:hover {
     transform: scale(1.1);
+}
+
+.lightbox-close-red {
+    position: absolute;
+    top: 50%;
+    right: 100px; /* A la izquierda de la flecha derecha (que está a 30px) */
+    transform: translateY(-50%);
+    background: rgba(220, 53, 69, 0.2); /* Rojo muy sutil con transparencia */
+    color: #ff4d4d;
+    border: 1px solid rgba(255, 77, 77, 0.3);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 2005;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}
+
+.lightbox-close-red:hover {
+    background: #dc3545;
+    color: white;
+    border-color: #dc3545;
+    box-shadow: 0 0 15px rgba(220, 53, 69, 0.5);
+    transform: translateY(-50%) scale(1.1);
+}
+
+@media (max-width: 768px) {
+    .lightbox-close-red {
+        display: none; /* En móvil usamos el botón del menú que ya funciona como X */
+    }
 }
 
 @media (max-width: 768px) {
