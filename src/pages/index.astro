@@ -25,8 +25,7 @@ const getImg = (path: string) => {
     title="JaviPhoto | Fotógrafo en Valencia - Retratos, Eventos y Deportes"
     description="Javier Fernández Ramos, fotógrafo profesional en Valencia. Especializado en retratos, eventos corporativos, deportes y marca personal. Capturando la esencia de cada momento."
     activePage="inicio"
-    preloadImage={heroImg.src}
->
+    preloadImage={heroImg.src}>
     <section id="hero" class="hero-section" style={`--hero-url: url('${heroImg.src}')`}>
         <div class="hero-content">
             <h1 class="reveal">Javier Photography <span class="sr-only">| Fotógrafo en Valencia</span></h1>
@@ -52,7 +51,11 @@ const getImg = (path: string) => {
                             style="object-fit: cover; border-radius: 50%;"
                         />
                     </div>
-                    <a target="_blank" href="https://www.instagram.com/javier.fzr/" class="instagram-profile-icon" aria-label="Visitar Instagram de Javier Fernández Ramos">
+                    <a
+                        target="_blank"
+                        href="https://www.instagram.com/javier.fzr/"
+                        class="instagram-profile-icon"
+                        aria-label="Visitar Instagram de Javier Fernández Ramos">
                         <i class="fab fa-instagram"></i>
                     </a>
                 </div>
@@ -102,12 +105,12 @@ const getImg = (path: string) => {
                     />
                     <div class="overlay"><span>Novios</span></div>
                 </div>
-                <div class="gallery-item reveal active" data-src={getImg("blackwhite.webp")?.src}>
+                <div class="gallery-item reveal active" data-src={getImg("Modelo/fitness-leggins.webp")?.src}>
                     <Image
-                        src={getImg("blackwhite.webp") || heroImg}
+                        src={getImg("Modelo/fitness-leggins.webp") || heroImg}
                         alt="Fotografía Blanco y Negro"
                         width={600}
-                        data-src={getImg("blackwhite.webp")?.src}
+                        data-src={getImg("Modelo/fitness-leggins.webp")?.src}
                     />
                     <div class="overlay"><span>B&W</span></div>
                 </div>
