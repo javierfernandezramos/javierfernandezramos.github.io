@@ -1,0 +1,175 @@
+---
+import { servicesPacks } from '../data/packs';
+
+interface Props {
+    serviceId: string;
+}
+
+const { serviceId } = Astro.props;
+const service = servicesPacks[serviceId];
+
+if (!service) {
+    return null;
+}
+---
+
+<div class="pricing-container">
+    <div class="pricing-grid">
+        {service.packs.map((pack) => (
+            <div class={`pricing-card ${pack.isPopular ? 'popular' : ''} reveal`}>
+                {pack.isPopular && <div class="popular-badge">MÁS POPULAR</div>}
+                <div class="card-header">
+                    <h3>{pack.name}</h3>
+                    <div class="price">{pack.priceLabel}</div>
+                    <p class="pack-desc">{pack.description}</p>
+                </div>
+                <ul class="features-list">
+                    {pack.features.map((feature) => (
+                        <li><i class="fas fa-check"></i> {feature}</li>
+                    ))}
+                </ul>
+                {pack.bonus && (
+                    <div class="pack-bonus">
+                        <i class="fas fa-gift"></i> {pack.bonus}
+                    </div>
+                )}
+                <div class="card-footer">
+                    <a href={`/personalizar-pack?service=${serviceId}&pack=${pack.id}`} class="btn pack-btn">
+                        Seleccionar Pack <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        ))}
+    </div>
+</div>
+
+<style>
+    .pricing-container {
+        margin-top: 2rem;
+    }
+
+    .pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .pricing-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 2.5rem 2rem;
+        position: relative;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        display: flex;
+        flex-direction: column;
+        backdrop-filter: blur(10px);
+    }
+
+    .pricing-card:hover {
+        transform: translateY(-10px);
+        border-color: var(--color-gold);
+        background: rgba(255, 255, 255, 0.05);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .pricing-card.popular {
+        border-color: var(--color-gold);
+        background: rgba(197, 160, 89, 0.05);
+        transform: scale(1.05);
+        z-index: 2;
+    }
+
+    @media (max-width: 768px) {
+        .pricing-card.popular {
+            transform: scale(1);
+        }
+    }
+
+    .popular-badge {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: var(--color-gold);
+        color: var(--color-secondary);
+        padding: 0.5rem 1rem;
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 1px;
+        white-space: nowrap;
+    }
+
+    .card-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .card-header h3 {
+        font-size: 1.5rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+        color: #fff;
+    }
+
+    .price {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--color-gold);
+        margin-bottom: 1rem;
+    }
+
+    .pack-desc {
+        font-size: 0.9rem;
+        color: var(--color-text-light);
+        min-height: 2.5rem;
+    }
+
+    .features-list {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 2rem 0;
+        flex-grow: 1;
+    }
+
+    .features-list li {
+        margin-bottom: 1rem;
+        font-size: 0.95rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .features-list i {
+        color: var(--color-gold);
+        margin-top: 4px;
+        font-size: 0.8rem;
+    }
+
+    .pack-bonus {
+        background: rgba(197, 160, 89, 0.15);
+        border: 1px dashed var(--color-gold);
+        padding: 0.8rem;
+        font-size: 0.85rem;
+        color: var(--color-gold);
+        text-align: center;
+        margin-bottom: 2rem;
+        font-weight: 600;
+    }
+
+    .card-footer {
+        text-align: center;
+    }
+
+    .pack-btn {
+        width: 100%;
+        font-size: 0.8rem;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+</style>

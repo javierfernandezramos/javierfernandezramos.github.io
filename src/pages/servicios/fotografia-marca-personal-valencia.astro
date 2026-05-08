@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import PricingPacks from '../../components/PricingPacks.astro';
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
@@ -13,14 +14,11 @@ const getImg = (path: string) => {
 const title = 'Fotografía de Marca Personal en Valencia | Branding Visual';
 const description = 'Potencia tu marca personal en Valencia con fotografía profesional. Imágenes que comunican tus valores y profesionalidad para web y redes sociales.';
 const heroImg = getImg('Marca/3.webp');
-const mainTitle = 'Tu Imagen es tu Marca';
-const mainText = 'En el mundo digital actual, la fotografía de marca personal en Valencia es una herramienta esencial para emprendedores. Me especializo en crear sesiones que transmiten confianza y profesionalismo.';
-const mainImg = getImg('cubas-31.webp');
 
 const features = [
-  { icon: 'fas fa-camera', title: 'Shooting de Marca Personal', text: 'Sesiones dinámicas en localizaciones estratégicas para mostrar tu faceta más profesional.' },
-  { icon: 'fas fa-hashtag', title: 'Contenido para RRSS', text: 'Imágenes diseñadas específicamente para Instagram, LinkedIn y otras plataformas.' },
-  { icon: 'fas fa-box-open', title: 'Foto de Producto', text: 'Captura de tus productos con una estética de branding que enamora a tus clientes.' }
+  { icon: 'fas fa-video', title: 'Brand Story Video', text: 'Crea una conexión profunda con tu audiencia a través de un vídeo narrativo de marca.' },
+  { icon: 'fas fa-box-open', title: 'Producto en Movimiento', text: 'Videos cinematográficos que destacan los detalles y beneficios de tus productos.' },
+  { icon: 'fas fa-play-circle', title: 'Contenido para YouTube/IG', text: 'Producción de vídeos educativos, tutoriales o charlas para tu estrategia de contenido.' }
 ];
 
 const faqs = [
@@ -38,25 +36,19 @@ const faqs = [
         </div>
     </section>
 
-    <section class="section-padding reveal">
+    <section id="tarifas" class="section-padding reveal">
         <div class="container">
-            <div class="acerca-grid">
-                <div class="acerca-text">
-                    <h2 class="main-title">{mainTitle}</h2>
-                    <div class="editorial-body">
-                        <p>{mainText}</p>
-                    </div>
-                </div>
-                <div class="acerca-img glass-frame">
-                    <Image src={mainImg} alt={title} width={600} class="loaded" />
-                </div>
-            </div>
+            <h2 class="section-title">Packs y Tarifas</h2>
+            <p class="text-center" style="margin-bottom: 3rem; color: var(--color-text-light);">
+                Selecciona el pack que mejor se adapte a tu marca.
+            </p>
+            <PricingPacks serviceId="branding" />
         </div>
     </section>
 
-    <section class="section-padding bg-accent reveal" style="background: var(--color-accent);">
+    <section class="section-padding reveal" style="background: var(--color-secondary);">
         <div class="container">
-            <h2 class="section-title">Servicios de Branding</h2>
+            <h2 class="section-title">Servicios Opcionales de Vídeo</h2>
             <div class="services-minimal-grid">
                 {features.map((feature) => (
                     <div class="service-item">

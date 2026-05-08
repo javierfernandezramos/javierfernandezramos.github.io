@@ -1,0 +1,588 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { servicesPacks } from '../data/packs';
+
+// We'll still try to get them on server-side for initial render if possible
+const url = new URL(Astro.request.url);
+const serviceId = url.searchParams.get('service');
+const packId = url.searchParams.get('pack');
+
+const initialService = serviceId ? servicesPacks[serviceId] : null;
+const initialPack = initialService ? initialService.packs.find(p => p.id === packId) : null;
+---
+
+<Layout 
+    title="Personalizar Pack | JaviPhoto"
+    description="Personaliza tu pack de fotografía con extras y calcula el presupuesto final."
+>
+    <section class="section-padding" style="padding-top: 10rem;">
+        <div class="container reveal">
+            <h1 class="section-title">Personaliza tu Pack</h1>
+            
+            <div id="calculator-loading" class="text-center" style="padding: 5rem 0;">
+                <div class="spinner" style="margin: 0 auto 1rem;"></div>
+                <p>Cargando detalles del pack...</p>
+            </div>
+
+            <div id="calculator-content" class="calculator-wrapper" style="display: none;">
+                <div class="calculator-grid">
+                    <!-- Columna Izquierda: Detalle -->
+                    <div class="calculator-sidebar-col">
+                        <div class="calculator-card pack-info">
+                            <div class="card-tag">Pack Seleccionado</div>
+                            <h2 id="ui-pack-name">Cargando...</h2>
+                            <div id="ui-service-title" class="pack-service">Cargando...</div>
+                            
+                            <ul id="ui-features-list" class="calculator-features">
+                                <!-- Features will be injected here -->
+                            </ul>
+                            
+                            <div id="ui-bonus-box" class="calculator-bonus" style="display: none;">
+                                <i class="fas fa-gift"></i> <span id="ui-bonus-text"></span>
+                            </div>
+                            
+                            <div class="base-price">Precio Base: <span id="ui-base-price">0€</span></div>
+                        </div>
+
+                        <!-- Botón Volver (Relocalizado) -->
+                        <div class="calculator-actions-sidebar">
+                            <a id="btn-volver" href="/servicios" class="btn btn-outline-luxury" style="width: 100%; margin-top: 1rem;">
+                                <i class="fas fa-arrow-left"></i> Elegir otro pack
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Columna Derecha: Calculadora -->
+                    <div class="calculator-card pricing-calculator">
+                        <h3>Añade Extras</h3>
+                        <p class="small-text">Personaliza tu sesión con retoques adicionales de alta calidad.</p>
+                        
+                        <div class="extras-list">
+                            <div class="extra-item">
+                                <div class="extra-info">
+                                    <span class="extra-name">Foto Extra (Retoque Avanzado)</span>
+                                    <span class="extra-price">+10€ / unidad</span>
+                                </div>
+                                <div class="counter">
+                                    <button type="button" id="minus-one" aria-label="Menos uno"><i class="fas fa-minus"></i></button>
+                                    <input type="number" id="extra-photos" value="0" min="0" readonly />
+                                    <button type="button" id="plus-one" aria-label="Más uno"><i class="fas fa-plus"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="extra-item">
+                                <div class="extra-info">
+                                    <span class="extra-name">Pack 10 Retoques Extra</span>
+                                    <span class="extra-price">+70€ (Ahorras 30€)</span>
+                                </div>
+                                <div class="counter">
+                                    <button type="button" id="minus-pack" aria-label="Menos un pack"><i class="fas fa-minus"></i></button>
+                                    <input type="number" id="extra-packs" value="0" min="0" readonly />
+                                    <button type="button" id="plus-pack" aria-label="Más un pack"><i class="fas fa-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="calculator-contact-fields">
+                            <h3>Tus Datos de Contacto</h3>
+                            <div class="input-group">
+                                <label for="user-name">Nombre Completo</label>
+                                <div style="position: relative;">
+                                    <i class="fas fa-user"></i>
+                                    <input type="text" id="user-name" placeholder="Tu nombre..." required />
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="user-email">Correo Electrónico</label>
+                                <div style="position: relative;">
+                                    <i class="fas fa-envelope"></i>
+                                    <input type="email" id="user-email" placeholder="tu@email.com..." required />
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="user-phone">Teléfono</label>
+                                <div style="position: relative;">
+                                    <i class="fas fa-phone"></i>
+                                    <input type="tel" id="user-phone" placeholder="600 000 000..." required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="total-section">
+                            <div class="total-row">
+                                <span>Base:</span>
+                                <span id="ui-summary-base">0€</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Extras:</span>
+                                <span id="extras-total">0€</span>
+                            </div>
+                            <div class="total-row grand-total">
+                                <span>Presupuesto Estimado:</span>
+                                <span id="grand-total">0€</span>
+                            </div>
+                        </div>
+
+                        <button id="btn-finalizar" class="btn submit-btn" style="width: 100%; margin-top: 2rem; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            Finalizar y Enviar Mensaje <i class="fas fa-paper-plane"></i>
+                        </button>
+                        <p id="error-msg" class="small-note text-center" style="margin-top: 1rem; color: #ff6b6b; display: none;">
+                            Por favor, rellena todos los campos de contacto.
+                        </p>
+                        <p class="small-note text-center" style="margin-top: 1rem; opacity: 0.6;">
+                            El mensaje se enviará directamente a JaviPhoto y recibirás una respuesta en tu correo.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="calculator-error" class="text-center" style="display: none; padding: 5rem 0;">
+                <i class="fas fa-exclamation-circle" style="font-size: 3rem; color: var(--color-gold); margin-bottom: 1rem;"></i>
+                <h2>No se pudo encontrar el pack</h2>
+                <p>Por favor, vuelve a la página de servicios y selecciona un pack válido.</p>
+                <a href="/servicios" class="btn" style="margin-top: 2rem;">Ver Servicios</a>
+            </div>
+            
+            </div>
+        </div>
+    </section>
+</Layout>
+
+<script define:vars={{ allPacks: servicesPacks }}>
+    const slugMap = {
+        deportes: '/servicios/fotografo-deportivo-valencia',
+        eventos: '/servicios/fotografo-eventos-valencia',
+        retratos: '/servicios/retratos-profesionales-valencia',
+        branding: '/servicios/fotografia-marca-personal-valencia'
+    };
+    // Get Elements
+    const loadingEl = document.getElementById('calculator-loading');
+    const contentEl = document.getElementById('calculator-content');
+    const errorEl = document.getElementById('calculator-error');
+
+    const uiPackName = document.getElementById('ui-pack-name');
+    const uiServiceTitle = document.getElementById('ui-service-title');
+    const uiFeaturesList = document.getElementById('ui-features-list');
+    const uiBonusBox = document.getElementById('ui-bonus-box');
+    const uiBonusText = document.getElementById('ui-bonus-text');
+    const uiBasePrice = document.getElementById('ui-base-price');
+    const uiSummaryBase = document.getElementById('ui-summary-base');
+
+    const photosInput = document.getElementById('extra-photos');
+    const packsInput = document.getElementById('extra-packs');
+    const extrasTotalEl = document.getElementById('extras-total');
+    const grandTotalEl = document.getElementById('grand-total');
+    const btnFinalizar = document.getElementById('btn-finalizar');
+
+    // Parse URL Params
+    const urlParams = new URLSearchParams(window.location.search);
+    const serviceId = urlParams.get('service');
+    const packId = urlParams.get('pack');
+
+    const service = allPacks[serviceId];
+    const pack = service ? service.packs.find(p => p.id === packId) : null;
+
+    let basePrice = 0;
+    let extraPhotos = 0;
+    let extraPacks = 0;
+
+    if (pack) {
+        // Populate UI
+        basePrice = pack.price;
+        uiPackName.textContent = pack.name;
+        uiServiceTitle.textContent = service.title;
+        uiBasePrice.textContent = `${pack.price}€`;
+        uiSummaryBase.textContent = `${pack.price}€`;
+        grandTotalEl.textContent = `${pack.price}€`;
+
+        // Features
+        uiFeaturesList.innerHTML = '';
+        pack.features.forEach(feature => {
+            const li = document.createElement('li');
+            li.innerHTML = `<i class="fas fa-check"></i> ${feature}`;
+            uiFeaturesList.appendChild(li);
+        });
+
+        // Bonus
+        if (pack.bonus) {
+            uiBonusBox.style.display = 'block';
+            uiBonusText.textContent = pack.bonus;
+        }
+
+        // Show Content
+        loadingEl.style.display = 'none';
+        contentEl.style.display = 'block';
+    } else {
+        loadingEl.style.display = 'none';
+        errorEl.style.display = 'block';
+    }
+
+    function updateTotals() {
+        const extrasTotal = (extraPhotos * 10) + (extraPacks * 70);
+        const grandTotal = basePrice + extrasTotal;
+
+        extrasTotalEl.textContent = `${extrasTotal}€`;
+        grandTotalEl.textContent = `${grandTotal}€`;
+    }
+
+    // Event Listeners for Photos
+    document.getElementById('plus-one')?.addEventListener('click', () => {
+        extraPhotos++;
+        photosInput.value = extraPhotos;
+        updateTotals();
+    });
+    document.getElementById('minus-one')?.addEventListener('click', () => {
+        if (extraPhotos > 0) {
+            extraPhotos--;
+            photosInput.value = extraPhotos;
+            updateTotals();
+        }
+    });
+
+    // Event Listeners for Packs
+    document.getElementById('plus-pack')?.addEventListener('click', () => {
+        extraPacks++;
+        packsInput.value = extraPacks;
+        updateTotals();
+    });
+    document.getElementById('minus-pack')?.addEventListener('click', () => {
+        if (extraPacks > 0) {
+            extraPacks--;
+            packsInput.value = extraPacks;
+            updateTotals();
+        }
+    });
+
+    // Set back button link
+    const btnVolver = document.getElementById('btn-volver');
+    if (serviceId && slugMap[serviceId]) {
+        btnVolver.href = slugMap[serviceId];
+    }
+
+    // Handle Finalize
+    btnFinalizar?.addEventListener('click', async () => {
+        const name = document.getElementById('user-name').value;
+        const email = document.getElementById('user-email').value;
+        const phone = document.getElementById('user-phone').value;
+        const errorMsg = document.getElementById('error-msg');
+
+        if (!name || !email || !phone) {
+            errorMsg.style.display = 'block';
+            return;
+        }
+
+        errorMsg.style.display = 'none';
+        btnFinalizar.disabled = true;
+        btnFinalizar.innerHTML = 'Enviando... <i class="fas fa-spinner fa-spin"></i>';
+
+        const total = basePrice + (extraPhotos * 10) + (extraPacks * 70);
+        
+        // Prepare data for Formspree
+        const formData = new FormData();
+        formData.append('_subject', `Nueva Reserva: ${pack.name} - ${service.title}`);
+        formData.append('pack_name', pack.name);
+        formData.append('servicio', service.title);
+        formData.append('precio_base', `${basePrice}€`);
+        formData.append('fotos_extra', extraPhotos.toString());
+        formData.append('packs_extra', extraPacks.toString());
+        formData.append('total_estimado', `${total}€`);
+        formData.append('cliente_nombre', name);
+        formData.append('cliente_email', email);
+        formData.append('cliente_telefono', phone);
+        formData.append('mensaje', `Reserva solicitada desde la calculadora web.`);
+
+        try {
+            const response = await fetch("https://formspree.io/f/xkoyqbdj", {
+                method: "POST",
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                btnFinalizar.innerHTML = '¡Enviado con éxito! <i class="fas fa-check"></i>';
+                btnFinalizar.style.backgroundColor = '#28a745';
+                btnFinalizar.style.borderColor = '#28a745';
+                setTimeout(() => {
+                    window.location.href = "/";
+                }, 2000);
+            } else {
+                throw new Error();
+            }
+        } catch (error) {
+            console.error("Error en Formspree:", error);
+            btnFinalizar.disabled = false;
+            btnFinalizar.innerHTML = 'Error al enviar. Reintentar <i class="fas fa-exclamation-triangle"></i>';
+            alert("Hubo un error al enviar el formulario directamente. Por favor, asegúrate de haber activado tu formulario en Formspree o usa un ID de formulario válido.");
+        }
+    });
+</script>
+
+<style>
+    .calculator-contact-fields {
+        margin-top: 1.5rem;
+        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+    }
+
+    .calculator-contact-fields h3 {
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 1.5rem;
+        color: var(--color-gold);
+        text-align: center;
+    }
+
+    .input-group {
+        margin-bottom: 1rem;
+        position: relative;
+    }
+
+    .input-group label {
+        display: block;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 0.5rem;
+        color: var(--color-text-light);
+    }
+
+    .input-group i {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--color-gold);
+        font-size: 0.8rem;
+        opacity: 0.6;
+        pointer-events: none;
+    }
+
+    .input-group input {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 0.8rem 1rem 0.8rem 2.8rem;
+        color: #fff;
+        border-radius: 6px;
+        font-size: 0.9rem;
+    }
+
+    .calculator-wrapper {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .calculator-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 2rem;
+        align-items: start;
+    }
+
+    @media (max-width: 850px) {
+        .calculator-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        .calculator-card {
+            padding: 1.5rem !important;
+        }
+        
+        .section-padding {
+            padding: 7rem 0 4rem !important;
+        }
+
+        .btn-outline-luxury {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--color-text-light);
+            padding: 0.8rem 1.5rem;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-luxury:hover {
+            border-color: var(--color-gold);
+            color: var(--color-gold);
+            background: rgba(197, 160, 89, 0.05);
+        }
+
+        .pack-info h2 {
+            font-size: 1.5rem !important;
+        }
+    }
+
+    .calculator-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 2.5rem;
+        backdrop-filter: blur(10px);
+        position: relative;
+    }
+
+    .card-tag {
+        display: inline-block;
+        background: var(--color-gold);
+        color: var(--color-secondary);
+        padding: 0.2rem 0.6rem;
+        font-size: 0.65rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+    }
+
+    .pack-info h2 {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+        letter-spacing: 1px;
+    }
+
+    .pack-service {
+        color: var(--color-gold);
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+    }
+
+    .calculator-features {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 1.5rem;
+    }
+
+    .calculator-features li {
+        margin-bottom: 0.8rem;
+        font-size: 0.85rem;
+        display: flex;
+        gap: 10px;
+        color: var(--color-text-light);
+    }
+
+    .calculator-features i {
+        color: var(--color-gold);
+        font-size: 0.8rem;
+    }
+
+    .calculator-bonus {
+        background: rgba(197, 160, 89, 0.08);
+        border: 1px dashed var(--color-gold);
+        padding: 0.8rem;
+        color: var(--color-gold);
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+    }
+
+    .base-price {
+        font-size: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 1rem;
+    }
+
+    .base-price span {
+        font-weight: 700;
+        color: #fff;
+    }
+
+    .pricing-calculator h3 {
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .extras-list {
+        margin: 1.5rem 0;
+    }
+
+    .extra-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.02);
+        padding: 1rem;
+        margin-bottom: 0.8rem;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .extra-name {
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+
+    .extra-price {
+        font-size: 0.75rem;
+        color: var(--color-gold);
+    }
+
+    .counter {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .counter button {
+        background: transparent;
+        border: 1px solid var(--color-gold);
+        color: var(--color-gold);
+        width: 26px;
+        height: 26px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+    }
+
+    .counter input {
+        background: transparent;
+        border: none;
+        color: #fff;
+        width: 24px;
+        text-align: center;
+        font-weight: 700;
+        font-size: 0.9rem;
+    }
+
+    .total-section {
+        margin-top: 2rem;
+        padding-top: 1.2rem;
+        border-top: 2px solid var(--color-gold);
+    }
+
+    .total-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+        color: var(--color-text-light);
+        font-size: 0.85rem;
+    }
+
+    .grand-total {
+        color: #fff;
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-top: 0.8rem;
+    }
+
+    .grand-total span:last-child {
+        color: var(--color-gold);
+        font-size: 1.3rem;
+    }
+
+    .small-text {
+        font-size: 0.8rem;
+        color: var(--color-text-light);
+    }
+</style>

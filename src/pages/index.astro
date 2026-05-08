@@ -203,6 +203,142 @@ const getImg = (path: string) => {
         </div>
     </section>
 
+    <section id="packs" class="section-padding" style="background: var(--color-secondary);">
+        <div class="container reveal">
+            <h2 class="section-title">Packs de Fotografía</h2>
+            <p class="text-center" style="margin-bottom: 4rem; color: var(--color-text-light); max-width: 700px; margin-left: auto; margin-right: auto;">
+                Selección de servicios premium para capturar tu mejor versión. Descubre nuestras tarifas por categoría.
+            </p>
+            
+            <div class="packs-categories-grid">
+                <!-- Deportes -->
+                <div class="pack-category-card reveal">
+                    <div class="category-icon"><i class="fas fa-running"></i></div>
+                    <h3>Deportes</h3>
+                    <p>45 fotos brutales para lucir en Instagram.</p>
+                    <a href="/servicios/fotografo-deportivo-valencia#tarifas" class="pack-preview-info-btn">
+                        <span class="pack-name-preview">Full Performance</span>
+                        <span class="pack-price-preview">Desde 160€</span>
+                    </a>
+                </div>
+                
+                <!-- Retratos -->
+                <div class="pack-category-card reveal">
+                    <div class="category-icon"><i class="fas fa-user-tie"></i></div>
+                    <h3>Retratos</h3>
+                    <p>30 fotos con retoque avanzado incluido.</p>
+                    <a href="/servicios/retratos-profesionales-valencia#tarifas" class="pack-preview-info-btn">
+                        <span class="pack-name-preview">Pro Portfolio</span>
+                        <span class="pack-price-preview">Desde 160€</span>
+                    </a>
+                </div>
+                
+                <!-- Eventos -->
+                <div class="pack-category-card reveal">
+                    <div class="category-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <h3>Eventos</h3>
+                    <p>3 horas de cobertura y video de regalo.</p>
+                    <a href="/servicios/fotografo-eventos-valencia#tarifas" class="pack-preview-info-btn">
+                        <span class="pack-name-preview">Full Coverage</span>
+                        <span class="pack-price-preview">Desde 180€</span>
+                    </a>
+                </div>
+                
+                <!-- Branding -->
+                <div class="pack-category-card reveal">
+                    <div class="category-icon"><i class="fas fa-briefcase"></i></div>
+                    <h3>Branding</h3>
+                    <p>Contenido visual para un mes completo.</p>
+                    <a href="/servicios/fotografia-marca-personal-valencia#tarifas" class="pack-preview-info-btn">
+                        <span class="pack-name-preview">Brand Story</span>
+                        <span class="pack-price-preview">Desde 200€</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .packs-categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .pack-category-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .pack-category-card:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: var(--color-gold);
+            transform: translateY(-5px);
+        }
+
+        .category-icon {
+            font-size: 2rem;
+            color: var(--color-gold);
+            margin-bottom: 1.5rem;
+        }
+
+        .pack-category-card h3 {
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .pack-preview-info-btn {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 1.2rem;
+            background: rgba(197, 160, 89, 0.1);
+            border: 1px solid var(--color-gold);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .pack-preview-info-btn:hover {
+            background: var(--color-gold);
+            transform: scale(1.02);
+        }
+
+        .pack-preview-info-btn:hover .pack-name-preview,
+        .pack-preview-info-btn:hover .pack-price-preview {
+            color: var(--color-secondary);
+        }
+
+        .pack-name-preview {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--color-gold);
+            font-weight: 700;
+        }
+
+        .pack-price-preview {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .pack-category-card p {
+            font-size: 0.85rem;
+            color: var(--color-text-light);
+            margin-bottom: 2rem;
+            min-height: 2.5rem;
+        }
+    </style>
+
     <section id="testimonios" class="section-padding">
         <div class="container reveal" style="overflow: visible;">
             <h2 class="section-title">Testimonios</h2>
@@ -272,55 +408,123 @@ const getImg = (path: string) => {
                 </div>
             </div>
         </div>
-    </section>
-
-    <section id="social" class="section-padding">
+    <!-- FAQ Section -->
+    <section id="faq" class="section-padding" style="background: var(--color-secondary);">
         <div class="container reveal">
-            <div class="social-content">
-                <h2 class="section-title">Contáctame</h2>
-                <div class="social-featured-grid">
-                    <a href="https://www.instagram.com/javier.fzr/" target="_blank" class="social-card">
-                        <i class="fab fa-instagram"></i>
-                        <span>Instagram</span>
-                        <small>@javier.fzr</small>
-                    </a>
-                    <a href="mailto:javierfernandezramos9@gmail.com" class="social-card" id="gmail-social-card">
-                        <i class="fas fa-envelope"></i>
-                        <span>Gmail</span>
-                        <small>Escríbeme</small>
-                    </a>
+            <h2 class="section-title">Preguntas Frecuentes</h2>
+            <div class="faq-grid" style="max-width: 800px; margin: 0 auto; margin-top: 4rem;">
+                <div class="faq-item">
+                    <div class="faq-question">¿Cuánto tiempo tardas en entregar las fotos? <i class="fas fa-plus"></i></div>
+                    <div class="faq-answer"><p>Normalmente entrego una selección previa en 48h y el pack completo editado en un plazo de 7 a 10 días laborables.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">¿Te desplazas fuera de Valencia? <i class="fas fa-plus"></i></div>
+                    <div class="faq-answer"><p>¡Claro! Aunque mi base está en Valencia, puedo desplazarme a cualquier lugar. Consúltame disponibilidad y gastos de desplazamiento.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">¿Cómo se realiza el pago? <i class="fas fa-plus"></i></div>
+                    <div class="faq-answer"><p>Para reservar la fecha se abona una señal del 25%. El resto se paga el mismo día de la sesión o al finalizar el evento.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">¿Entregas las fotos sin editar (RAW)? <i class="fas fa-plus"></i></div>
+                    <div class="faq-answer"><p>No, mi trabajo incluye el revelado y la edición artística. Selecciono y edito las mejores tomas para asegurar un resultado profesional.</p></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="contacto" class="section-padding">
-        <div class="container reveal">
-            <h2 class="section-title">Hablemos de tu Proyecto</h2>
-            <div
-                class="contact-intro"
-                style="text-align: center; margin-bottom: 3rem; max-width: 600px; margin-left: auto; margin-right: auto;">
-                <p style="margin-bottom: 1.5rem; color: var(--color-text-light);">
-                    ¿Buscas <strong>fotógrafos en Valencia</strong> para tu próximo evento o sesión? Puedes enviarme un mensaje
-                    rápido aquí o visitar mi página dedicada para reservas.
+    <!-- Final CTA Signature -->
+    <section class="section-padding signature-cta reveal">
+        <div class="container text-center">
+            <div class="signature-box" style="border: 1px solid rgba(197, 160, 89, 0.2); padding: 4rem 2rem; background: rgba(255,255,255,0.02); border-radius: 4px;">
+                <h2 class="signature-title">Crea tu historia</h2>
+                <p style="color: var(--color-text-light); margin-bottom: 2.5rem; font-size: 1.1rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                    Cada clic es una oportunidad para hacer algo eterno. Reserva tu sesión hoy y capturemos lo extraordinario.
                 </p>
-                <a href="/contacto" class="btn luxury-gallery-btn"
-                    >Página de Reserva y Tarifas <i class="fas fa-calendar-check"></i></a
-                >
+                <a href="/contacto" class="btn luxury-gallery-btn" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px;">
+                    Empezar Proyecto <i class="fas fa-star" style="font-size: 0.8rem;"></i>
+                </a>
             </div>
-            <form id="contact-form" class="contact-form">
-                <div class="form-group">
-                    <input type="text" id="asunto" name="asunto" placeholder="Asunto" required />
-                    <div class="error-message" id="asunto-error"></div>
-                </div>
-                <div class="form-group">
-                    <textarea id="mensaje" name="mensaje" placeholder="Tu Mensaje..." rows="6" required></textarea>
-                    <div class="error-message" id="mensaje-error"></div>
-                </div>
-                <button type="submit" class="btn submit-btn">Enviar Mensaje</button>
-                <p id="form-status" class="form-status"></p>
-                <p class="small-note">Se abrirá tu cliente de correo (Gmail) para enviar el mensaje.</p>
-            </form>
         </div>
     </section>
+
+    <style>
+        .faq-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            color: var(--color-gold);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .faq-answer p {
+            padding: 1.5rem 0;
+            color: var(--color-text-light);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+        }
+
+        .faq-item.active i {
+            transform: rotate(45deg);
+            color: #fff;
+        }
+
+        .signature-cta {
+            background: var(--color-secondary);
+        }
+
+        .signature-title {
+            font-size: 2.5rem; 
+            letter-spacing: 5px; 
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 768px) {
+            .signature-title {
+                font-size: 1.5rem;
+                letter-spacing: 3px;
+            }
+            
+            .signature-box {
+                padding: 3rem 1.5rem !important;
+            }
+        }
+    </style>
+
+    <script>
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        });
+    </script>
+
+
 </Layout>

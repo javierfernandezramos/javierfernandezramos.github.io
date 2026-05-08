@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import PricingPacks from '../../components/PricingPacks.astro';
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
@@ -12,15 +13,12 @@ const getImg = (path: string) => {
 
 const title = 'Retratos Profesionales en Valencia | Fotografía de Retrato';
 const description = 'Sesiones de retrato profesional en Valencia. Mejora tu imagen personal o profesional con retratos limpios, directos y de alta calidad técnica.';
-const heroImg = getImg('Modelo/5.webp');
-const mainTitle = 'Impacto Visual Profesional';
-const mainText = 'Un retrato profesional en Valencia es más que una simple fotografía; es tu carta de presentación al mundo. Me especializo en capturar la esencia de cada profesional, resaltando su liderazgo y cercanía.';
-const mainImg = getImg('Modelo/4.webp');
+const heroImg = getImg('Modelo/2.webp');
 
 const features = [
-  { icon: 'fab fa-linkedin', title: 'Fotos para LinkedIn', text: 'Retratos optimizados para destacar en la red profesional más importante del mundo.' },
-  { icon: 'fas fa-id-badge', title: 'Perfiles Corporativos', text: 'Sesiones para equipos directivos y empleados con una estética coherente.' },
-  { icon: 'fas fa-user-check', title: 'Branding Personal', text: 'Retratos que van más allá del busto, mostrando tu entorno de trabajo y personalidad.' }
+  { icon: 'fas fa-video', title: 'Video Retrato', text: 'Clips cinematográficos breves que capturan tu personalidad en movimiento.' },
+  { icon: 'fas fa-user-circle', title: 'Video Intro', text: 'Una breve presentación profesional para tu web o perfil de LinkedIn.' },
+  { icon: 'fas fa-camera-retro', title: 'Behind the Scenes', text: 'Video del proceso de la sesión para generar contenido en tus redes sociales.' }
 ];
 
 const faqs = [
@@ -38,25 +36,20 @@ const faqs = [
         </div>
     </section>
 
-    <section class="section-padding reveal">
+    <section id="tarifas" class="section-padding reveal">
         <div class="container">
-            <div class="acerca-grid">
-                <div class="acerca-text">
-                    <h2 class="main-title">{mainTitle}</h2>
-                    <div class="editorial-body">
-                        <p>{mainText}</p>
-                    </div>
-                </div>
-                <div class="acerca-img glass-frame">
-                    <Image src={mainImg} alt={title} width={600} class="loaded" />
-                </div>
-            </div>
+            <h2 class="section-title">Packs y Tarifas</h2>
+            <p class="text-center" style="margin-bottom: 3rem; color: var(--color-text-light);">
+                Selecciona el pack que mejor se adapte a tu estilo.
+            </p>
+            <PricingPacks serviceId="retratos" />
         </div>
     </section>
 
-    <section class="section-padding bg-accent reveal" style="background: var(--color-accent);">
+
+    <section class="section-padding reveal" style="background: var(--color-secondary);">
         <div class="container">
-            <h2 class="section-title">Servicios Incluidos</h2>
+            <h2 class="section-title">Servicios Opcionales de Vídeo</h2>
             <div class="services-minimal-grid">
                 {features.map((feature) => (
                     <div class="service-item">
