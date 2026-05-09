@@ -255,6 +255,12 @@ const getImg = (path: string) => {
                     </a>
                 </div>
             </div>
+
+            <div class="text-center reveal" style="margin-top: 1rem;">
+                <a href="/servicios" class="btn luxury-gallery-btn">
+                    Ver todos los servicios <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
         </div>
     </section>
 
@@ -336,6 +342,78 @@ const getImg = (path: string) => {
             color: var(--color-text-light);
             margin-bottom: 2rem;
             min-height: 2.5rem;
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 768px) {
+            #packs {
+                padding: 3rem 0 !important;
+            }
+
+            #packs .section-title {
+                font-size: 1.5rem !important;
+                margin-bottom: 1rem !important;
+                letter-spacing: 3px !important;
+            }
+
+            #packs .section-title::after {
+                margin: 0.8rem auto 0 !important;
+            }
+
+            #packs p.text-center {
+                margin-bottom: 2.5rem !important;
+                padding: 0 1.5rem;
+                font-size: 0.85rem;
+                line-height: 1.4;
+            }
+
+            .packs-categories-grid {
+                display: flex;
+                overflow-x: auto;
+                padding: 1rem 1.5rem 2rem 1.5rem;
+                gap: 1.2rem;
+                scroll-snap-type: x mandatory;
+                scrollbar-width: none; 
+                -ms-overflow-style: none;
+                margin-left: -1rem;
+                margin-right: -1rem;
+            }
+
+            .packs-categories-grid::-webkit-scrollbar {
+                display: none;
+            }
+
+            .pack-category-card {
+                min-width: 90%;
+                padding: 2rem 1.2rem;
+                scroll-snap-align: center;
+                scroll-snap-stop: always;
+                flex-shrink: 0;
+            }
+
+            .category-icon {
+                font-size: 1.6rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .pack-category-card h3 {
+                font-size: 1rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .pack-category-card p {
+                margin-bottom: 1.2rem;
+                min-height: auto;
+                font-size: 0.8rem;
+            }
+
+            .pack-preview-info-btn {
+                padding: 0.8rem;
+            }
+
+            .pack-price-preview {
+                font-size: 1.2rem;
+            }
         }
     </style>
 
