@@ -150,12 +150,12 @@ const getImg = (path: string) => {
                     />
                     <div class="overlay"><span>FITNESS</span></div>
                 </div>
-                <div class="gallery-item reveal active" data-src={getImg("Fruteria036.webp")?.src}>
+                <div class="gallery-item reveal active" data-src={getImg("Modelo/3.webp")?.src}>
                     <Image
-                        src={getImg("Fruteria036.webp") || heroImg}
+                        src={getImg("Modelo/3.webp") || heroImg}
                         alt="Fotografía de Negocios"
                         width={600}
-                        data-src={getImg("Fruteria036.webp")?.src}
+                        data-src={getImg("Modelo/3.webp")?.src}
                     />
                 </div>
                 <div class="gallery-item reveal active" data-src={getImg("cubas-31.webp")?.src}>
@@ -206,10 +206,12 @@ const getImg = (path: string) => {
     <section id="packs" class="section-padding" style="background: var(--color-secondary);">
         <div class="container reveal">
             <h2 class="section-title">Packs de Fotografía</h2>
-            <p class="text-center" style="margin-bottom: 4rem; color: var(--color-text-light); max-width: 700px; margin-left: auto; margin-right: auto;">
+            <p
+                class="text-center"
+                style="margin-bottom: 4rem; color: var(--color-text-light); max-width: 700px; margin-left: auto; margin-right: auto;">
                 Selección de servicios premium para capturar tu mejor versión. Descubre nuestras tarifas por categoría.
             </p>
-            
+
             <div class="packs-categories-grid">
                 <!-- Deportes -->
                 <div class="pack-category-card reveal">
@@ -221,7 +223,7 @@ const getImg = (path: string) => {
                         <span class="pack-price-preview">Desde 160€</span>
                     </a>
                 </div>
-                
+
                 <!-- Retratos -->
                 <div class="pack-category-card reveal">
                     <div class="category-icon"><i class="fas fa-user-tie"></i></div>
@@ -232,7 +234,7 @@ const getImg = (path: string) => {
                         <span class="pack-price-preview">Desde 160€</span>
                     </a>
                 </div>
-                
+
                 <!-- Eventos -->
                 <div class="pack-category-card reveal">
                     <div class="category-icon"><i class="fas fa-calendar-alt"></i></div>
@@ -243,7 +245,7 @@ const getImg = (path: string) => {
                         <span class="pack-price-preview">Desde 180€</span>
                     </a>
                 </div>
-                
+
                 <!-- Branding -->
                 <div class="pack-category-card reveal">
                     <div class="category-icon"><i class="fas fa-briefcase"></i></div>
@@ -373,7 +375,7 @@ const getImg = (path: string) => {
                 padding: 1rem 1.5rem 2rem 1.5rem;
                 gap: 1.2rem;
                 scroll-snap-type: x mandatory;
-                scrollbar-width: none; 
+                scrollbar-width: none;
                 -ms-overflow-style: none;
                 margin-left: -1rem;
                 margin-right: -1rem;
@@ -486,123 +488,153 @@ const getImg = (path: string) => {
                 </div>
             </div>
         </div>
-    <!-- FAQ Section -->
-    <section id="faq" class="section-padding" style="background: var(--color-secondary);">
-        <div class="container reveal">
-            <h2 class="section-title">Preguntas Frecuentes</h2>
-            <div class="faq-grid" style="max-width: 800px; margin: 0 auto; margin-top: 4rem;">
-                <div class="faq-item">
-                    <div class="faq-question">¿Cuánto tiempo tardas en entregar las fotos? <i class="fas fa-plus"></i></div>
-                    <div class="faq-answer"><p>Normalmente entrego una selección previa en 48h y el pack completo editado en un plazo de 7 a 10 días laborables.</p></div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">¿Te desplazas fuera de Valencia? <i class="fas fa-plus"></i></div>
-                    <div class="faq-answer"><p>¡Claro! Aunque mi base está en Valencia, puedo desplazarme a cualquier lugar. Consúltame disponibilidad y gastos de desplazamiento.</p></div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">¿Cómo se realiza el pago? <i class="fas fa-plus"></i></div>
-                    <div class="faq-answer"><p>Para reservar la fecha se abona una señal del 25%. El resto se paga el mismo día de la sesión o al finalizar el evento.</p></div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">¿Entregas las fotos sin editar (RAW)? <i class="fas fa-plus"></i></div>
-                    <div class="faq-answer"><p>No, mi trabajo incluye el revelado y la edición artística. Selecciono y edito las mejores tomas para asegurar un resultado profesional.</p></div>
+        <!-- FAQ Section -->
+        <section id="faq" class="section-padding" style="background: var(--color-secondary);">
+            <div class="container reveal">
+                <h2 class="section-title">Preguntas Frecuentes</h2>
+                <div class="faq-grid" style="max-width: 800px; margin: 0 auto; margin-top: 4rem;">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            ¿Cuánto tiempo tardas en entregar las fotos? <i class="fas fa-plus"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>
+                                Normalmente entrego una selección previa en 48h y el pack completo editado en un plazo
+                                de 7 a 10 días laborables.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">¿Te desplazas fuera de Valencia? <i class="fas fa-plus"></i></div>
+                        <div class="faq-answer">
+                            <p>
+                                ¡Claro! Aunque mi base está en Valencia, puedo desplazarme a cualquier lugar. Consúltame
+                                disponibilidad y gastos de desplazamiento.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">¿Cómo se realiza el pago? <i class="fas fa-plus"></i></div>
+                        <div class="faq-answer">
+                            <p>
+                                Para reservar la fecha se abona una señal del 25%. El resto se paga el mismo día de la
+                                sesión o al finalizar el evento.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            ¿Entregas las fotos sin editar (RAW)? <i class="fas fa-plus"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>
+                                No, mi trabajo incluye el revelado y la edición artística. Selecciono y edito las
+                                mejores tomas para asegurar un resultado profesional.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Final CTA Signature -->
-    <section class="section-padding signature-cta reveal">
-        <div class="container text-center">
-            <div class="signature-box" style="border: 1px solid rgba(197, 160, 89, 0.2); padding: 4rem 2rem; background: rgba(255,255,255,0.02); border-radius: 4px;">
-                <h2 class="signature-title">Crea tu historia</h2>
-                <p style="color: var(--color-text-light); margin-bottom: 2.5rem; font-size: 1.1rem; max-width: 600px; margin-left: auto; margin-right: auto;">
-                    Cada clic es una oportunidad para hacer algo eterno. Reserva tu sesión hoy y capturemos lo extraordinario.
-                </p>
-                <a href="/contacto" class="btn luxury-gallery-btn" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px;">
-                    Empezar Proyecto <i class="fas fa-star" style="font-size: 0.8rem;"></i>
-                </a>
+        <!-- Final CTA Signature -->
+        <section class="section-padding signature-cta reveal">
+            <div class="container text-center">
+                <div
+                    class="signature-box"
+                    style="border: 1px solid rgba(197, 160, 89, 0.2); padding: 4rem 2rem; background: rgba(255,255,255,0.02); border-radius: 4px;">
+                    <h2 class="signature-title">Crea tu historia</h2>
+                    <p
+                        style="color: var(--color-text-light); margin-bottom: 2.5rem; font-size: 1.1rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                        Cada clic es una oportunidad para hacer algo eterno. Reserva tu sesión hoy y capturemos lo
+                        extraordinario.
+                    </p>
+                    <a
+                        href="/contacto"
+                        class="btn luxury-gallery-btn"
+                        style="display: inline-flex; align-items: center; justify-content: center; gap: 10px;">
+                        Empezar Proyecto <i class="fas fa-star" style="font-size: 0.8rem;"></i>
+                    </a>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <style>
-        .faq-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
+        <style>
+            .faq-grid {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
 
-        .faq-item {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 1rem 0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+            .faq-item {
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                padding: 1rem 0;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
 
-        .faq-question {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.9rem;
-            color: var(--color-gold);
-        }
+            .faq-question {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                font-size: 0.9rem;
+                color: var(--color-gold);
+            }
 
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+            .faq-answer {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            }
 
-        .faq-answer p {
-            padding: 1.5rem 0;
-            color: var(--color-text-light);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
+            .faq-answer p {
+                padding: 1.5rem 0;
+                color: var(--color-text-light);
+                font-size: 0.95rem;
+                line-height: 1.6;
+            }
 
-        .faq-item.active .faq-answer {
-            max-height: 200px;
-        }
+            .faq-item.active .faq-answer {
+                max-height: 200px;
+            }
 
-        .faq-item.active i {
-            transform: rotate(45deg);
-            color: #fff;
-        }
+            .faq-item.active i {
+                transform: rotate(45deg);
+                color: #fff;
+            }
 
-        .signature-cta {
-            background: var(--color-secondary);
-        }
+            .signature-cta {
+                background: var(--color-secondary);
+            }
 
-        .signature-title {
-            font-size: 2.5rem; 
-            letter-spacing: 5px; 
-            margin-bottom: 1.5rem;
-            text-transform: uppercase;
-        }
-
-        @media (max-width: 768px) {
             .signature-title {
-                font-size: 1.5rem;
-                letter-spacing: 3px;
+                font-size: 2.5rem;
+                letter-spacing: 5px;
+                margin-bottom: 1.5rem;
+                text-transform: uppercase;
             }
-            
-            .signature-box {
-                padding: 3rem 1.5rem !important;
-            }
-        }
-    </style>
 
-    <script>
-        document.querySelectorAll('.faq-item').forEach(item => {
-            item.addEventListener('click', () => {
-                item.classList.toggle('active');
+            @media (max-width: 768px) {
+                .signature-title {
+                    font-size: 1.5rem;
+                    letter-spacing: 3px;
+                }
+
+                .signature-box {
+                    padding: 3rem 1.5rem !important;
+                }
+            }
+        </style>
+
+        <script>
+            document.querySelectorAll(".faq-item").forEach((item) => {
+                item.addEventListener("click", () => {
+                    item.classList.toggle("active");
+                });
             });
-        });
-    </script>
-
-
+        </script>
+    </section>
 </Layout>
