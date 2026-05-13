@@ -1,38 +1,66 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import PricingPacks from '../../components/PricingPacks.astro';
-import { Image } from 'astro:assets';
-import type { ImageMetadata } from 'astro';
+import Layout from "../../layouts/Layout.astro";
+import PricingPacks from "../../components/PricingPacks.astro";
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
 
 // Import images
-const galleryImages = import.meta.glob<{ default: ImageMetadata }>('../../assets/Fotos/**/*.{jpg,jpeg,png,webp}', { eager: true });
+const galleryImages = import.meta.glob<{ default: ImageMetadata }>("../../assets/Fotos/**/*.{jpg,jpeg,png,webp}", {
+    eager: true,
+});
 const getImg = (path: string) => {
-  const fullPath = `../../assets/Fotos/${path}`;
-  return galleryImages[fullPath]?.default;
+    const fullPath = `../../assets/Fotos/${path}`;
+    return galleryImages[fullPath]?.default;
 };
 
-const title = 'Retratos Profesionales en Valencia | Fotografía de Retrato';
-const description = 'Sesiones de retrato profesional en Valencia. Mejora tu imagen personal o profesional con retratos limpios, directos y de alta calidad técnica.';
-const heroImg = getImg('Modelo/2.webp');
+const title = "Retratos Profesionales en Valencia";
+const description =
+    "Sesiones de retrato profesional en Valencia. Mejora tu imagen personal o profesional con retratos limpios, directos y de alta calidad técnica.";
+const heroImg = getImg("Modelo/2.webp");
 
 const features = [
-  { icon: 'fas fa-video', title: 'Video Retrato', text: 'Clips cinematográficos breves que capturan tu personalidad en movimiento.' },
-  { icon: 'fas fa-user-circle', title: 'Video Intro', text: 'Una breve presentación profesional para tu web o perfil de LinkedIn.' },
-  { icon: 'fas fa-camera-retro', title: 'Behind the Scenes', text: 'Video del proceso de la sesión para generar contenido en tus redes sociales.' }
+    {
+        icon: "fas fa-video",
+        title: "Video Retrato",
+        text: "Clips cinematográficos breves que capturan tu personalidad en movimiento.",
+    },
+    {
+        icon: "fas fa-user-circle",
+        title: "Video Intro",
+        text: "Una breve presentación profesional para tu web o perfil de LinkedIn.",
+    },
+    {
+        icon: "fas fa-camera-retro",
+        title: "Behind the Scenes",
+        text: "Video del proceso de la sesión para generar contenido en tus redes sociales.",
+    },
 ];
 
 const faqs = [
-  { q: '¿Cómo posar para fotos de negocios?', a: 'No te preocupes por eso. Durante la sesión, te guiaré paso a paso para que proyectes seguridad y naturalidad.' },
-  { q: '¿Dónde se realizan las sesiones de retratos en Valencia?', a: 'Podemos realizarlas en estudio, en tu oficina o en localizaciones exteriores seleccionadas en el centro de Valencia.' },
-  { q: '¿Cómo puedo reservar mi sesión de fotos de branding en Valencia?', a: 'Es muy sencillo. Solo tienes que contactarme a través del formulario indicando qué tipo de perfil necesitas.' }
+    {
+        q: "¿Cómo posar para fotos de negocios?",
+        a: "No te preocupes por eso. Durante la sesión, te guiaré paso a paso para que proyectes seguridad y naturalidad.",
+    },
+    {
+        q: "¿Dónde se realizan las sesiones de retratos en Valencia?",
+        a: "Podemos realizarlas en estudio, en tu oficina o en localizaciones exteriores seleccionadas en el centro de Valencia.",
+    },
+    {
+        q: "¿Cómo puedo reservar mi sesión de fotos de branding en Valencia?",
+        a: "Es muy sencillo. Solo tienes que contactarme a través del formulario indicando qué tipo de perfil necesitas.",
+    },
 ];
 ---
 
 <Layout title={title} description={description} activePage="servicios">
-    <section class="services-hero" style={`background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('${heroImg?.src}'); background-size: cover; background-position: center; min-height: 60vh; display: flex; align-items: center; justify-content: center; text-align: center;`}>
+    <section
+        class="services-hero"
+        style={`background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('${heroImg?.src}'); background-size: cover; background-position: center; min-height: 60vh; display: flex; align-items: center; justify-content: center; text-align: center;`}>
         <div class="container">
             <h1 class="section-title reveal" style="color: white; margin-bottom: 1rem;">{title}</h1>
-            <p class="section-subtitle reveal" style="color: rgba(255,255,255,0.9); font-size: 1.2rem;">{description}</p>
+            <p class="section-subtitle reveal" style="color: rgba(255,255,255,0.9); font-size: 1.2rem;">
+                {description}
+            </p>
         </div>
     </section>
 
@@ -46,18 +74,21 @@ const faqs = [
         </div>
     </section>
 
-
     <section class="section-padding reveal" style="background: var(--color-secondary);">
         <div class="container">
             <h2 class="section-title">Servicios Opcionales de Vídeo</h2>
             <div class="services-minimal-grid">
-                {features.map((feature) => (
-                    <div class="service-item">
-                        <div class="service-icon-box"><i class={feature.icon}></i></div>
-                        <h3>{feature.title}</h3>
-                        <p>{feature.text}</p>
-                    </div>
-                ))}
+                {
+                    features.map((feature) => (
+                        <div class="service-item">
+                            <div class="service-icon-box">
+                                <i class={feature.icon} />
+                            </div>
+                            <h3>{feature.title}</h3>
+                            <p>{feature.text}</p>
+                        </div>
+                    ))
+                }
             </div>
         </div>
     </section>
@@ -66,12 +97,14 @@ const faqs = [
         <div class="container">
             <h2 class="section-title">Preguntas Frecuentes</h2>
             <div style="max-width: 800px; margin: 0 auto;">
-                {faqs.map((faq) => (
-                    <div style="margin-bottom: 2rem;">
-                        <h3 style="color: var(--color-gold);">{faq.q}</h3>
-                        <p>{faq.a}</p>
-                    </div>
-                ))}
+                {
+                    faqs.map((faq) => (
+                        <div style="margin-bottom: 2rem;">
+                            <h3 style="color: var(--color-gold);">{faq.q}</h3>
+                            <p>{faq.a}</p>
+                        </div>
+                    ))
+                }
             </div>
         </div>
     </section>

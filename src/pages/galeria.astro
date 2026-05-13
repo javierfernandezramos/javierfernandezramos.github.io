@@ -1,32 +1,33 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { Image } from 'astro:assets';
-import type { ImageMetadata } from 'astro';
+import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
 
 // Load all images from subfolders during build
-const allImages = import.meta.glob<{ default: ImageMetadata }>('../assets/Fotos/**/*.{jpg,jpeg,png,webp}', { eager: true });
+const allImages = import.meta.glob<{ default: ImageMetadata }>("../assets/Fotos/**/*.{jpg,jpeg,png,webp}", {
+    eager: true,
+});
 
 // Helper to filter images by folder and exclude thumbnails
 const getImagesFromFolder = (folder: string) => {
     return Object.entries(allImages)
-        .filter(([path]) => path.includes(`/Fotos/${folder}/`) && !path.includes('_thumb'))
+        .filter(([path]) => path.includes(`/Fotos/${folder}/`) && !path.includes("_thumb"))
         .map(([_, module]) => module.default);
 };
 
 const categories = [
-    { id: 'modelo', name: 'Modelo', images: getImagesFromFolder('Modelo') },
-    { id: 'eventos', name: 'Eventos', images: getImagesFromFolder('Eventos') },
-    { id: 'novios', name: 'Novios', images: getImagesFromFolder('Novios') },
-    { id: 'deportes', name: 'Deportes', images: getImagesFromFolder('Deportes') },
-    { id: 'marca', name: 'Marca', images: getImagesFromFolder('Marca') },
+    { id: "modelo", name: "Modelo", images: getImagesFromFolder("Modelo") },
+    { id: "eventos", name: "Eventos", images: getImagesFromFolder("Eventos") },
+    { id: "novios", name: "Novios", images: getImagesFromFolder("Novios") },
+    { id: "deportes", name: "Deportes", images: getImagesFromFolder("Deportes") },
+    { id: "marca", name: "Marca", images: getImagesFromFolder("Marca") },
 ];
 ---
 
-<Layout 
-    title="Galería de Fotografía en Valencia | Portafolio Fotográfico" 
+<Layout
+    title="Galería de Fotografía Javier Fernández Ramos"
     description="Explora las colecciones de fotografía de JaviPhoto en Valencia: Retratos, Eventos, Novios, Deportes y Marca Personal. Calidad visual y atención al detalle."
-    activePage="galeria"
->
+    activePage="galeria">
     <header class="gallery-page-header">
         <div class="container">
             <h1 class="section-title">Colecciones</h1>
@@ -36,71 +37,87 @@ const categories = [
     <div class="categories-menu-wrapper reveal">
         <div class="container">
             <div class="categories-menu" id="categories-menu">
-                {categories.map((cat, index) => (
-                    <a href={`#${cat.id}`} class={index === 0 ? 'active' : ''} data-category={cat.id}>
-                        {cat.name}
-                    </a>
-                ))}
+                {
+                    categories.map((cat, index) => (
+                        <a href={`#${cat.id}`} class={index === 0 ? "active" : ""} data-category={cat.id}>
+                            {cat.name}
+                        </a>
+                    ))
+                }
             </div>
         </div>
     </div>
 
     <section id="photo-grid-container" class="container section-padding reveal">
-        {categories.map((cat) => (
-            <div class="category-content gallery-grid" id={`cat-${cat.id}`} style={cat.id === categories[0].id ? 'display: block;' : 'display: none;'}>
-                {cat.images.map((img) => (
-                    <div class="gallery-item reveal active" data-src={img.src}>
-                        <Image src={img} alt={`Fotografía de ${cat.name}`} width={800} class="loaded" data-src={img.src} />
-                        <div class="overlay"><span><i class="fa-solid fa-magnifying-glass"></i></span></div>
-                    </div>
-                ))}
-            </div>
-        ))}
+        {
+            categories.map((cat) => (
+                <div
+                    class="category-content gallery-grid"
+                    id={`cat-${cat.id}`}
+                    style={cat.id === categories[0].id ? "display: block;" : "display: none;"}>
+                    {cat.images.map((img) => (
+                        <div class="gallery-item reveal active" data-src={img.src}>
+                            <Image
+                                src={img}
+                                alt={`Fotografía de ${cat.name}`}
+                                width={800}
+                                class="loaded"
+                                data-src={img.src}
+                            />
+                            <div class="overlay">
+                                <span>
+                                    <i class="fa-solid fa-magnifying-glass" />
+                                </span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            ))
+        }
     </section>
 
     <script is:inline>
-        document.addEventListener('DOMContentLoaded', () => {
-            const menuLinks = document.querySelectorAll('#categories-menu a');
-            const contents = document.querySelectorAll('.category-content');
+        document.addEventListener("DOMContentLoaded", () => {
+            const menuLinks = document.querySelectorAll("#categories-menu a");
+            const contents = document.querySelectorAll(".category-content");
 
-            menuLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
+            menuLinks.forEach((link) => {
+                link.addEventListener("click", (e) => {
                     e.preventDefault();
-                    const targetId = link.getAttribute('data-category');
+                    const targetId = link.getAttribute("data-category");
 
                     // Update active class
-                    menuLinks.forEach(l => l.classList.remove('active'));
-                    link.classList.add('active');
+                    menuLinks.forEach((l) => l.classList.remove("active"));
+                    link.classList.add("active");
 
                     // Show/Hide content
-                    contents.forEach(content => {
+                    contents.forEach((content) => {
                         if (content.id === `cat-${targetId}`) {
-                            content.style.display = 'block';
+                            content.style.display = "block";
                         } else {
-                            content.style.display = 'none';
+                            content.style.display = "none";
                         }
                     });
                 });
             });
-
         });
 
         function triggerHint() {
-            const menu = document.getElementById('categories-menu');
+            const menu = document.getElementById("categories-menu");
             if (menu && window.innerWidth < 900) {
                 // Pequeño retardo inicial
                 setTimeout(() => {
                     // Scroll hacia la derecha
                     menu.scrollTo({
                         left: 100,
-                        behavior: 'smooth'
+                        behavior: "smooth",
                     });
-                    
+
                     // Volver al inicio tras el "vistazo"
                     setTimeout(() => {
                         menu.scrollTo({
                             left: 0,
-                            behavior: 'smooth'
+                            behavior: "smooth",
                         });
                     }, 800);
                 }, 1000);
