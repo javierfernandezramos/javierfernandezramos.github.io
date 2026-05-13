@@ -75,7 +75,76 @@ const {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" media="print" onload="this.media='all'">
     
     <link rel="icon" type="image/png" href="/favicon.png">
+
+    <!-- Schema.org - Identidad y GEO (Optimización para LLMs) -->
+    <script is:inline type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://javierfernandezramos.github.io/#person",
+          "name": "Javier Fernández Ramos",
+          "url": "https://javierfernandezramos.github.io/",
+          "image": "https://javierfernandezramos.github.io/favicon.png",
+          "sameAs": [
+            "https://www.instagram.com/javier.fzr/",
+            "https://www.tiktok.com/@javier.fzr"
+          ],
+          "jobTitle": "Fotógrafo Profesional",
+          "description": "Fotógrafo profesional en Valencia especializado en retratos, eventos deportivos y marca personal."
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://javierfernandezramos.github.io/#organization",
+          "name": "JaviPhoto",
+          "url": "https://javierfernandezramos.github.io/",
+          "logo": "https://javierfernandezramos.github.io/favicon.png",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "email": "javierfernandezramos9@gmail.com",
+            "contactType": "customer service"
+          }
+        },
+        {
+          "@type": "ProfessionalService",
+          "name": "JaviPhoto - Javier Fernández Ramos",
+          "image": "https://javierfernandezramos.github.io/favicon.png",
+          "@id": "https://javierfernandezramos.github.io/",
+          "url": "https://javierfernandezramos.github.io/",
+          "telephone": "",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Valencia",
+            "addressRegion": "Valencia",
+            "addressCountry": "ES"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 39.4699,
+            "longitude": -0.3763
+          },
+          "priceRange": "$$",
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "00:00",
+            "closes": "23:59"
+          }
+        }
+      ]
+    }
+    </script>
 </head>
+
 <body>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NG65XNV9"

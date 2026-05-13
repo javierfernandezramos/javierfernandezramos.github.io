@@ -1,0 +1,22 @@
+# JaviPhoto - Javier Fernández Ramos
+
+Professional photographer based in Valencia, Spain. Specializing in high-performance sports photography, professional portraits, corporate events, and personal branding.
+
+## Professional Services
+- **Sports Photography**: High-speed action shots, competition coverage (Motorsports, Tennis, Athletics).
+- **Professional Portraits**: Clean, high-quality portraits for personal and professional use.
+- **Event Coverage**: Corporate and social events documentation with a technical and elegant vision.
+- **Brand Identity**: Visual content for entrepreneurs and companies to communicate value.
+
+## Portfolio & Navigation
+- [Gallery](https://javierfernandezramos.github.io/galeria): Featured collections (Model, Events, Sports, Brand).
+- [Videos](https://javierfernandezramos.github.io/videos): Dynamic highlights and cinematic storytelling.
+- [Contact](https://javierfernandezramos.github.io/contacto): Booking and personalized quotes.
+
+## Geographic Focus
+Primary service area is **Valencia, Spain**, with availability for national and international travel.
+
+## Online Presence
+- Instagram: https://www.instagram.com/javier.fzr/
+- TikTok: https://www.tiktok.com/@javier.fzr
+- Website: https://javierfernandezramos.github.io/

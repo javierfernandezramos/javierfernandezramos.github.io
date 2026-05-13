@@ -3,5 +3,17 @@ Allow: /
 Disallow: /debug
 Disallow: /404
 
-# Sitemap Location (Directo a la lista de páginas)
+# AI Crawler optimization
+User-agent: GPTBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: CCBot
+Allow: /
+
+# Sitemap & LLM discovery
 Sitemap: https://javiphoto.es/sitemap-0.xml
+Link: https://javierfernandezramos.github.io/llms.txt; rel="llms-txt"
+
