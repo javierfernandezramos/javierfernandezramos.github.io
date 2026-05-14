@@ -14,6 +14,6 @@ User-agent: CCBot
 Allow: /
 
 # Sitemap & LLM discovery
-Sitemap: https://javiphoto.es/sitemap-0.xml
-Link: https://javierfernandezramos.github.io/llms.txt; rel="llms-txt"
+Sitemap: https://javiphoto.es/sitemap-index.xml
+Link: https://javiphoto.es/llms.txt; rel="llms-txt"
 
