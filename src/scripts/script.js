@@ -232,7 +232,8 @@ document.addEventListener('DOMContentLoaded', () => {
             navLinksMenu.classList.toggle('active');
             mobileMenuBtn.classList.toggle('active');
             const isActive = navLinksMenu.classList.contains('active');
-            document.body.style.overflow = isActive ? 'hidden' : 'auto';
+            document.body.style.overflow = isActive ? 'hidden' : '';
+            document.documentElement.style.overflow = isActive ? 'hidden' : '';
             if (lenis) isActive ? lenis.stop() : lenis.start();
         });
 
@@ -240,10 +241,18 @@ document.addEventListener('DOMContentLoaded', () => {
             link.addEventListener('click', () => {
                 navLinksMenu.classList.remove('active');
                 mobileMenuBtn.classList.remove('active');
-                document.body.style.overflow = 'auto';
+                document.body.style.overflow = '';
+                document.documentElement.style.overflow = '';
                 if (lenis) lenis.start();
             });
         });
+
+        // Bloqueo total de scroll táctil cuando el menú está abierto
+        navLinksMenu.addEventListener('touchmove', (e) => {
+            if (navLinksMenu.classList.contains('active')) {
+                e.preventDefault();
+            }
+        }, { passive: false });
     }
 
     // --- 8. VOLVER ARRIBA ---

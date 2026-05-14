@@ -10,27 +10,15 @@ const { activePage } = Astro.props;
             <span></span>
         </button>
         <nav class="nav-links" id="nav-links">
-            <div class="nav-menu-header desktop-hidden">
-                <a href="/" class="logo">JaviPhoto</a>
-            </div>
+
             
             <div class="nav-links-inner">
-                <a href="/" class={activePage === 'inicio' ? 'active' : ''}>Inicio</a>
-                <a href="/galeria" class={activePage === 'galeria' ? 'active' : ''}>Galería</a>
-                <a href="/videos" class={activePage === 'videos' ? 'active' : ''}>Vídeos</a>
-                <a href="/servicios" class={activePage === 'servicios' ? 'active' : ''}>Servicios</a>
-                <a href="/#acerca">Acerca de Mí</a>
-                <a href="/contacto" class={activePage === 'contacto' ? 'active' : ''}>Contacto</a>
-            </div>
-
-            <div class="nav-menu-footer desktop-hidden">
-                <div class="menu-divider"></div>
-                <div class="menu-socials">
-                    <a href="https://www.instagram.com/javier.fzr/" target="_blank" rel="noopener noreferrer" aria-label="Visitar mi perfil de Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="https://wa.me/34665018516" target="_blank" rel="noopener noreferrer" aria-label="Enviar mensaje por WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                    <a href="mailto:javierfernandezramos9@gmail.com" aria-label="Enviar correo electrónico"><i class="far fa-envelope"></i></a>
-                </div>
-                <p class="menu-tagline">Capturando la excelencia</p>
+                <a href="/" class={activePage === 'inicio' ? 'active' : ''}><i class="fa-solid fa-house"></i> Inicio</a>
+                <a href="/galeria" class={activePage === 'galeria' ? 'active' : ''}><i class="fa-solid fa-image"></i> Galería</a>
+                <a href="/videos" class={activePage === 'videos' ? 'active' : ''}><i class="fa-solid fa-play"></i> Vídeos</a>
+                <a href="/servicios" class={activePage === 'servicios' ? 'active' : ''}><i class="fa-solid fa-camera"></i> Servicios</a>
+                <a href="/articulos" class={activePage === 'articulos' ? 'active' : ''}><i class="fa-solid fa-newspaper"></i> Artículos</a>
+                <a href="/contacto" class={activePage === 'contacto' ? 'active' : ''}><i class="fa-solid fa-paper-plane"></i> Contacto</a>
             </div>
         </nav>
     </div>
@@ -53,47 +41,11 @@ const { activePage } = Astro.props;
             width: 100%;
         }
 
-        .nav-menu-header {
-            margin-bottom: 3rem;
-            text-align: center;
-        }
-
-        .nav-menu-footer {
-            margin-top: auto;
-            padding-bottom: 4rem;
-            width: 100%;
-            text-align: center;
-        }
-
-        .menu-divider {
-            width: 40px;
-            height: 1px;
-            background: var(--color-gold);
-            margin: 0 auto 2rem;
-            opacity: 0.5;
-        }
-
-        .menu-socials {
+        .nav-links-inner {
             display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .menu-socials a {
-            font-size: 1.4rem !important;
-            margin-bottom: 0 !important;
-            opacity: 1 !important;
-            transform: none !important;
-            color: var(--color-gold) !important;
-        }
-
-        .menu-tagline {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: var(--color-text-light);
-            opacity: 0.4;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
         }
     }
 </style>
