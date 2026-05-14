@@ -7,60 +7,52 @@ import Layout from "../layouts/Layout.astro";
     description="Servicios de videografía profesional en Valencia. Cobertura de eventos, vídeos promocionales y contenido dinámico para marcas y particulares."
     activePage="videos">
     <main class="container">
-        <header class="videos-page-header reveal" style="padding-top: 120px; text-align: center;">
+        <header class="videos-page-header reveal">
             <h1 class="section-title">Film & Video</h1>
-            <p class="videos-subtitle" style="text-align: center; color: var(--color-text-light); margin-bottom: 2rem;">
+            <p class="videos-subtitle">
                 Behind The Scenes & Oficiales
             </p>
         </header>
 
-        <section
-            class="videos-grid reveal"
-            style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; padding: 2rem 0;">
+        <section class="videos-grid reveal">
             <div class="video-card">
-                <div style="position:relative;padding-top:177.77%;">
+                <div class="iframe-container">
                     <iframe
                         src="https://www.youtube.com/embed/aQj4YPqVwbY"
                         loading="lazy"
-                        style="border:0;position:absolute;top:0;height:100%;width:100%;"
+                        class="video-iframe"
                         allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;"
                         allowfullscreen="true"></iframe>
                 </div>
-                <div
-                    class="video-label"
-                    style="text-align: center; margin-top: 1rem; color: var(--color-gold); text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem;">
+                <div class="video-label">
                     Video de Marca
                 </div>
             </div>
 
             <div class="video-card">
-                <div style="position:relative;padding-top:177.77%;">
+                <div class="iframe-container">
                     <iframe
                         src="https://www.youtube.com/embed/81JkqXElx94"
                         loading="lazy"
-                        style="border:0;position:absolute;top:0;height:100%;width:100%;"
+                        class="video-iframe"
                         allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;"
                         allowfullscreen="true"></iframe>
                 </div>
-                <div
-                    class="video-label"
-                    style="text-align: center; margin-top: 1rem; color: var(--color-gold); text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem;">
+                <div class="video-label">
                     Behind the scenes
                 </div>
             </div>
 
             <div class="video-card">
-                <div style="position:relative;padding-top:177.77%;">
+                <div class="iframe-container">
                     <iframe
                         src="https://www.youtube.com/embed/tjk4pEZq3Bs"
                         loading="lazy"
-                        style="border:0;position:absolute;top:0;height:100%;width:100%;"
+                        class="video-iframe"
                         allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;"
                         allowfullscreen="true"></iframe>
                 </div>
-                <div
-                    class="video-label"
-                    style="text-align: center; margin-top: 1rem; color: var(--color-gold); text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem;">
+                <div class="video-label">
                     Contenido Fitness
                 </div>
             </div>
@@ -68,14 +60,54 @@ import Layout from "../layouts/Layout.astro";
     </main>
 
     <style>
+        .videos-page-header {
+            padding-top: 120px;
+            text-align: center;
+        }
+
+        .videos-subtitle {
+            text-align: center;
+            color: var(--color-text-light);
+            margin-bottom: 2rem;
+        }
+
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .iframe-container {
+            position: relative;
+            padding-top: 177.77%;
+        }
+
+        .video-iframe {
+            border: 0;
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        .video-label {
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--color-gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+        }
+
         @media (max-width: 900px) {
             .videos-grid {
-                grid-template-columns: repeat(2, 1fr) !important;
+                grid-template-columns: repeat(2, 1fr);
             }
         }
         @media (max-width: 600px) {
             .videos-grid {
-                grid-template-columns: 1fr !important;
+                grid-template-columns: 1fr;
             }
         }
     </style>

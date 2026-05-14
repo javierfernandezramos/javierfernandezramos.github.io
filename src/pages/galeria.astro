@@ -52,9 +52,8 @@ const categories = [
         {
             categories.map((cat) => (
                 <div
-                    class="category-content gallery-grid"
-                    id={`cat-${cat.id}`}
-                    style={cat.id === categories[0].id ? "display: block;" : "display: none;"}>
+                    class={`category-content gallery-grid ${cat.id === categories[0].id ? "is-visible" : ""}`}
+                    id={`cat-${cat.id}`}>
                     {cat.images.map((img) => (
                         <div class="gallery-item reveal active" data-src={img.src}>
                             <Image
@@ -93,9 +92,9 @@ const categories = [
                     // Show/Hide content
                     contents.forEach((content) => {
                         if (content.id === `cat-${targetId}`) {
-                            content.style.display = "block";
+                            content.classList.add("is-visible");
                         } else {
-                            content.style.display = "none";
+                            content.classList.remove("is-visible");
                         }
                     });
                 });
@@ -210,6 +209,10 @@ const categories = [
 
     .category-content {
         display: none;
+    }
+
+    .category-content.is-visible {
+        display: block;
     }
 
     /* Maximizar ancho en móvil */

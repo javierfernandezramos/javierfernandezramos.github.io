@@ -18,7 +18,7 @@ const description = entry.data.description;
 
 <Layout title={title} description={description} activePage="articulos" noIndex={true}>
     <article class="article-single">
-        <header class="article-header" style={`background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url(${entry.data.image ? entry.data.image.src : '/assets/Fotos/hero-image.webp'})`}>
+        <header class="article-header article-single-header">
             <div class="container">
                 <div class="header-content reveal">
                     <span class="article-meta">
@@ -49,7 +49,11 @@ const description = entry.data.description;
     </article>
 </Layout>
 
-<style>
+<style define:vars={{ headerImg: `url(${entry.data.image ? entry.data.image.src : '/assets/Fotos/hero-image.webp'})` }}>
+    .article-single-header {
+        background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), var(--headerImg);
+    }
+
     .article-header {
         height: 60vh;
         min-height: 450px;

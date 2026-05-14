@@ -26,7 +26,7 @@ const getImg = (path: string) => {
     description="Javier Fernández Ramos, fotógrafo profesional en Valencia - retratos, eventos, deportes y marca personal. Capturando la esencia de cada momento."
     activePage="inicio"
     preloadImage={heroImg.src}>
-    <section id="hero" class="hero-section" style={`--hero-url: url('${heroImg.src}')`}>
+    <section id="hero" class="hero-section">
         <div class="hero-content">
             <h1 class="reveal">Javier Photography <span class="sr-only">| Fotógrafo en Valencia</span></h1>
             <p class="reveal">
@@ -47,8 +47,7 @@ const getImg = (path: string) => {
                             alt="Javier Fernández Ramos"
                             width={300}
                             height={300}
-                            class="photographer-main-img loaded"
-                            style="object-fit: cover; border-radius: 50%;"
+                            class="photographer-main-img loaded profile-img-rounded"
                         />
                     </div>
                     <a
@@ -203,12 +202,10 @@ const getImg = (path: string) => {
         </div>
     </section>
 
-    <section id="packs" class="section-padding" style="background: var(--color-secondary);">
+    <section id="packs" class="section-padding packs-section">
         <div class="container reveal">
             <h2 class="section-title">Packs de Fotografía</h2>
-            <p
-                class="text-center"
-                style="margin-bottom: 4rem; color: var(--color-text-light); max-width: 700px; margin-left: auto; margin-right: auto;">
+            <p class="text-center packs-subtitle">
                 Selección de servicios premium para capturar tu mejor versión. Descubre nuestras tarifas por categoría.
             </p>
 
@@ -258,7 +255,7 @@ const getImg = (path: string) => {
                 </div>
             </div>
 
-            <div class="text-center reveal" style="margin-top: 1rem;">
+            <div class="text-center reveal packs-cta">
                 <a href="/servicios" class="btn luxury-gallery-btn">
                     Ver todos los servicios <i class="fas fa-arrow-right"></i>
                 </a>
@@ -266,7 +263,72 @@ const getImg = (path: string) => {
         </div>
     </section>
 
-    <style>
+    <style define:vars={{ heroUrl: `url('${heroImg.src}')` }}>
+        .hero-section {
+            --hero-url: var(--heroUrl);
+        }
+
+        .profile-img-rounded {
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .packs-section {
+            background: var(--color-secondary);
+        }
+
+        .packs-subtitle {
+            margin-bottom: 4rem;
+            color: var(--color-text-light);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .packs-cta {
+            margin-top: 1rem;
+        }
+
+        .testimonios-section .container {
+            overflow: visible;
+        }
+
+        .faq-section {
+            background: var(--color-secondary);
+        }
+
+        .faq-container-inner {
+            max-width: 800px;
+            margin: 4rem auto 0;
+        }
+
+        .signature-box {
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            padding: 4rem 2rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 4px;
+        }
+
+        .signature-text {
+            color: var(--color-text-light);
+            margin-bottom: 2.5rem;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .start-project-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .start-project-btn i {
+            font-size: 0.8rem;
+        }
+
         .packs-categories-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -419,8 +481,7 @@ const getImg = (path: string) => {
         }
     </style>
 
-    <section id="testimonios" class="section-padding">
-        <div class="container reveal" style="overflow: visible;">
+    <section id="testimonios" class="section-padding testimonios-section">
             <h2 class="section-title">Testimonios</h2>
             <div class="testimonials-nav-wrapper">
                 <button class="slider-nav-btn prev" id="testimonial-prev" aria-label="Anterior testimonio"
@@ -489,10 +550,8 @@ const getImg = (path: string) => {
             </div>
         </div>
         <!-- FAQ Section -->
-        <section id="faq" class="section-padding" style="background: var(--color-secondary);">
-            <div class="container reveal">
-                <h2 class="section-title">Preguntas Frecuentes</h2>
-                <div class="faq-grid" style="max-width: 800px; margin: 0 auto; margin-top: 4rem;">
+        <section id="faq" class="section-padding faq-section">
+                <div class="faq-container-inner reveal">
                     <div class="faq-item">
                         <div class="faq-question">
                             ¿Cuánto tiempo tardas en entregar las fotos? <i class="fas fa-plus"></i>
@@ -540,20 +599,14 @@ const getImg = (path: string) => {
         <!-- Final CTA Signature -->
         <section class="section-padding signature-cta reveal">
             <div class="container text-center">
-                <div
-                    class="signature-box"
-                    style="border: 1px solid rgba(197, 160, 89, 0.2); padding: 4rem 2rem; background: rgba(255,255,255,0.02); border-radius: 4px;">
+                <div class="signature-box reveal">
                     <h2 class="signature-title">Crea tu historia</h2>
-                    <p
-                        style="color: var(--color-text-light); margin-bottom: 2.5rem; font-size: 1.1rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                    <p class="signature-text">
                         Cada clic es una oportunidad para hacer algo eterno. Reserva tu sesión hoy y capturemos lo
                         extraordinario.
                     </p>
-                    <a
-                        href="/contacto"
-                        class="btn luxury-gallery-btn"
-                        style="display: inline-flex; align-items: center; justify-content: center; gap: 10px;">
-                        Empezar Proyecto <i class="fas fa-star" style="font-size: 0.8rem;"></i>
+                    <a href="/contacto" class="btn luxury-gallery-btn start-project-btn">
+                        Empezar Proyecto <i class="fas fa-star"></i>
                     </a>
                 </div>
             </div>

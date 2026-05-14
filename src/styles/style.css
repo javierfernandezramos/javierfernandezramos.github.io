@@ -165,7 +165,7 @@ body {
 a {
     color: var(--color-primary);
     text-decoration: none;
-    transition: color var(--transition-speed);
+    transition: color 0.3s ease;
 }
 
 a:hover {
@@ -192,6 +192,21 @@ a:hover {
 
 .btn i {
     margin-left: 10px;
+}
+
+/* Tactile Feedback for Mobile */
+@media (hover: none) {
+    .btn:active,
+    .luxury-gallery-btn:active {
+        transform: scale(0.98);
+        background-color: var(--color-gold);
+        color: var(--color-secondary);
+        opacity: 0.9;
+    }
+    
+    a:active {
+        opacity: 0.7;
+    }
 }
 
 /* --- LOADER INICIAL --- */
@@ -273,6 +288,12 @@ a:hover {
     font-size: 0.85rem;
     position: relative;
     padding-bottom: 5px;
+    color: var(--color-primary);
+    transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+    color: var(--color-gold);
 }
 
 .nav-links a::after {
@@ -286,7 +307,6 @@ a:hover {
     transition: width 0.3s ease;
 }
 
-.nav-links a:hover::after,
 .nav-links a.active::after {
     width: 100%;
 }
@@ -364,12 +384,14 @@ a:hover {
         background-color: rgba(10, 10, 10, 0.98);
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
-        transition: right 0.4s cubic-bezier(0.77, 0.2, 0.05, 1.0);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
+        padding: 6rem 2rem 2rem;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
         z-index: 1000;
+        overflow-y: auto;
     }
 
     .nav-links.active {
@@ -378,17 +400,31 @@ a:hover {
 
     .nav-links a {
         margin-left: 0;
-        margin-bottom: 2.5rem;
-        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        font-size: 1.8rem;
         font-weight: 700;
-        letter-spacing: 4px;
+        letter-spacing: 5px;
         opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.4s ease;
+        transform: translateY(15px);
+        transition: opacity 0.3s ease-out, transform 0.3s ease-out, color 0.2s ease;
+        text-align: center;
+        width: 100%;
     }
 
     .nav-links a::after {
-        display: none;
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 1px;
+        background-color: var(--color-gold);
+        transition: width 0.3s ease;
+    }
+
+    .nav-links a.active::after {
+        width: 40px;
     }
 
     .nav-links.active a {
@@ -398,40 +434,30 @@ a:hover {
     }
 
     .nav-links.active a.active::before {
-        content: '';
-        position: absolute;
-        left: -20px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 8px;
-        height: 8px;
-        background-color: var(--color-gold);
-        border-radius: 50%;
-        box-shadow: 0 0 10px var(--color-gold);
+        display: none; /* Quitamos el punto lateral en favor de la barrita inferior */
     }
 
-    .nav-links.active a:nth-child(1) {
-        transition-delay: 0.1s;
+    .nav-links a:active {
+        color: var(--color-gold);
     }
 
-    .nav-links.active a:nth-child(2) {
-        transition-delay: 0.2s;
+    .nav-links.active a:nth-child(1) { transition-property: opacity, transform; transition-delay: 0.05s; }
+    .nav-links.active a:nth-child(2) { transition-property: opacity, transform; transition-delay: 0.1s; }
+    .nav-links.active a:nth-child(3) { transition-property: opacity, transform; transition-delay: 0.15s; }
+    .nav-links.active a:nth-child(4) { transition-property: opacity, transform; transition-delay: 0.2s; }
+    .nav-links.active a:nth-child(5) { transition-property: opacity, transform; transition-delay: 0.25s; }
+    .nav-links.active a:nth-child(6) { transition-property: opacity, transform; transition-delay: 0.3s; }
+
+    .nav-links.active .nav-menu-footer {
+        opacity: 1;
+        transform: translateY(0);
+        transition: all 0.3s ease;
+        transition-delay: 0.35s;
     }
 
-    .nav-links.active a:nth-child(3) {
-        transition-delay: 0.3s;
-    }
-
-    .nav-links.active a:nth-child(4) {
-        transition-delay: 0.4s;
-    }
-
-    .nav-links.active a:nth-child(5) {
-        transition-delay: 0.5s;
-    }
-
-    .nav-links.active a:nth-child(6) {
-        transition-delay: 0.6s;
+    .nav-menu-footer {
+        opacity: 0;
+        transform: translateY(20px);
     }
 }
 

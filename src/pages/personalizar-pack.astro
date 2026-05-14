@@ -15,16 +15,16 @@ const initialPack = initialService ? initialService.packs.find(p => p.id === pac
     title="Personalizar Pack | JaviPhoto"
     description="Personaliza tu pack de fotografía con extras y calcula el presupuesto final."
 >
-    <section class="section-padding" style="padding-top: 10rem;">
+    <section class="section-padding custom-pack-section">
         <div class="container reveal">
             <h1 class="section-title">Personaliza tu Pack</h1>
             
-            <div id="calculator-loading" class="text-center" style="padding: 5rem 0;">
-                <div class="spinner" style="margin: 0 auto 1rem;"></div>
+            <div id="calculator-loading" class="text-center loading-container">
+                <div class="spinner central-spinner"></div>
                 <p>Cargando detalles del pack...</p>
             </div>
 
-            <div id="calculator-content" class="calculator-wrapper" style="display: none;">
+            <div id="calculator-content" class="calculator-wrapper hidden">
                 <div class="calculator-grid">
                     <!-- Columna Izquierda: Detalle -->
                     <div class="calculator-sidebar-col">
@@ -37,7 +37,7 @@ const initialPack = initialService ? initialService.packs.find(p => p.id === pac
                                 <!-- Features will be injected here -->
                             </ul>
                             
-                            <div id="ui-bonus-box" class="calculator-bonus" style="display: none;">
+                            <div id="ui-bonus-box" class="calculator-bonus hidden">
                                 <i class="fas fa-gift"></i> <span id="ui-bonus-text"></span>
                             </div>
                             
@@ -46,7 +46,7 @@ const initialPack = initialService ? initialService.packs.find(p => p.id === pac
 
                         <!-- Botón Volver (Relocalizado) -->
                         <div class="calculator-actions-sidebar">
-                            <a id="btn-volver" href="/servicios" class="btn btn-outline-luxury" style="width: 100%; margin-top: 1rem;">
+                            <a id="btn-volver" href="/servicios" class="btn btn-outline-luxury sidebar-back-btn">
                                 <i class="fas fa-arrow-left"></i> Elegir otro pack
                             </a>
                         </div>
@@ -87,21 +87,21 @@ const initialPack = initialService ? initialService.packs.find(p => p.id === pac
                             <h3>Tus Datos de Contacto</h3>
                             <div class="input-group">
                                 <label for="user-name">Nombre Completo</label>
-                                <div style="position: relative;">
+                                <div class="input-relative">
                                     <i class="fas fa-user"></i>
                                     <input type="text" id="user-name" placeholder="Tu nombre..." required />
                                 </div>
                             </div>
                             <div class="input-group">
                                 <label for="user-email">Correo Electrónico</label>
-                                <div style="position: relative;">
+                                <div class="input-relative">
                                     <i class="fas fa-envelope"></i>
                                     <input type="email" id="user-email" placeholder="tu@email.com..." required />
                                 </div>
                             </div>
                             <div class="input-group">
                                 <label for="user-phone">Teléfono</label>
-                                <div style="position: relative;">
+                                <div class="input-relative">
                                     <i class="fas fa-phone"></i>
                                     <input type="tel" id="user-phone" placeholder="600 000 000..." required />
                                 </div>
@@ -123,24 +123,24 @@ const initialPack = initialService ? initialService.packs.find(p => p.id === pac
                             </div>
                         </div>
 
-                        <button id="btn-finalizar" class="btn submit-btn" style="width: 100%; margin-top: 2rem; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        <button id="btn-finalizar" class="btn submit-btn finalize-btn">
                             Finalizar y Enviar Mensaje <i class="fas fa-paper-plane"></i>
                         </button>
-                        <p id="error-msg" class="small-note text-center" style="margin-top: 1rem; color: #ff6b6b; display: none;">
+                        <p id="error-msg" class="small-note text-center error-status hidden">
                             Por favor, rellena todos los campos de contacto.
                         </p>
-                        <p class="small-note text-center" style="margin-top: 1rem; opacity: 0.6;">
+                        <p class="small-note text-center footer-note">
                             El mensaje se enviará directamente a JaviPhoto y recibirás una respuesta en tu correo.
                         </p>
                     </div>
                 </div>
             </div>
 
-            <div id="calculator-error" class="text-center" style="display: none; padding: 5rem 0;">
-                <i class="fas fa-exclamation-circle" style="font-size: 3rem; color: var(--color-gold); margin-bottom: 1rem;"></i>
+            <div id="calculator-error" class="text-center error-container hidden">
+                <i class="fas fa-exclamation-circle error-icon"></i>
                 <h2>No se pudo encontrar el pack</h2>
                 <p>Por favor, vuelve a la página de servicios y selecciona un pack válido.</p>
-                <a href="/servicios" class="btn" style="margin-top: 2rem;">Ver Servicios</a>
+                <a href="/servicios" class="btn error-back-btn">Ver Servicios</a>
             </div>
             
             </div>
@@ -210,11 +210,11 @@ const initialPack = initialService ? initialService.packs.find(p => p.id === pac
         }
 
         // Show Content
-        loadingEl.style.display = 'none';
-        contentEl.style.display = 'block';
+        loadingEl.classList.add('hidden');
+        contentEl.classList.remove('hidden');
     } else {
-        loadingEl.style.display = 'none';
-        errorEl.style.display = 'block';
+        loadingEl.classList.add('hidden');
+        errorEl.classList.remove('hidden');
     }
 
     function updateTotals() {
@@ -267,7 +267,7 @@ const initialPack = initialService ? initialService.packs.find(p => p.id === pac
         const errorMsg = document.getElementById('error-msg');
 
         if (!name || !email || !phone) {
-            errorMsg.style.display = 'block';
+            errorMsg.classList.remove('hidden');
             return;
         }
 
@@ -320,6 +320,64 @@ const initialPack = initialService ? initialService.packs.find(p => p.id === pac
 </script>
 
 <style>
+    .custom-pack-section {
+        padding-top: 10rem;
+    }
+
+    .loading-container {
+        padding: 5rem 0;
+    }
+
+    .central-spinner {
+        margin: 0 auto 1rem;
+    }
+
+    .hidden {
+        display: none !important;
+    }
+
+    .sidebar-back-btn {
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .input-relative {
+        position: relative;
+    }
+
+    .finalize-btn {
+        width: 100%;
+        margin-top: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .error-status {
+        margin-top: 1rem;
+        color: #ff6b6b;
+    }
+
+    .footer-note {
+        margin-top: 1rem;
+        opacity: 0.6;
+    }
+
+    .error-container {
+        padding: 5rem 0;
+    }
+
+    .error-icon {
+        font-size: 3rem;
+        color: var(--color-gold);
+        margin-bottom: 1rem;
+    }
+
+    .error-back-btn {
+        margin-top: 2rem;
+    }
+
     .calculator-contact-fields {
         margin-top: 1.5rem;
         padding: 1.5rem;

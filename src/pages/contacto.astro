@@ -1,6 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
 // Import images
@@ -11,7 +10,6 @@ const getImg = (path: string) => {
 };
 
 const heroImg = getImg('hero-image.webp');
-const sideImg = getImg('Modelo/11.webp');
 ---
 
 <Layout 
@@ -19,39 +17,45 @@ const sideImg = getImg('Modelo/11.webp');
     description="¿Buscas un fotógrafo en Valencia? Contacta con JaviPhoto para reservar tu sesión de fotos o solicitar un presupuesto personalizado para tu proyecto o evento."
     activePage="contacto"
 >
-    <section class="services-hero" style={`background-image: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('${heroImg?.src}'); background-size: cover; background-position: center; min-height: 50vh; display: flex; align-items: center; justify-content: center; text-align: center;`}>
+    <section class="services-hero contact-hero">
         <div class="container">
-            <h1 class="section-title reveal" style="color: white; margin-bottom: 1rem; text-shadow: 0 5px 15px rgba(0,0,0,0.5);">Reservar Fotógrafo en Valencia</h1>
-            <p class="section-subtitle reveal" style="color: white; font-size: 1.1rem; font-weight: 400; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">Tu próximo gran proyecto comienza con un mensaje.</p>
+            <h1 class="section-title reveal hero-title">Reservar Fotógrafo en Valencia</h1>
+            <p class="section-subtitle reveal hero-subtitle">Tu próximo gran proyecto comienza con un mensaje.</p>
         </div>
     </section>
 
     <section class="section-padding reveal">
         <div class="container">
-            <div class="contact-grid">
-                <div class="contact-content-block">
-                    <h2 class="minimal-title text-center">¿Por qué elegir a JaviPhoto?</h2>
-                    <div class="editorial-body" style="text-align: left !important;">
-                        <p>Si estás buscando <strong>fotógrafos en Valencia</strong> que combinen técnica, creatividad y un estilo moderno, has llegado al lugar indicado. Me especializo en capturar momentos únicos, ya sea en eventos deportivos, corporativos o sesiones de marca personal.</p>
-                        <p><strong>Reservar un fotógrafo en Valencia</strong> con JaviPhoto es garantía de profesionalidad y resultados de alta calidad. Entiendo la importancia de cada imagen y trabajo estrechamente contigo para que el resultado final supere tus expectativas.</p>
-                        <ul style="list-style: none; padding: 0; margin-top: 2rem;">
-                            <li style="margin-bottom: 1.2rem;"><i class="fas fa-check-circle" style="color: var(--color-gold); margin-right: 12px;"></i> Entrega rápida de material optimizado.</li>
-                            <li style="margin-bottom: 1.2rem;"><i class="fas fa-check-circle" style="color: var(--color-gold); margin-right: 12px;"></i> Equipamiento de última generación (Sony Alpha).</li>
-                            <li style="margin-bottom: 1.2rem;"><i class="fas fa-check-circle" style="color: var(--color-gold); margin-right: 12px;"></i> Presupuestos claros y adaptados a tu proyecto.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="acerca-img glass-frame">
-                    <Image src={sideImg} alt="Sesión de fotos profesional Valencia - JaviPhoto" width={600} class="loaded" />
-                </div>
+            <h2 class="section-title">Métodos de Contacto</h2>
+            <div class="contact-methods-grid">
+                <a href="mailto:javierfernandezramos9@gmail.com" class="contact-method-card gmail-social-card" data-mailto="javierfernandezramos9@gmail.com">
+                    <div class="method-icon"><i class="fas fa-envelope"></i></div>
+                    <h3>Correo Electrónico</h3>
+                    <p>javierfernandezramos9@gmail.com</p>
+                    <span class="method-link">Enviar email <i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <a href="https://www.instagram.com/javier.fzr/" target="_blank" class="contact-method-card">
+                    <div class="method-icon"><i class="fab fa-instagram"></i></div>
+                    <h3>Instagram</h3>
+                    <p>@javier.fzr</p>
+                    <span class="method-link">Ver perfil <i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <a href="https://wa.me/34665018516" target="_blank" class="contact-method-card">
+                    <div class="method-icon"><i class="fab fa-whatsapp"></i></div>
+                    <h3>WhatsApp</h3>
+                    <p>+34 665 018 516</p>
+                    <span class="method-link">Escribir ahora <i class="fas fa-arrow-right"></i></span>
+                </a>
             </div>
         </div>
     </section>
 
-    <section id="formulario-contacto" class="section-padding reveal" style="background: var(--color-secondary);">
+    <section id="formulario-contacto" class="section-padding reveal contact-form-section">
         <div class="container">
             <h2 class="section-title">Presupuesto Personalizado</h2>
-            <p class="text-center" style="margin-bottom: 3rem; color: var(--color-text-light); max-width: 700px; margin-left: auto; margin-right: auto;">
+            <p class="text-center form-subtitle">
                 ¿Tu proyecto no encaja en los packs estándar? Cuéntame qué tienes en mente y diseñaré una propuesta a medida para ti.
             </p>
             
@@ -90,15 +94,15 @@ const sideImg = getImg('Modelo/11.webp');
                         </div>
                     </div>
 
-                    <div class="input-group">
-                        <label for="c-mensaje">Detalles del Proyecto</label>
-                        <div style="position: relative;">
-                            <i class="fas fa-comment-alt" style="top: 20px; transform: none;"></i>
-                            <textarea id="c-mensaje" name="mensaje" placeholder="Cuéntame más sobre fechas, lugar y qué necesitas exactamente..." rows="5" required style="width: 100%; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); padding: 1.2rem 1rem 1.2rem 3.5rem; color: #fff; border-radius: 8px; font-family: inherit; font-size: 1rem; backdrop-filter: blur(10px); outline: none; resize: none;"></textarea>
+                        <div class="input-group">
+                            <label for="c-mensaje">Detalles del Proyecto</label>
+                            <div class="textarea-wrapper">
+                                <i class="fas fa-comment-alt message-icon"></i>
+                                <textarea id="c-mensaje" name="mensaje" placeholder="Cuéntame más sobre fechas, lugar y qué necesitas exactamente..." rows="5" required></textarea>
+                            </div>
                         </div>
-                    </div>
 
-                    <button type="submit" class="btn submit-btn" style="width: 100%; margin-top: 1rem;">
+                    <button type="submit" class="btn submit-btn full-width">
                         Enviar Solicitud de Presupuesto <i class="fas fa-paper-plane"></i>
                     </button>
                     <p id="form-status" class="small-note text-center" style="margin-top: 1.5rem; color: var(--color-gold); display: none;"></p>
@@ -110,9 +114,40 @@ const sideImg = getImg('Modelo/11.webp');
         </div>
     </section>
 
+    <section class="section-padding reveal">
+        <div class="container">
+            <div style="max-width: 900px; margin: 0 auto;">
+                <h2 class="section-title text-center">¿Por qué elegir a JaviPhoto?</h2>
+                <div class="editorial-body">
+                    <p class="editorial-intro">Si estás buscando <strong>fotógrafos en Valencia</strong> que combinen técnica, creatividad y un estilo moderno, has llegado al lugar indicado. Me especializo en capturar momentos únicos, ya sea en eventos deportivos, corporativos o sesiones de marca personal.</p>
+                    
+                    <div class="why-choose-grid">
+                        <div class="why-choose-card">
+                            <i class="fas fa-bolt"></i>
+                            <h4>Entrega Rápida</h4>
+                            <p>Material optimizado y listo para usar en tiempo récord.</p>
+                        </div>
+                        <div class="why-choose-card">
+                            <i class="fas fa-camera"></i>
+                            <h4>Equipo Top</h4>
+                            <p>Tecnología de última generación Sony Alpha para máxima calidad.</p>
+                        </div>
+                        <div class="why-choose-card">
+                            <i class="fas fa-handshake"></i>
+                            <h4>Trato Personal</h4>
+                            <p>Presupuestos claros y adaptados 100% a tus necesidades.</p>
+                        </div>
+                    </div>
+
+                    <p class="editorial-quote">"Cada disparo es una oportunidad para contar una historia que perdure."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="section-padding reveal text-center">
         <div class="container">
-            <h2 class="minimal-title">Servicios Disponibles en Valencia</h2>
+            <h2 class="section-title">Servicios Disponibles en Valencia</h2>
             <div class="services-minimal-grid">
                 <div class="service-item">
                     <div class="service-icon-box"><i class="fas fa-camera-retro"></i></div>
@@ -200,7 +235,226 @@ const sideImg = getImg('Modelo/11.webp');
     });
 </script>
 
-<style>
+<style define:vars={{ heroUrl: `url('${heroImg?.src}')` }}>
+    .contact-hero {
+        background-image: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), var(--heroUrl);
+        background-size: cover;
+        background-position: center;
+        min-height: 50vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .hero-title {
+        color: white;
+        margin-bottom: 1rem;
+        text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    }
+
+    .hero-subtitle {
+        color: white;
+        font-size: 1.1rem;
+        font-weight: 400;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    .contact-form-section {
+        background: var(--color-secondary);
+    }
+
+    .form-subtitle {
+        margin-bottom: 3rem;
+        color: var(--color-text-light);
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .textarea-wrapper {
+        position: relative;
+    }
+
+    .message-icon {
+        top: 20px !important;
+        transform: none !important;
+    }
+
+    textarea {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 1.2rem 1rem 1.2rem 3.5rem;
+        color: #fff;
+        border-radius: 8px;
+        font-family: inherit;
+        font-size: 1rem;
+        backdrop-filter: blur(10px);
+        outline: none;
+        resize: none;
+    }
+
+    .full-width {
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .editorial-intro {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+        opacity: 0.9;
+    }
+
+    .why-choose-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+
+    .why-choose-card {
+        background: rgba(255,255,255,0.03);
+        padding: 2rem;
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,0.05);
+        text-align: center;
+    }
+
+    .why-choose-card i {
+        color: var(--color-gold);
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .why-choose-card h4 {
+        margin-bottom: 0.5rem;
+        color: var(--color-gold);
+    }
+
+    .why-choose-card p {
+        font-size: 0.9rem;
+        opacity: 0.7;
+    }
+
+    .editorial-quote {
+        text-align: center;
+        margin-top: 3rem;
+        font-style: italic;
+        opacity: 0.8;
+    }
+    .contact-methods-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .contact-method-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 2.5rem 2rem;
+        border-radius: 12px;
+        text-align: center;
+        text-decoration: none;
+        color: inherit;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(10px);
+        aspect-ratio: 1/1;
+    }
+
+    .contact-method-card:hover {
+        transform: translateY(-10px);
+        background: rgba(197, 160, 89, 0.08);
+        border-color: var(--color-gold);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .contact-method-card:active {
+        transform: scale(0.95);
+        background: rgba(197, 160, 89, 0.15);
+        border-color: var(--color-gold);
+    }
+
+    .method-icon {
+        width: 60px;
+        height: 60px;
+        background: rgba(197, 160, 89, 0.1);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        color: var(--color-gold);
+        font-size: 1.5rem;
+        transition: all 0.4s ease;
+    }
+
+    .contact-method-card:hover .method-icon,
+    .contact-method-card:active .method-icon {
+        background: var(--color-gold);
+        color: var(--color-secondary);
+        transform: scale(1.1);
+    }
+
+    .contact-method-card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: #fff;
+    }
+
+    .contact-method-card p {
+        font-size: 0.95rem;
+        opacity: 0.7;
+        margin-bottom: 1.5rem;
+    }
+
+    .method-link {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--color-gold);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    @media (max-width: 992px) {
+        .contact-methods-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .contact-method-card {
+            padding: 1.5rem 0.5rem;
+            min-height: auto;
+            border-radius: 12px;
+            aspect-ratio: 1/1;
+        }
+
+        .contact-method-card h3,
+        .contact-method-card p,
+        .contact-method-card .method-link {
+            display: none;
+        }
+
+        .method-icon {
+            margin-bottom: 0;
+            width: 70px;
+            height: 70px;
+            font-size: 1.8rem;
+        }
+    }
+
     .input-grid-2 {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -277,15 +531,6 @@ const sideImg = getImg('Modelo/11.webp');
         padding: 2rem 0;
     }
     
-    .minimal-title {
-        font-size: 1.8rem;
-        letter-spacing: 2px;
-        margin-bottom: 2rem;
-        text-transform: uppercase;
-        font-weight: 700;
-        text-align: center;
-    }
-
     .contact-grid {
         display: grid;
         grid-template-columns: 1.2fr 0.8fr;

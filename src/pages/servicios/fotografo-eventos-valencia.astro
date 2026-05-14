@@ -53,12 +53,10 @@ const faqs = [
 ---
 
 <Layout title={title} description={description} activePage="servicios">
-    <section
-        class="services-hero"
-        style={`background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('${heroImg?.src}'); background-size: cover; background-position: center; min-height: 60vh; display: flex; align-items: center; justify-content: center; text-align: center;`}>
+    <section class="services-hero subpage-hero">
         <div class="container">
-            <h1 class="section-title reveal" style="color: white; margin-bottom: 1rem;">{title}</h1>
-            <p class="section-subtitle reveal" style="color: rgba(255,255,255,0.9); font-size: 1.2rem;">
+            <h1 class="section-title reveal hero-title">{title}</h1>
+            <p class="section-subtitle reveal hero-subtitle">
                 {description}
             </p>
         </div>
@@ -67,14 +65,14 @@ const faqs = [
     <section id="tarifas" class="section-padding reveal">
         <div class="container">
             <h2 class="section-title">Packs y Tarifas</h2>
-            <p class="text-center" style="margin-bottom: 3rem; color: var(--color-text-light);">
+            <p class="text-center tariffs-subtitle">
                 Selecciona el pack que mejor se adapte a tu evento.
             </p>
             <PricingPacks serviceId="eventos" />
         </div>
     </section>
 
-    <section class="section-padding reveal" style="background: var(--color-secondary);">
+    <section class="section-padding reveal secondary-bg">
         <div class="container">
             <h2 class="section-title">Servicios Opcionales de Vídeo</h2>
             <div class="services-minimal-grid">
@@ -96,11 +94,11 @@ const faqs = [
     <section class="section-padding reveal">
         <div class="container">
             <h2 class="section-title">Preguntas Frecuentes</h2>
-            <div style="max-width: 800px; margin: 0 auto;">
+            <div class="faq-container-narrow">
                 {
                     faqs.map((faq) => (
-                        <div style="margin-bottom: 2rem;">
-                            <h3 style="color: var(--color-gold);">{faq.q}</h3>
+                        <div class="faq-sub-item">
+                            <h3 class="faq-sub-q">{faq.q}</h3>
                             <p>{faq.a}</p>
                         </div>
                     ))
@@ -112,10 +110,59 @@ const faqs = [
     <section id="cta-servicios" class="section-padding">
         <div class="container text-center reveal">
             <h2>¿Planeando un evento?</h2>
-            <p style="margin-bottom: 2rem;">Asegúrate un reportaje profesional que destaque los valores de tu marca.</p>
+            <p class="cta-subtitle">Asegúrate un reportaje profesional que destaque los valores de tu marca.</p>
             <a href="/contacto" class="btn luxury-gallery-btn"
                 >Solicitar Presupuesto <i class="fas fa-paper-plane"></i></a
             >
         </div>
     </section>
 </Layout>
+
+<style define:vars={{ heroUrl: `url('${heroImg?.src}')` }}>
+    .subpage-hero {
+        background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), var(--heroUrl);
+        background-size: cover;
+        background-position: center;
+        min-height: 60vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .hero-title {
+        color: white;
+        margin-bottom: 1rem;
+    }
+
+    .hero-subtitle {
+        color: rgba(255,255,255,0.9);
+        font-size: 1.2rem;
+    }
+
+    .tariffs-subtitle {
+        margin-bottom: 3rem;
+        color: var(--color-text-light);
+    }
+
+    .secondary-bg {
+        background: var(--color-secondary);
+    }
+
+    .faq-container-narrow {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .faq-sub-item {
+        margin-bottom: 2rem;
+    }
+
+    .faq-sub-q {
+        color: var(--color-gold);
+    }
+
+    .cta-subtitle {
+        margin-bottom: 2rem;
+    }
+</style>
