@@ -2446,6 +2446,17 @@ footer .container {
     /* Rounded corners refined */
 }
 
+/* Desktop Gallery Refinements */
+@media (min-width: 992px) {
+    .gallery-grid {
+        column-gap: 1rem !important;
+    }
+    .gallery-item {
+        border-radius: 4px !important;
+        margin-bottom: 1rem !important;
+    }
+}
+
 .gallery-item img {
     width: 100%;
     height: auto;
@@ -2681,6 +2692,39 @@ footer .container {
     backdrop-filter: blur(5px);
 }
 
+/* --- WHATSAPP FLOAT BUTTON --- */
+.whatsapp-float {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background-color: #25d366;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1001;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+}
+
+.whatsapp-float i {
+    margin-top: 2px;
+}
+
+/* Update Back to Top Position to be above WhatsApp */
+.back-to-top {
+    bottom: 95px;
+}
+
 .back-to-top.show {
     opacity: 1;
     visibility: visible;
@@ -2697,10 +2741,18 @@ footer .container {
 @media (max-width: 600px) {
     .back-to-top {
         right: 20px;
-        bottom: 20px;
+        bottom: 80px;
         width: 40px;
         height: 40px;
         font-size: 1rem;
+    }
+
+    .whatsapp-float {
+        right: 20px;
+        bottom: 20px;
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
     }
 }
 

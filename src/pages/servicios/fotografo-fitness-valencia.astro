@@ -1,0 +1,167 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PricingPacks from "../../components/PricingPacks.astro";
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+// Import images
+const galleryImages = import.meta.glob<{ default: ImageMetadata }>("../../assets/Fotos/**/*.{jpg,jpeg,png,webp}", {
+    eager: true,
+});
+const getImg = (path: string) => {
+    const fullPath = `../../assets/Fotos/${path}`;
+    return galleryImages[fullPath]?.default;
+};
+
+const title = "Fotógrafo Fitness en Valencia";
+const description =
+    "Fotografía fitness profesional en Valencia. Capturo tu esfuerzo, dedicación y progreso físico con un estilo visual potente y motivador.";
+const heroImg = getImg("Modelo/f3-fit-modelo.webp");
+const mainImg = getImg("Modelo/fitness-leggins.webp");
+
+const features = [
+    {
+        icon: "fas fa-dumbbell",
+        title: "Sesiones en Gimnasio",
+        text: "Captura tu entrenamiento real con iluminación profesional en tu centro deportivo.",
+    },
+    {
+        icon: "fas fa-bolt",
+        title: "Edición High-End",
+        text: "Retoque avanzado que resalta la definición muscular y la estética deportiva.",
+    },
+    {
+        icon: "fas fa-mobile-alt",
+        title: "Contenido para Reels",
+        text: "Video clips dinámicos de tus mejores series para potenciar tu marca personal.",
+    },
+];
+
+const faqs = [
+    {
+        q: "¿Dónde se realizan las sesiones de fotos fitness?",
+        a: "Podemos realizarlas en tu gimnasio habitual (previa autorización), en centros colaboradores en Valencia o en exteriores si buscas un estilo más lifestyle.",
+    },
+    {
+        q: "¿Necesito experiencia posando?",
+        a: "Para nada. Te guiaré en cada postura para resaltar tus puntos fuertes y conseguir ese ángulo que mejor muestre tu condición física.",
+    },
+    {
+        q: "¿Qué ropa debo llevar?",
+        a: "Recomiendo traer varios conjuntos de ropa deportiva que te hagan sentir cómodo y seguro. Los colores sólidos suelen funcionar mejor en cámara.",
+    },
+];
+---
+
+<Layout title={title} description={description} activePage="servicios">
+    <section class="services-hero subpage-hero">
+        <div class="container">
+            <h1 class="section-title reveal hero-title">{title}</h1>
+            <p class="section-subtitle reveal hero-subtitle">
+                {description}
+            </p>
+        </div>
+    </section>
+
+    <section id="tarifas" class="section-padding reveal">
+        <div class="container">
+            <h2 class="section-title">Packs y Tarifas</h2>
+            <p class="text-center tariffs-subtitle">
+                Elige el nivel de cobertura que necesitas para tu portfolio fitness.
+            </p>
+            <PricingPacks serviceId="fitness" />
+        </div>
+    </section>
+
+    <section class="section-padding reveal secondary-bg">
+        <div class="container">
+            <h2 class="section-title">Servicios Especializados</h2>
+            <div class="services-minimal-grid">
+                {
+                    features.map((feature) => (
+                        <div class="service-item">
+                            <div class="service-icon-box">
+                                <i class={feature.icon} />
+                            </div>
+                            <h3>{feature.title}</h3>
+                            <p>{feature.text}</p>
+                        </div>
+                    ))
+                }
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding reveal">
+        <div class="container">
+            <h2 class="section-title">Preguntas Frecuentes</h2>
+            <div class="faq-container-narrow">
+                {
+                    faqs.map((faq) => (
+                        <div class="faq-sub-item">
+                            <h3 class="faq-sub-q">{faq.q}</h3>
+                            <p>{faq.a}</p>
+                        </div>
+                    ))
+                }
+            </div>
+        </div>
+    </section>
+
+    <section id="cta-servicios" class="section-padding">
+        <div class="container text-center reveal">
+            <h2>¿Listo para el siguiente nivel?</h2>
+            <p class="cta-subtitle">Reserva tu sesión ahora y muestra el resultado de tu disciplina.</p>
+            <a href="/contacto" class="btn luxury-gallery-btn">Reservar Sesión <i class="fas fa-calendar-check"></i></a>
+        </div>
+    </section>
+</Layout>
+
+<style define:vars={{ heroUrl: `url('${heroImg?.src}')` }}>
+    .subpage-hero {
+        background-image: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), var(--heroUrl);
+        background-size: cover;
+        background-position: center;
+        min-height: 60vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .hero-title {
+        color: white;
+        margin-bottom: 1rem;
+    }
+
+    .hero-subtitle {
+        color: rgba(255,255,255,0.9);
+        font-size: 1.2rem;
+    }
+
+    .tariffs-subtitle {
+        margin-bottom: 3rem;
+        color: var(--color-text-light);
+    }
+
+    .secondary-bg {
+        background: var(--color-secondary);
+    }
+
+    .faq-container-narrow {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .faq-sub-item {
+        margin-bottom: 2rem;
+    }
+
+    .faq-sub-q {
+        color: var(--color-gold);
+    }
+
+    .cta-subtitle {
+        margin-bottom: 2rem;
+    }
+</style>

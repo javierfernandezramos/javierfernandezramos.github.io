@@ -191,5 +191,49 @@ export const servicesPacks: Record<string, ServicePacks> = {
                 ]
             }
         ]
+    },
+    fitness: {
+        id: 'fitness',
+        title: 'Fotografía Fitness',
+        packs: [
+            {
+                id: 'fitness-express',
+                name: 'Glow Session',
+                price: 90,
+                priceLabel: '90 € - 110 €',
+                description: 'Ideal para creadores de contenido y perfiles fitness.',
+                features: [
+                    '15 fotos con revelado de color y luz',
+                    '3 fotos con edición avanzada (piel y luces)',
+                    'Entrega en galería digital privada'
+                ]
+            },
+            {
+                id: 'fitness-pro',
+                name: 'Athlete Portfolio',
+                price: 160,
+                priceLabel: '160 € - 190 €',
+                description: 'La sesión definitiva para mostrar tu progreso.',
+                isPopular: true,
+                bonus: '+1 Reel corto de regalo',
+                features: [
+                    '30 fotos con revelado de color y luz',
+                    '10 fotos con edición avanzada "High-End"',
+                    'Cambio de outfit y localización (Gym/Exterior)'
+                ]
+            },
+            {
+                id: 'fitness-branding',
+                name: 'Coach / Gym Brand',
+                price: 280,
+                priceLabel: 'Desde 280 €',
+                description: 'Contenido profesional para entrenadores y gimnasios.',
+                features: [
+                    '60+ fotos seleccionadas',
+                    'Reportaje narrativo del entrenamiento',
+                    '2 Reels editados listos para publicar'
+                ]
+            }
+        ]
     }
 };

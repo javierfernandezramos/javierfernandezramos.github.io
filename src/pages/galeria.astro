@@ -97,8 +97,32 @@ const categories = [
                             content.classList.remove("is-visible");
                         }
                     });
+
+                    // Update URL without reloading (optional, but good for UX)
+                    if (targetId) {
+                        const newUrl = new URL(window.location.href);
+                        newUrl.searchParams.set('filter', targetId);
+                        window.history.replaceState({}, '', newUrl);
+                    }
                 });
             });
+
+            // Handle initial filter from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const filterParam = urlParams.get('filter');
+            if (filterParam) {
+                const targetLink = document.querySelector(`#categories-menu a[data-category="${filterParam}"]`);
+                if (targetLink) {
+                    targetLink.click();
+                    // Smooth scroll to grid if needed
+                    setTimeout(() => {
+                        const gridContainer = document.getElementById('photo-grid-container');
+                        if (gridContainer) {
+                            gridContainer.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }, 500);
+                }
+            }
         });
 
         function triggerHint() {
