@@ -2,6 +2,7 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/style.css';
+import defaultOgImage from '../assets/Fotos/hero-image.webp';
 
 interface Props {
 	title: string;
@@ -9,6 +10,7 @@ interface Props {
     activePage?: string;
     preloadImage?: string;
     noIndex?: boolean;
+    ogImage?: string;
 }
 
 const { 
@@ -16,7 +18,8 @@ const {
     description = "JaviPhoto: Tu fotógrafo en Valencia. Especialista en retratos profesionales, cobertura de eventos corporativos y fotografía deportiva.", 
     activePage,
     preloadImage,
-    noIndex = false
+    noIndex = false,
+    ogImage = defaultOgImage.src
 } = Astro.props;
 ---
 
@@ -58,7 +61,7 @@ const {
     <meta property="og:url" content={Astro.url}>
     <meta property="og:title" content={title}>
     <meta property="og:description" content={description}>
-    <meta property="og:image" content={new URL('/favicon.png', Astro.site)}>
+    <meta property="og:image" content={new URL(ogImage, Astro.site)}>
     <meta property="og:locale" content="es_ES">
 
     <!-- Twitter -->
@@ -66,7 +69,7 @@ const {
     <meta name="twitter:url" content={Astro.url}>
     <meta name="twitter:title" content={title}>
     <meta name="twitter:description" content={description}>
-    <meta name="twitter:image" content={new URL('/favicon.png', Astro.site)}>
+    <meta name="twitter:image" content={new URL(ogImage, Astro.site)}>
 
     <!-- Fuentes y Estilos (Optimizado no-bloqueante) -->
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;800&display=swap">

@@ -42,7 +42,7 @@ export const servicesPacks: Record<string, ServicePacks> = {
                 bonus: '+5 fotos editadas extra gratis',
                 features: [
                     '40 fotos con revelado de color y luz',
-                    '15 fotos con edición profesional avanzada',
+                    '10 fotos con edición profesional avanzada',
                     'Total: 45 fotos brutales para lucir en redes'
                 ]
             },
@@ -224,7 +224,7 @@ export const servicesPacks: Record<string, ServicePacks> = {
             },
             {
                 id: 'fitness-branding',
-                name: 'Coach / Gym Brand',
+                name: 'Gym Brand',
                 price: 280,
                 priceLabel: 'Desde 280 €',
                 description: 'Contenido profesional para entrenadores y gimnasios.',

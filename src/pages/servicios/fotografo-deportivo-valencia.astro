@@ -40,15 +40,15 @@ const features = [
 const faqs = [
     {
         q: "¿Qué tipo de eventos deportivos cubres en Valencia?",
-        a: "Cubro una amplia gama de disciplinas, incluyendo competiciones de atletismo (maratones, 10K), deportes de raqueta y eventos de motor en el circuito Ricardo Tormo.",
+        a: "Cubro una amplia gama de disciplinas, incluyendo competiciones de atletismo (maratones, 10K), deportes de raqueta y eventos de motor, etc.",
     },
     {
         q: "¿Ofreces también servicios de videógrafo para competiciones?",
-        a: "Sí, combino la fotografía de alta velocidad con la creación de contenido en vídeo para ofrecer una cobertura 360º de cualquier competición en Valencia.",
+        a: "Ofrezco videos cortos de unos 10-20 segundos de duracion con calidad para redes sociales, resumen de eventos, trailer cinematografico y presentaciones.",
     },
     {
         q: "¿Cuál es el tiempo de entrega de las fotos?",
-        a: "Entiendo la importancia de la inmediatez en el deporte. Ofrezco un adelanto de fotos para redes sociales en menos de 24 horas y la galería completa en 5-7 días laborables.",
+        a: "Entiendo la importancia de la inmediatez en el deporte. Ofrezco un adelanto de fotos para redes sociales en 24 o 48 horas y la galería completa en 5-7 días laborables.",
     },
 ];
 ---
@@ -66,9 +66,7 @@ const faqs = [
     <section id="tarifas" class="section-padding reveal">
         <div class="container">
             <h2 class="section-title">Packs y Tarifas</h2>
-            <p class="text-center tariffs-subtitle">
-                Selecciona el pack que mejor se adapte a tu nivel y necesidades.
-            </p>
+            <p class="text-center tariffs-subtitle">Selecciona el pack que mejor se adapte a tu nivel y necesidades.</p>
             <PricingPacks serviceId="deportes" />
         </div>
     </section>
@@ -108,6 +106,48 @@ const faqs = [
         </div>
     </section>
 
+    <section class="section-padding seo-content-section reveal secondary-bg">
+        <div class="container">
+            <div class="seo-content-inner">
+                <h2>¿Por qué contratar un fotógrafo deportivo en Valencia?</h2>
+                <p>
+                    La fotografía deportiva no trata solo de disparar rápido. Como <strong
+                        >fotógrafo deportivo profesional en Valencia</strong
+                    >, mi pasión es congelar la adrenalina, la explosividad y la emoción extrema en el punto máximo de
+                    acción. Capturar ese golpe ganador en el ring, el sudor de la victoria o la concentración milimétrica
+                    requiere equipo técnico de primer nivel y una profunda comprensión de la disciplina.
+                </p>
+                <p>
+                    Valencia es una ciudad que respira deporte, y mi enfoque principal está en disciplinas donde la técnica y el contacto lo son todo. Desde intensos combates de artes marciales y boxeo, hasta la velocidad explosiva de los deportes de raqueta (tenis, pádel) o atletismo. Mi experiencia cubriendo este tipo de competiciones me permite anticiparme a cada movimiento, asegurando que cada fotografía transmita la auténtica atmósfera de la lucha y el esfuerzo.
+                </p>
+                <h3>Técnica y Precisión en Alta Velocidad</h3>
+                <p>
+                    Para conseguir fotos deportivas que impacten de verdad, aplico técnicas avanzadas de disparo en ráfaga a muy alta velocidad. Esto es crucial en deportes de contacto o raqueta, donde la acción ocurre en fracciones de segundo: congelar el sudor saltando en un impacto, la máxima tensión muscular en un <em>drive</em> perfecto, o la fuerza bruta de un levantamiento de pesas.
+                </p>
+                <p>
+                    Tanto si eres un atleta profesional, un deportista amateur buscando patrocinadores para tu dossier,
+                    o la organización de un evento que necesita cobertura fotográfica completa, documentaré la jornada
+                    con un estilo cinematográfico y vibrante. Entiendo la importancia de la inmediatez: ofrezco entregas
+                    ultrarrápidas para que puedas actualizar tus redes sociales y medios de comunicación cuando la
+                    noticia sigue caliente.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding reveal related-services-section">
+        <div class="container text-center">
+            <h2 class="section-title">Otros servicios que podrían interesarte</h2>
+            <div class="related-links-grid">
+                <a href="/servicios/fotografo-fitness-valencia" class="related-link-card">Fotografía Fitness</a>
+                <a href="/servicios/retratos-profesionales-valencia" class="related-link-card">Retratos Profesionales</a
+                >
+                <a href="/servicios/fotografia-marca-personal-valencia" class="related-link-card">Marca Personal</a>
+                <a href="/servicios/fotografo-eventos-valencia" class="related-link-card">Eventos Corporativos</a>
+            </div>
+        </div>
+    </section>
+
     <section id="cta-servicios" class="section-padding">
         <div class="container text-center reveal">
             <h2>¿Quieres saber más?</h2>
@@ -119,7 +159,7 @@ const faqs = [
 
 <style define:vars={{ heroUrl: `url('${heroImg?.src}')` }}>
     .subpage-hero {
-        background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), var(--heroUrl);
+        background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), var(--heroUrl);
         background-size: cover;
         background-position: center;
         min-height: 60vh;
@@ -135,7 +175,7 @@ const faqs = [
     }
 
     .hero-subtitle {
-        color: rgba(255,255,255,0.9);
+        color: rgba(255, 255, 255, 0.9);
         font-size: 1.2rem;
     }
 

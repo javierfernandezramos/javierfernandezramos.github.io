@@ -221,6 +221,17 @@ const getImg = (path: string) => {
                     </a>
                 </div>
 
+                <!-- Fitness -->
+                <div class="pack-category-card reveal">
+                    <div class="category-icon"><i class="fas fa-dumbbell"></i></div>
+                    <h3>Fitness</h3>
+                    <p>Captura tu esfuerzo y dedicación con máxima calidad.</p>
+                    <a href="/servicios/fotografo-fitness-valencia#tarifas" class="pack-preview-info-btn">
+                        <span class="pack-name-preview">Athlete Portfolio</span>
+                        <span class="pack-price-preview">Desde 160€</span>
+                    </a>
+                </div>
+
                 <!-- Retratos -->
                 <div class="pack-category-card reveal">
                     <div class="category-icon"><i class="fas fa-user-tie"></i></div>
@@ -330,9 +341,10 @@ const getImg = (path: string) => {
         }
 
         .packs-categories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
         }
 
         .pack-category-card {
@@ -344,6 +356,9 @@ const getImg = (path: string) => {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            flex: 1 1 30%;
+            min-width: 250px;
+            max-width: 350px;
         }
 
         .pack-category-card:hover {
@@ -406,6 +421,7 @@ const getImg = (path: string) => {
             color: var(--color-text-light);
             margin-bottom: 2rem;
             min-height: 2.5rem;
+            flex-grow: 1;
         }
 
         /* Mobile Optimization */
@@ -433,6 +449,8 @@ const getImg = (path: string) => {
 
             .packs-categories-grid {
                 display: flex;
+                flex-wrap: nowrap;
+                justify-content: flex-start;
                 overflow-x: auto;
                 padding: 1rem 1.5rem 2rem 1.5rem;
                 gap: 1.2rem;
@@ -494,53 +512,79 @@ const getImg = (path: string) => {
                 <div class="testimonials-slider" id="testimonials-slider">
                     <div class="testimonial-item">
                         <div class="testimonial-content">
-                            <div class="testimonial-img">
-                                <Image
-                                    src={getImg("Modelo/2.webp") || heroImg}
-                                    alt="Elena G."
-                                    width={100}
-                                    height={100}
-                                />
+                            <div class="testimonial-header">
+                                <span class="testimonial-author">Jorge Prats</span>
+                                <span class="testimonial-role">Cliente Verificado en Google</span>
                             </div>
-                            <p>"Increíbles fotos de retrato que contraté. Javier captó exactamente lo que quería."</p>
-                            <span class="testimonial-author">Mike A.</span>
-                            <span class="testimonial-role">Deportista</span>
+                            <div class="testimonial-stars">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <p>
+                                "La verdad que una pasada la experiencia, muy preparado en cada momento del proceso y
+                                super professional en cada instante y fotografia, la verdad que la proxima vez cuando lo
+                                necesite volvere a contactar, super recomendable para cualquier tipo de sesion de fotos
+                                ya sea en el deporte que me dedico o en cualqueir otra cosa, perfecta adaptación al
+                                entorno."
+                            </p>
                         </div>
                     </div>
                     <div class="testimonial-item">
                         <div class="testimonial-content">
-                            <div class="testimonial-img">
-                                <Image
-                                    src={getImg("Deportes/1.webp") || heroImg}
-                                    alt="Club Tenis Valencia"
-                                    width={100}
-                                    height={100}
-                                />
+                            <div class="testimonial-header">
+                                <span class="testimonial-author">Román Uzcátegui</span>
+                                <span class="testimonial-role">Cliente Verificado en Google</span>
                             </div>
-                            <p>
-                                "Las fotos de mi partido de tenis son espectaculares. La rapidez de entrega y la calidad
-                                me fascinó."
-                            </p>
-                            <span class="testimonial-author">Jorge P.</span>
-                            <span class="testimonial-role">Jugador de Tenis</span>
+                            <div class="testimonial-stars">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <p>"La profesionalidad de Javi es indiscutible, el mejor fotógrafo que hemos conocido."</p>
                         </div>
                     </div>
                     <div class="testimonial-item">
                         <div class="testimonial-content">
-                            <div class="testimonial-img">
-                                <Image
-                                    src={getImg("Modelo/11.webp") || heroImg}
-                                    alt="Marc R."
-                                    width={100}
-                                    height={100}
-                                />
+                            <div class="testimonial-header">
+                                <span class="testimonial-author">Ivan Garcia</span>
+                                <span class="testimonial-role">Cliente Verificado en Google</span>
+                            </div>
+                            <div class="testimonial-stars">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i>
                             </div>
                             <p>
-                                "La sesion de fotos de gimnasio de me hizo Javier fueron espectaculares y con mucha
-                                calidad."
+                                "Un gran profesional, se nota que entiende y que le gusta su trabajo, da gusto encontrar
+                                a gente así, lo recomiendo 100%"
                             </p>
-                            <span class="testimonial-author">Jose Manuel</span>
-                            <span class="testimonial-role">Modelo gym</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-item">
+                        <div class="testimonial-content">
+                            <div class="testimonial-header">
+                                <span class="testimonial-author">Angel Lopez Palao</span>
+                                <span class="testimonial-role">Cliente Verificado en Google</span>
+                            </div>
+                            <div class="testimonial-stars">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <p>
+                                "Muy satisfecho, es un chaval de 10, llegó puntual a la ubicación e hizo un trabajo
+                                espectacular, está muy poco reconocido la verdad, agradecido con haberle encontrado."
+                            </p>
+                        </div>
+                    </div>
+                    <div class="testimonial-item">
+                        <div class="testimonial-content">
+                            <div class="testimonial-header">
+                                <span class="testimonial-author">Javi Antón Martinez</span>
+                                <span class="testimonial-role">Cliente Verificado en Google</span>
+                            </div>
+                            <div class="testimonial-stars">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <p>"Increíbles fotos, no puedo estar mas contento con este servicio"</p>
                         </div>
                     </div>
                 </div>
@@ -557,8 +601,8 @@ const getImg = (path: string) => {
                     </div>
                     <div class="faq-answer">
                         <p>
-                            Normalmente entrego una selección previa en 48h y el pack completo editado en un plazo de 7 a 10
-                            días laborables.
+                            Normalmente entrego una selección previa en 48h y el pack completo editado en un plazo de 7
+                            a 10 días laborables.
                         </p>
                     </div>
                 </div>
@@ -575,8 +619,8 @@ const getImg = (path: string) => {
                     <div class="faq-question">¿Cómo se realiza el pago? <i class="fas fa-plus"></i></div>
                     <div class="faq-answer">
                         <p>
-                            Para reservar la fecha se abona una señal del 25%. El resto se paga el mismo día de la sesión o
-                            al finalizar el evento.
+                            Para reservar la fecha se abona una señal del 25%. El resto se paga el mismo día de la
+                            sesión o al finalizar el evento.
                         </p>
                     </div>
                 </div>
@@ -586,8 +630,32 @@ const getImg = (path: string) => {
                     </div>
                     <div class="faq-answer">
                         <p>
-                            No, mi trabajo incluye el revelado y la edición artística. Selecciono y edito las mejores tomas
-                            para asegurar un resultado profesional.
+                            No, mi trabajo incluye el revelado y la edición artística. Selecciono y edito las mejores
+                            tomas para asegurar un resultado profesional acorde a mi estilo visual.
+                        </p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        ¿Cómo puedo prepararme para una sesión de fotos? <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            Recomiendo descansar bien, elegir ropa con la que te sientas cómodo/a y evitar estampados
+                            demasiado llamativos o logos gigantes (a menos que sea fotografía de marca). Antes de la
+                            sesión, charlaremos para que tengas todo claro.
+                        </p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        ¿Ofreces packs personalizados? <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            ¡Sí! Las tarifas de la web son orientativas para los servicios más comunes. Si tienes un
+                            proyecto especial, una boda, un evento de varios días o un requerimiento específico de
+                            marca, cuéntame tu idea y prepararé un presupuesto a tu medida.
                         </p>
                     </div>
                 </div>
@@ -595,97 +663,97 @@ const getImg = (path: string) => {
         </div>
     </section>
 
-<!-- Final CTA Signature -->
-<section class="section-padding signature-cta">
-    <div class="container text-center">
-        <div class="signature-box reveal">
-            <h2 class="signature-title">Crea tu historia</h2>
-            <p class="signature-text">
-                Cada clic es una oportunidad para hacer algo eterno. Reserva tu sesión hoy y capturemos lo
-                extraordinario.
-            </p>
-            <a href="/contacto" class="btn luxury-gallery-btn start-project-btn">
-                Empezar Proyecto <i class="fas fa-star"></i>
-            </a>
+    <!-- Final CTA Signature -->
+    <section class="section-padding signature-cta">
+        <div class="container text-center">
+            <div class="signature-box reveal">
+                <h2 class="signature-title">Crea tu historia</h2>
+                <p class="signature-text">
+                    Cada clic es una oportunidad para hacer algo eterno. Reserva tu sesión hoy y capturemos lo
+                    extraordinario.
+                </p>
+                <a href="/contacto" class="btn luxury-gallery-btn start-project-btn">
+                    Empezar Proyecto <i class="fas fa-star"></i>
+                </a>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<style>
-    .faq-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
+    <style>
+        .faq-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
 
-    .faq-item {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 1rem 0;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
+        .faq-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
-    .faq-question {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        font-size: 0.9rem;
-        color: var(--color-gold);
-    }
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            color: var(--color-gold);
+        }
 
-    .faq-answer {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-    .faq-answer p {
-        padding: 1.5rem 0;
-        color: var(--color-text-light);
-        font-size: 0.95rem;
-        line-height: 1.6;
-    }
+        .faq-answer p {
+            padding: 1.5rem 0;
+            color: var(--color-text-light);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
 
-    .faq-item.active .faq-answer {
-        max-height: 200px;
-    }
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+        }
 
-    .faq-item.active i {
-        transform: rotate(45deg);
-        color: #fff;
-    }
+        .faq-item.active i {
+            transform: rotate(45deg);
+            color: #fff;
+        }
 
-    .signature-cta {
-        background: var(--color-secondary);
-    }
+        .signature-cta {
+            background: var(--color-secondary);
+        }
 
-    .signature-title {
-        font-size: 2.5rem;
-        letter-spacing: 5px;
-        margin-bottom: 1.5rem;
-        text-transform: uppercase;
-    }
-
-    @media (max-width: 768px) {
         .signature-title {
-            font-size: 1.5rem;
-            letter-spacing: 3px;
+            font-size: 2.5rem;
+            letter-spacing: 5px;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
         }
 
-        .signature-box {
-            padding: 3rem 1.5rem !important;
-        }
-    }
-</style>
+        @media (max-width: 768px) {
+            .signature-title {
+                font-size: 1.5rem;
+                letter-spacing: 3px;
+            }
 
-<script>
-    document.querySelectorAll(".faq-item").forEach((item) => {
-        item.addEventListener("click", () => {
-            item.classList.toggle("active");
+            .signature-box {
+                padding: 3rem 1.5rem !important;
+            }
+        }
+    </style>
+
+    <script>
+        document.querySelectorAll(".faq-item").forEach((item) => {
+            item.addEventListener("click", () => {
+                item.classList.toggle("active");
+            });
         });
-    });
-</script>
+    </script>
 </Layout>

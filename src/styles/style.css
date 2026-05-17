@@ -1152,7 +1152,7 @@ footer::before {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        object-position: center 10%;
+        object-position: center 25%;
     }
 
     .instagram-profile-icon {
@@ -1746,7 +1746,7 @@ footer::before {
     width: 100%;
     flex-shrink: 0;
     display: flex;
-    align-items: center;
+    align-items: stretch;
     justify-content: center;
     padding: 2rem 1rem;
 }
@@ -1762,30 +1762,15 @@ footer::before {
     width: 100%;
     max-width: 800px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-
-.testimonial-content .testimonial-img {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 1.5rem;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 2px solid var(--color-gold);
-    box-shadow: 0 5px 15px rgba(197, 160, 89, 0.3);
-}
-
-.testimonial-content .testimonial-img img {
-    width: 100%;
     height: 100%;
-    object-fit: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.testimonial-content p {
-    font-size: clamp(1rem, 2vw, 1.3rem);
-    font-style: italic;
-    margin-bottom: 2rem;
-    color: var(--color-primary);
-    line-height: 1.6;
+.testimonial-header {
+    margin-bottom: 0.8rem;
 }
 
 .testimonial-author {
@@ -1794,7 +1779,8 @@ footer::before {
     color: var(--color-gold);
     text-transform: uppercase;
     letter-spacing: 2px;
-    font-size: 0.9rem;
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
 }
 
 .testimonial-role {
@@ -1802,6 +1788,23 @@ footer::before {
     color: var(--color-text-light);
     text-transform: uppercase;
     letter-spacing: 1px;
+}
+
+.testimonial-stars {
+    color: var(--color-gold);
+    font-size: 0.8rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+}
+
+.testimonial-content p {
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    font-style: italic;
+    margin-bottom: 0;
+    color: var(--color-primary);
+    line-height: 1.6;
 }
 
 @media (max-width: 600px) {
@@ -3018,4 +3021,60 @@ footer .container {
     .services-wrapper-mobile.hint-active .service-detail-section {
         animation: hintSwipe 1.4s cubic-bezier(0.45, 0.05, 0.55, 0.95);
     }
+}
+
+/* --- SEO Content & Related Services --- */
+.seo-content-inner {
+    max-width: 800px;
+    margin: 0 auto;
+    color: var(--color-text-light);
+}
+
+.seo-content-inner h2 {
+    color: var(--color-gold);
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+}
+
+.seo-content-inner h3 {
+    color: #fff;
+    font-size: 1.3rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.seo-content-inner p {
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+}
+
+.seo-content-inner strong {
+    color: #fff;
+}
+
+.related-links-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.related-link-card {
+    padding: 1rem 2rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(197, 160, 89, 0.3);
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+}
+
+.related-link-card:hover {
+    background: var(--color-gold);
+    color: var(--color-secondary);
+    border-color: var(--color-gold);
+    transform: translateY(-3px);
 }

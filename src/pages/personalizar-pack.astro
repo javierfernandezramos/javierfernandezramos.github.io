@@ -44,7 +44,6 @@ const initialPack = initialService ? initialService.packs.find(p => p.id === pac
                             <div class="base-price">Precio Base: <span id="ui-base-price">0€</span></div>
                         </div>
 
-                        <!-- Botón Volver (Relocalizado) -->
                         <div class="calculator-actions-sidebar">
                             <a id="btn-volver" href="/servicios" class="btn btn-outline-luxury sidebar-back-btn">
                                 <i class="fas fa-arrow-left"></i> Elegir otro pack
@@ -55,13 +54,13 @@ const initialPack = initialService ? initialService.packs.find(p => p.id === pac
                     <!-- Columna Derecha: Calculadora -->
                     <div class="calculator-card pricing-calculator">
                         <h3>Añade Extras</h3>
-                        <p class="small-text">Personaliza tu sesión con retoques adicionales de alta calidad.</p>
+                        <p class="small-text">Personaliza tu sesión añadiendo más cantidad de fotos editadas.</p>
                         
                         <div class="extras-list">
                             <div class="extra-item">
                                 <div class="extra-info">
-                                    <span class="extra-name">Foto Extra (Retoque Avanzado)</span>
-                                    <span class="extra-price">+10€ / unidad</span>
+                                    <span class="extra-name">Foto Extra Editada</span>
+                                    <span class="extra-price">+5€ / unidad</span>
                                 </div>
                                 <div class="counter">
                                     <button type="button" id="minus-one" aria-label="Menos uno"><i class="fas fa-minus"></i></button>
@@ -72,8 +71,8 @@ const initialPack = initialService ? initialService.packs.find(p => p.id === pac
 
                             <div class="extra-item">
                                 <div class="extra-info">
-                                    <span class="extra-name">Pack 10 Retoques Extra</span>
-                                    <span class="extra-price">+70€ (Ahorras 30€)</span>
+                                    <span class="extra-name">Pack 10 Fotos Extra Editadas</span>
+                                    <span class="extra-price">+35€</span>
                                 </div>
                                 <div class="counter">
                                     <button type="button" id="minus-pack" aria-label="Menos un pack"><i class="fas fa-minus"></i></button>
@@ -218,7 +217,7 @@ const initialPack = initialService ? initialService.packs.find(p => p.id === pac
     }
 
     function updateTotals() {
-        const extrasTotal = (extraPhotos * 10) + (extraPacks * 70);
+        const extrasTotal = (extraPhotos * 5) + (extraPacks * 35);
         const grandTotal = basePrice + extrasTotal;
 
         extrasTotalEl.textContent = `${extrasTotal}€`;
@@ -275,7 +274,7 @@ const initialPack = initialService ? initialService.packs.find(p => p.id === pac
         btnFinalizar.disabled = true;
         btnFinalizar.innerHTML = 'Enviando... <i class="fas fa-spinner fa-spin"></i>';
 
-        const total = basePrice + (extraPhotos * 10) + (extraPacks * 70);
+        const total = basePrice + (extraPhotos * 5) + (extraPacks * 35);
         
         // Prepare data for Formspree
         const formData = new FormData();
@@ -321,7 +320,8 @@ const initialPack = initialService ? initialService.packs.find(p => p.id === pac
 
 <style>
     .custom-pack-section {
-        padding-top: 10rem;
+        padding-top: 10rem !important;
+        min-height: 100vh;
     }
 
     .loading-container {
@@ -339,6 +339,10 @@ const initialPack = initialService ? initialService.packs.find(p => p.id === pac
     .sidebar-back-btn {
         width: 100%;
         margin-top: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
     }
 
     .input-relative {
@@ -456,29 +460,32 @@ const initialPack = initialService ? initialService.packs.find(p => p.id === pac
             padding: 7rem 0 4rem !important;
         }
 
-        .btn-outline-luxury {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--color-text-light);
-            padding: 0.8rem 1.5rem;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-outline-luxury:hover {
-            border-color: var(--color-gold);
-            color: var(--color-gold);
-            background: rgba(197, 160, 89, 0.05);
-        }
-
         .pack-info h2 {
             font-size: 1.5rem !important;
         }
+    }
+
+    .btn-outline-luxury {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--color-text-light);
+        padding: 1rem 1.5rem;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        font-weight: 700;
+        width: 100%;
+    }
+
+    .btn-outline-luxury:hover {
+        border-color: var(--color-gold);
+        color: var(--color-gold);
+        background: rgba(197, 160, 89, 0.05);
     }
 
     .calculator-card {
@@ -587,7 +594,8 @@ const initialPack = initialService ? initialService.packs.find(p => p.id === pac
     .counter {
         display: flex;
         align-items: center;
-        gap: 10px;
+        justify-content: space-between;
+        width: 100px;
     }
 
     .counter button {
@@ -603,14 +611,27 @@ const initialPack = initialService ? initialService.packs.find(p => p.id === pac
         font-size: 0.8rem;
     }
 
+    .counter input::-webkit-outer-spin-button,
+    .counter input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .counter input[type=number] {
+        -moz-appearance: textfield;
+    }
+
     .counter input {
         background: transparent;
         border: none;
         color: #fff;
-        width: 24px;
+        width: 30px;
         text-align: center;
         font-weight: 700;
-        font-size: 0.9rem;
+        font-size: 1rem;
+        padding: 0;
+        margin: 0;
+        outline: none;
     }
 
     .total-section {
