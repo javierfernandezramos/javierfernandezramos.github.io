@@ -36,7 +36,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 3. LIGHTBOX & INTERFACE CONSOLIDADA ---
     const galleryItems = document.querySelectorAll('.gallery-item');
     const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxImg1 = document.getElementById('lightbox-img-1');
+    const lightboxImg2 = document.getElementById('lightbox-img-2');
+    let currentActiveImg = lightboxImg1;
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const navLinksMenu = document.getElementById('nav-links');
     
@@ -52,11 +54,84 @@ document.addEventListener('DOMContentLoaded', () => {
         img.src = url;
     };
 
-    window.updateLightboxImage = function () {
-        if (!lightboxImg || window.lightboxState.images.length === 0) return;
+    window.updateLightboxImage = function (isNavigating = false, direction = 'next') {
+        if (!lightboxImg1 || !lightboxImg2 || window.lightboxState.images.length === 0) return;
         
         const currentUrl = window.lightboxState.images[window.lightboxState.currentIndex];
-        lightboxImg.src = currentUrl;
+
+        if (isNavigating) {
+            const activeImg = currentActiveImg;
+            const incomingImg = activeImg === lightboxImg1 ? lightboxImg2 : lightboxImg1;
+
+            // 1. Ocultar la nueva imagen temporalmente y asignarle el nuevo src
+            incomingImg.className = 'lightbox-content';
+            incomingImg.style.transition = 'none';
+            incomingImg.style.opacity = '0';
+            incomingImg.src = currentUrl;
+
+            let hasStarted = false;
+            const startAnimation = () => {
+                if (hasStarted) return;
+                hasStarted = true;
+                
+                // Preparar posición inicial de entrada lateral (slide-in)
+                const startClass = direction === 'next' ? 'slide-in-right-start' : 'slide-in-left-start';
+                incomingImg.className = 'lightbox-content ' + startClass;
+                
+                // Quitar estilos inline de carga
+                incomingImg.style.transition = '';
+                incomingImg.style.opacity = '';
+
+                // Forzar reflow para registrar el punto de partida
+                incomingImg.offsetHeight;
+
+                // Iniciar la transición
+                setTimeout(() => {
+                    const outClass = direction === 'next' ? 'slide-out-left' : 'slide-out-right';
+                    activeImg.className = 'lightbox-content ' + outClass;
+                    incomingImg.className = 'lightbox-content active';
+                }, 20);
+
+                // Limpieza tras finalizar la transición (270ms)
+                setTimeout(() => {
+                    if (currentActiveImg !== activeImg) {
+                        activeImg.src = '';
+                        activeImg.className = 'lightbox-content';
+                    }
+                }, 270);
+
+                currentActiveImg = incomingImg;
+            };
+
+            // Si ya está en caché o se carga al instante
+            if (incomingImg.complete) {
+                startAnimation();
+            } else {
+                incomingImg.onload = () => {
+                    startAnimation();
+                    incomingImg.onload = null;
+                    incomingImg.onerror = null;
+                };
+                incomingImg.onerror = () => {
+                    startAnimation();
+                    incomingImg.onload = null;
+                    incomingImg.onerror = null;
+                };
+            }
+        } else {
+            // Carga inicial sin transición de deslizamiento
+            lightboxImg1.className = 'lightbox-content active';
+            lightboxImg1.style.transition = '';
+            lightboxImg1.style.opacity = '';
+            lightboxImg1.src = currentUrl;
+
+            lightboxImg2.className = 'lightbox-content';
+            lightboxImg2.style.transition = '';
+            lightboxImg2.style.opacity = '';
+            lightboxImg2.src = '';
+
+            currentActiveImg = lightboxImg1;
+        }
 
         // Pre-carga predictiva: Siguiente y Anterior
         const nextIdx = (window.lightboxState.currentIndex + 1) % window.lightboxState.images.length;
@@ -69,13 +144,13 @@ document.addEventListener('DOMContentLoaded', () => {
     window.showNextImage = () => {
         if (window.lightboxState.images.length <= 1) return;
         window.lightboxState.currentIndex = (window.lightboxState.currentIndex + 1) % window.lightboxState.images.length;
-        window.updateLightboxImage();
+        window.updateLightboxImage(true, 'next');
     };
 
     window.showPrevImage = () => {
         if (window.lightboxState.images.length <= 1) return;
         window.lightboxState.currentIndex = (window.lightboxState.currentIndex - 1 + window.lightboxState.images.length) % window.lightboxState.images.length;
-        window.updateLightboxImage();
+        window.updateLightboxImage(true, 'prev');
     };
 
     if (btnNext) btnNext.addEventListener('click', (e) => { e.stopPropagation(); window.showNextImage(); });
@@ -92,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     window.openSmartLightbox = function (clickedUrl, allUrls) {
-        if (!lightbox || !lightboxImg) return;
+        if (!lightbox || !lightboxImg1 || !lightboxImg2) return;
         window.lightboxState.images = allUrls;
         window.lightboxState.currentIndex = allUrls.indexOf(clickedUrl);
         window.lightboxState.isOpen = true;
@@ -111,19 +186,47 @@ document.addEventListener('DOMContentLoaded', () => {
         if (navbar) navbar.style.paddingRight = `${scrollbarWidth}px`;
 
         if (mobileMenuBtn) mobileMenuBtn.classList.add('active');
-        window.updateLightboxImage();
+        lightbox.classList.add('opening');
+        setTimeout(() => {
+            lightbox.classList.remove('opening');
+        }, 300);
+        window.updateLightboxImage(false);
     };
 
     const hideLightbox = () => { 
-        if (lightbox) lightbox.style.display = 'none'; 
-        if (lightboxImg) lightboxImg.src = ''; 
-        window.lightboxState.isOpen = false;
-        document.documentElement.style.overflow = ''; 
-        document.body.style.overflow = '';            
-        document.body.style.paddingRight = '';
-        if (navbar) navbar.style.paddingRight = '';
-
+        if (!lightbox) return;
+        
+        // Iniciar animación de cierre
+        lightbox.classList.add('closing');
+        if (lightboxImg1) lightboxImg1.classList.add('closing-img');
+        if (lightboxImg2) lightboxImg2.classList.add('closing-img');
+        
+        // Desactivar estado 'active' del botón móvil inmediatamente para sincronizar animación
         if (mobileMenuBtn) mobileMenuBtn.classList.remove('active');
+        
+        setTimeout(() => {
+            lightbox.style.display = 'none'; 
+            lightbox.classList.remove('closing');
+            
+            if (lightboxImg1) {
+                lightboxImg1.src = ''; 
+                lightboxImg1.className = 'lightbox-content active';
+                lightboxImg1.onload = null;
+                lightboxImg1.onerror = null;
+            }
+            if (lightboxImg2) {
+                lightboxImg2.src = ''; 
+                lightboxImg2.className = 'lightbox-content';
+                lightboxImg2.onload = null;
+                lightboxImg2.onerror = null;
+            }
+            currentActiveImg = lightboxImg1;
+            window.lightboxState.isOpen = false;
+            document.documentElement.style.overflow = ''; 
+            document.body.style.overflow = '';            
+            document.body.style.paddingRight = '';
+            if (navbar) navbar.style.paddingRight = '';
+        }, 200); // Duración de la animación de cierre (200ms)
     };
 
     const redCloseBtn = document.getElementById('lightbox-close-red');

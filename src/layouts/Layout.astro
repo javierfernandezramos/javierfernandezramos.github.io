@@ -23,15 +23,24 @@ const {
     ogImage = defaultOgImage.src
 } = Astro.props;
 
+// Dominio de producción e URL Canónica Dinámica sin barra inclinada al final
+const siteUrl = Astro.site ? Astro.site.href.replace(/\/$/, '') : 'https://javiphoto.es';
+const canonicalURL = new URL(Astro.url.pathname, siteUrl).href.replace(/\/$/, '');
+
+// Asegurar que la imagen de Open Graph sea una URL absoluta
+const absoluteOgImageUrl = ogImage.startsWith('http') 
+    ? ogImage 
+    : `${siteUrl}${ogImage.startsWith('/') ? '' : '/'}${ogImage}`;
+
 const schema = {
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "Person",
-      "@id": "https://javierfernandezramos.github.io/#person",
+      "@id": `${siteUrl}/#person`,
       "name": "Javier Fernández Ramos",
-      "url": "https://javierfernandezramos.github.io/",
-      "image": "https://javierfernandezramos.github.io/favicon.png",
+      "url": `${siteUrl}/`,
+      "image": `${siteUrl}/favicon.png`,
       "sameAs": [
         contactInfo.instagramUrl,
         contactInfo.tiktokUrl
@@ -41,10 +50,10 @@ const schema = {
     },
     {
       "@type": "Organization",
-      "@id": "https://javierfernandezramos.github.io/#organization",
+      "@id": `${siteUrl}/#organization`,
       "name": "JaviPhoto",
-      "url": "https://javierfernandezramos.github.io/",
-      "logo": "https://javierfernandezramos.github.io/favicon.png",
+      "url": `${siteUrl}/`,
+      "logo": `${siteUrl}/favicon.png`,
       "contactPoint": {
         "@type": "ContactPoint",
         "email": contactInfo.email,
@@ -54,9 +63,9 @@ const schema = {
     {
       "@type": "ProfessionalService",
       "name": "JaviPhoto - Javier Fernández Ramos",
-      "image": "https://javierfernandezramos.github.io/favicon.png",
-      "@id": "https://javierfernandezramos.github.io/",
-      "url": "https://javierfernandezramos.github.io/",
+      "image": `${siteUrl}/favicon.png`,
+      "@id": `${siteUrl}/`,
+      "url": `${siteUrl}/`,
       "telephone": contactInfo.phone,
       "address": {
         "@type": "PostalAddress",
@@ -121,23 +130,24 @@ const schema = {
     <!-- SEO Meta Tags -->
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
     
     <!-- Robots meta tag for control indexing -->
     {noIndex ? <meta name="robots" content="noindex, nofollow" /> : <meta name="robots" content="index, follow" />}
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://javierfernandezramos.github.io/" />
+    <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImage} />
+    <meta property="og:image" content={absoluteOgImageUrl} />
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://javierfernandezramos.github.io/" />
+    <meta property="twitter:url" content={canonicalURL} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={ogImage} />
+    <meta property="twitter:image" content={absoluteOgImageUrl} />
 
     {preloadImage && <link rel="preload" href={preloadImage} as="image" type="image/webp" />}
 
@@ -167,7 +177,8 @@ const schema = {
         <div class="lightbox-wrapper">
             <button id="lightbox-close-red" class="lightbox-close-red" aria-label="Cerrar"><i class="fas fa-times"></i></button>
             <button id="lightbox-prev" class="lightbox-nav prev" aria-label="Foto anterior"><i class="fas fa-chevron-left"></i></button>
-            <img class="lightbox-content" id="lightbox-img">
+            <img class="lightbox-content active" id="lightbox-img-1" alt="Imagen ampliada 1">
+            <img class="lightbox-content" id="lightbox-img-2" alt="Imagen ampliada 2">
             <button id="lightbox-next" class="lightbox-nav next" aria-label="Foto siguiente"><i class="fas fa-chevron-right"></i></button>
 
             <div class="swipe-hint">

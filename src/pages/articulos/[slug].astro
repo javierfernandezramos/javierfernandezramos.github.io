@@ -14,6 +14,7 @@ const { Content } = await render(entry);
 
 const title = entry.data.title;
 const description = entry.data.description;
+const ogImage = entry.data.image ? entry.data.image.src : undefined;
 
 // Obtener otros artículos para enlazarlos al final
 const todosLosArticulos = await getCollection('articulos');
@@ -21,9 +22,38 @@ const articulosRelacionados = todosLosArticulos
   .filter(art => art.id !== entry.id)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
+
+// Schema específico para el artículo
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": title,
+  "description": description,
+  "image": ogImage ? (ogImage.startsWith('http') ? ogImage : `https://javiphoto.es${ogImage}`) : 'https://javiphoto.es/assets/Fotos/hero-image.webp',
+  "datePublished": entry.data.pubDate.toISOString(),
+  "author": {
+    "@type": "Person",
+    "name": "Javier Fernández Ramos",
+    "url": "https://javiphoto.es"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "JaviPhoto",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://javiphoto.es/favicon.png"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": `https://javiphoto.es/articulos/${entry.id}`
+  }
+};
 ---
 
-<Layout title={title} description={description} activePage="articulos">
+<Layout title={title} description={description} activePage="articulos" ogImage={ogImage}>
+    <!-- Inyección del Schema de artículo -->
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
     <article class="article-single">
         <header class="article-header article-single-header">
             <div class="container">
