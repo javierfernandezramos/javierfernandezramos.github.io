@@ -13,9 +13,10 @@ const getImg = (path: string) => {
     return galleryImages[fullPath]?.default;
 };
 
-const title = "Fotografía de Marca Personal en Valencia";
+const title = "Fotógrafo de Marca Personal en Valencia — Sesiones de Branding";
 const description =
-    "Potencia tu marca personal en Valencia con fotografía profesional. Imágenes que comunican tus valores y profesionalidad para web y redes sociales.";
+    "Fotografía de marca personal y branding en Valencia para emprendedores y coaches. Consigue contenido estratégico para un mes de redes sociales y web. Desde 90€.";
+const subtitle = "Consigue contenido estratégico para un mes de redes sociales. Precios claros desde 90 €.";
 const heroImg = getImg("Marca/3.webp");
 
 const features = [
@@ -38,43 +39,77 @@ const features = [
 
 const faqs = [
     {
-        q: "¿Qué ideas para fotos de marca personal recomiendas?",
-        a: "Recomiendo combinar retratos corporativos con fotos en acción y lifestyle que muestre tu personalidad.",
+        q: "¿Cuánto cuesta un fotógrafo de marca personal en Valencia?",
+        a: "El pack básico Quick Start cuesta entre 90 €-110 € (15 fotos). El pack intermedio Brand Story cuesta entre 200 €-240 € (contenido para 1 mes de redes). El pack premium Total Identity empieza desde 350 €.",
     },
     {
-        q: "¿Cuál es el presupuesto para una fotografía de marca personal?",
-        a: "El presupuesto varía según la duración de la sesión. Ofrezco packs personalizados para emprendedores.",
+        q: "¿Cuántas fotos necesito para mi estrategia de redes sociales?",
+        a: "Para un perfil activo en Instagram o LinkedIn que publica 3 veces por semana, unas 15-20 fotos al mes son ideales. Nuestro pack Brand Story cubre exactamente esa necesidad.",
     },
     {
-        q: "¿Me ayudas a elegir el vestuario y la localización?",
-        a: "¡Por supuesto! Realizamos una asesoría previa para definir el estilo y los mejores lugares de Valencia.",
+        q: "¿Cuál es la diferencia entre retrato corporativo y marca personal?",
+        a: "El retrato corporativo es una foto de perfil formal de tu rostro. La marca personal abarca además fotos lifestyle, en acción y de detalle que muestran tu personalidad y tu método de trabajo.",
+    },
+    {
+        q: "¿El pack de marca personal incluye vídeo o reels?",
+        a: "Sí, nuestro pack premium Total Identity incluye un vídeo presentación de 30 segundos y el pack intermedio viene con planificación de contenido visual de regalo.",
+    },
+    {
+        q: "¿Entregas las fotos sin editar (RAW)?",
+        a: "No. La edición es el 50% de nuestra firma visual. Solo entregamos las tomas seleccionadas con revelado profesional y retoque digital de alta calidad.",
     },
 ];
+
+// JSON-LD Schema para FAQPage
+const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((faq) => ({
+        "@type": "Question",
+        "name": faq.q,
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.a,
+        },
+    })),
+};
 ---
 
 <Layout title={title} description={description} activePage="servicios">
+    <!-- JSON-LD FAQ Schema -->
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(faqSchema)} />
+
     <section class="services-hero subpage-hero">
         <div class="container">
-            <h1 class="section-title reveal hero-title">{title}</h1>
+            <h1 class="section-title reveal hero-title">Fotógrafo de Marca Personal en Valencia — Sesión de Fotos de Branding para Emprendedores y Coaches</h1>
             <p class="section-subtitle reveal hero-subtitle">
-                {description}
+                {subtitle}
             </p>
         </div>
     </section>
 
-    <section id="tarifas" class="section-padding reveal">
+    <section class="section-padding reveal seo-content-section">
         <div class="container">
-            <h2 class="section-title">Packs y Tarifas</h2>
-            <p class="text-center tariffs-subtitle">
-                Selecciona el pack que mejor se adapte a tu nivel y necesidades.
-            </p>
+            <div class="seo-content-inner text-center-desktop">
+                <h2>Fotografía de Branding: comunica tus valores y atrae más clientes</h2>
+                <p>
+                    Detrás de cada proyecto exitoso hay una gran historia y una persona con valores definidos. Las fotografías de stock genéricas y los contenidos improvisados con el móvil ya no conectan con tu cliente ideal. Como fotógrafo de marca personal en Valencia, te ayudo a crear una identidad visual coherente y profesional. Hacemos retratos corporativos modernos, fotos en acción y estilo lifestyle diseñados estratégicamente para nutrir tu web, LinkedIn e Instagram durante meses, logrando diferenciarte de la competencia y aumentar tus ventas de manera directa.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="tarifas" class="section-padding reveal secondary-bg">
+        <div class="container">
+            <h2 class="section-title">Packs y Tarifas de Marca Personal y Branding</h2>
+            <p class="text-center tariffs-subtitle">Selecciona el pack que mejor se adapte a tu nivel y necesidades.</p>
             <PricingPacks serviceId="branding" />
         </div>
     </section>
 
-    <section class="section-padding reveal secondary-bg">
+    <section class="section-padding reveal">
         <div class="container">
-            <h2 class="section-title">Servicios Opcionales de Vídeo</h2>
+            <h2 class="section-title">Servicios Opcionales de Vídeo para Branding</h2>
             <div class="services-minimal-grid">
                 {
                     features.map((feature) => (
@@ -91,9 +126,108 @@ const faqs = [
         </div>
     </section>
 
+    <section class="section-padding reveal secondary-bg">
+        <div class="container">
+            <div class="seo-content-inner">
+                <h2>Áreas de Aplicación de la Fotografía de Marca</h2>
+                <p>Diseñamos cada sesión según las necesidades de comunicación y marketing de tu negocio:</p>
+                <div class="disciplines-grid">
+                    <div class="discipline-card">
+                        <i class="fas fa-mug-hot"></i>
+                        <h3>Retratos Lifestyle en Acción</h3>
+                        <p>Imágenes naturales y dinámicas de ti trabajando en tu espacio de coworking, cafetería o despacho habitual en Valencia.</p>
+                    </div>
+                    <div class="discipline-card">
+                        <i class="fas fa-laptop-code"></i>
+                        <h3>Identidad Visual Corporativa</h3>
+                        <p>Fotografías corporativas elegantes para tu sitio web, cabeceras profesionales de redes y dosieres comerciales.</p>
+                    </div>
+                    <div class="discipline-card">
+                        <i class="fas fa-comments"></i>
+                        <h3>Sesiones para Coaches y Consultores</h3>
+                        <p>Imágenes que transmiten empatía, cercanía, autoridad y dinamismo para conectar emocionalmente con tus asesorados.</p>
+                    </div>
+                    <div class="discipline-card">
+                        <i class="fas fa-calendar-check"></i>
+                        <h3>Contenido Mensual Estratégico</h3>
+                        <p>Banco de imágenes ordenado y listo para tus publicaciones e historias semanales en Instagram y LinkedIn.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="section-padding reveal">
         <div class="container">
-            <h2 class="section-title">Preguntas Frecuentes</h2>
+            <div class="seo-content-inner">
+                <h2>¿Cómo funciona una sesión de marca personal en Valencia?</h2>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <span class="step-number">01</span>
+                        <h3>1. Sesión estratégica de identidad visual</h3>
+                        <p>Antes de pulsar el obturador, planificamos qué quieres transmitir, qué colores representan tu identidad visual y definimos la dirección artística.</p>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-number">02</span>
+                        <h3>2. Selección de localizaciones y outfits</h3>
+                        <p>Elegimos los lugares idóneos en Valencia (coworkings, oficinas de diseño, exteriores arquitectónicos) y coordinamos las mudas de vestuario.</p>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-number">03</span>
+                        <h3>3. Shooting y dirección en la sesión</h3>
+                        <p>Realizamos la sesión de fotos de forma dinámica, divertida y sin agobios. Te guiaré en todo momento para que transmitas tu esencia con total naturalidad.</p>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-number">04</span>
+                        <h3>4. Selección en 48h y entrega final</h3>
+                        <p>En menos de 48 horas seleccionas tus tomas favoritas desde tu galería privada, y en 7-10 días laborables te entrego el material final completamente editado.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding reveal secondary-bg">
+        <div class="container">
+            <h2 class="section-title">Para quién es la fotografía de marca personal</h2>
+            <div class="for-whom-grid">
+                <div class="for-whom-card">
+                    <h3>Para emprendedores y profesionales autónomos</h3>
+                    <p>Consigue imágenes que muestren tu personalidad, tu método de trabajo y el valor diferencial de tu marca frente a grandes competidores.</p>
+                </div>
+                <div class="for-whom-card">
+                    <h3>Para coaches, consultores y mentores</h3>
+                    <p>La confianza es la clave de tus ventas. Muestra tu profesionalidad con retratos cercanos, nítidos y auténticos que abran nuevas oportunidades.</p>
+                </div>
+                <div class="for-whom-card">
+                    <h3>Para creadores de contenido e influencers</h3>
+                    <p>Contenido visual de altísima calidad y coherencia estética para mantener tus redes sociales (Instagram, TikTok) activas e inspiradoras.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding reveal">
+        <div class="container text-center">
+            <h2 class="section-title">Opiniones sobre mis sesiones de branding</h2>
+            <div class="featured-testimonial">
+                <div class="testimonial-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <p class="testimonial-text">
+                    "Muy satisfecho, es un chaval de 10, llegó puntual a la ubicación e hizo un trabajo espectacular. Está muy poco reconocido la verdad, agradecido con haberle encontrado."
+                </p>
+                <span class="testimonial-author">— Angel Lopez Palao, cliente de marca personal en Valencia</span>
+            </div>
+            <div class="testimonials-link-box">
+                <a href="/#testimonios" class="btn luxury-gallery-btn">Ver todas las opiniones en la página de inicio <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding reveal secondary-bg">
+        <div class="container">
+            <h2 class="section-title">Preguntas frecuentes sobre marca personal en Valencia</h2>
             <div class="faq-container-narrow">
                 {
                     faqs.map((faq) => (
@@ -107,25 +241,12 @@ const faqs = [
         </div>
     </section>
 
-    <section class="section-padding seo-content-section reveal secondary-bg">
-        <div class="container">
-            <div class="seo-content-inner">
-                <h2>¿Por qué necesitas fotografía de marca personal en Valencia?</h2>
-                <p>En el panorama digital actual, tu imagen es tu carta de presentación más poderosa. Como <strong>fotógrafo de marca personal en Valencia</strong>, mi trabajo es ayudarte a transmitir confianza, autoridad y cercanía a través de imágenes profesionales que conecten directamente con tu cliente ideal. Ya seas un CEO, emprendedor, consultor o creativo, una buena fotografía corporativa es una inversión directa en tu negocio.</p>
-                <p>No se trata de los clásicos y aburridos retratos sobre un fondo blanco. La fotografía de <em>Personal Branding</em> moderna documenta quién eres y cómo trabajas. En Valencia disponemos de una luz mediterránea perfecta y multitud de localizaciones ideales: desde modernos espacios de coworking y oficinas, hasta cafeterías de diseño o la icónica arquitectura de la ciudad para transmitir un aire más vanguardista e innovador.</p>
-                <h3>Diferénciate de la competencia con imágenes profesionales</h3>
-                <p>Una sesión de marca personal debe contar tu historia. Durante nuestro <em>shooting</em> corporativo, capturaremos retratos limpios para tu perfil de LinkedIn y página web, así como fotos "lifestyle" y en acción (trabajando, en reuniones, creando tu producto) que podrás usar durante meses en tu estrategia de contenidos, redes sociales, newsletters y campañas publicitarias.</p>
-                <p>Mi enfoque es natural y muy guiado. Sé que ponerte delante de una cámara puede resultar intimidante, por lo que crearemos un ambiente relajado donde te sientas cómodo. Nos aseguraremos de que el vestuario, la iluminación y las localizaciones estén perfectamente alineados con los valores y la paleta de colores de tu empresa, generando un material visual coherente y altamente profesional.</p>
-            </div>
-        </div>
-    </section>
-
     <section class="section-padding reveal related-services-section">
         <div class="container text-center">
             <h2 class="section-title">Otros servicios que podrían interesarte</h2>
             <div class="related-links-grid">
-                <a href="/servicios/fotografo-fitness-valencia" class="related-link-card">Fotografía Fitness</a>
                 <a href="/servicios/retratos-profesionales-valencia" class="related-link-card">Retratos Profesionales</a>
+                <a href="/servicios/fotografo-fitness-valencia" class="related-link-card">Fotografía Fitness</a>
                 <a href="/servicios/fotografo-deportivo-valencia" class="related-link-card">Fotografía Deportiva</a>
                 <a href="/servicios/fotografo-eventos-valencia" class="related-link-card">Eventos Corporativos</a>
             </div>
@@ -134,9 +255,9 @@ const faqs = [
 
     <section id="cta-servicios" class="section-padding">
         <div class="container text-center reveal">
-            <h2>¿Listo para elevar tu marca?</h2>
-            <p class="cta-subtitle">Solicita un presupuesto sin compromiso para tu sesión en Valencia.</p>
-            <a href="/contacto" class="btn luxury-gallery-btn">Reservar Shooting <i class="fas fa-camera"></i></a>
+            <h2>¿Listo para elevar tu marca personal en Valencia?</h2>
+            <p class="cta-subtitle">Reservas sin compromiso. Asegura tu fecha con una señal del 25% del total.</p>
+            <a href="/contacto" class="btn luxury-gallery-btn">Reservar Shooting <i class="fas fa-calendar-check"></i></a>
         </div>
     </section>
 </Layout>
@@ -156,6 +277,8 @@ const faqs = [
     .hero-title {
         color: white;
         margin-bottom: 1rem;
+        font-size: 2.2rem;
+        line-height: 1.2;
     }
 
     .hero-subtitle {
@@ -183,9 +306,164 @@ const faqs = [
 
     .faq-sub-q {
         color: var(--color-gold);
+        font-size: 1.15rem;
+        margin-bottom: 0.5rem;
     }
 
     .cta-subtitle {
         margin-bottom: 2rem;
+    }
+
+    .disciplines-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    @media (max-width: 768px) {
+        .disciplines-grid {
+            gap: 1rem;
+        }
+        .discipline-card {
+            padding: 1.5rem 1.25rem !important;
+        }
+    }
+
+    @media (min-width: 769px) {
+        .disciplines-grid .discipline-card:last-child:nth-child(odd) {
+            grid-column: span 2;
+        }
+    }
+
+    .discipline-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 3rem 2.5rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    .discipline-card:hover {
+        border-color: var(--color-gold);
+        background: rgba(255, 255, 255, 0.04);
+        transform: translateY(-3px);
+    }
+
+    .discipline-card i {
+        font-size: 2.5rem;
+        color: var(--color-gold);
+        margin-bottom: 1.25rem;
+    }
+
+    .discipline-card h3 {
+        font-size: 1.3rem;
+        margin-bottom: 0.75rem;
+        color: #fff;
+    }
+
+    .discipline-card p {
+        font-size: 0.95rem;
+        color: var(--color-text-light);
+        line-height: 1.6;
+    }
+
+    .process-steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .step-item {
+        position: relative;
+        padding-top: 1.5rem;
+    }
+
+    .step-number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: rgba(197, 160, 89, 0.15);
+        position: absolute;
+        top: -1rem;
+        left: 0;
+        font-family: 'Outfit', sans-serif;
+    }
+
+    .step-item h3 {
+        font-size: 1.15rem;
+        color: #fff;
+        margin-bottom: 0.75rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .step-item p {
+        font-size: 0.9rem;
+        color: var(--color-text-light);
+        line-height: 1.6;
+    }
+
+    .for-whom-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    .for-whom-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 2rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    .for-whom-card:hover {
+        border-color: var(--color-gold);
+    }
+
+    .for-whom-card h3 {
+        font-size: 1.15rem;
+        color: var(--color-gold);
+        margin-bottom: 0.75rem;
+    }
+
+    .for-whom-card p {
+        font-size: 0.9rem;
+        color: var(--color-text-light);
+        line-height: 1.6;
+    }
+
+    .featured-testimonial {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        border: 1px solid rgba(197, 160, 89, 0.2);
+        background: rgba(255, 255, 255, 0.01);
+        position: relative;
+    }
+
+    .testimonial-stars {
+        color: var(--color-gold);
+        margin-bottom: 1rem;
+    }
+
+    .testimonial-text {
+        font-size: 1.1rem;
+        font-style: italic;
+        color: #fff;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+
+    .testimonial-author {
+        color: var(--color-gold);
+        font-weight: 700;
+        font-size: 0.95rem;
+    }
+
+    .testimonials-link-box {
+        margin-top: 1.5rem;
     }
 </style>

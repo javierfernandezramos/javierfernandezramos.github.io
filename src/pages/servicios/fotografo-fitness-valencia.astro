@@ -13,9 +13,10 @@ const getImg = (path: string) => {
     return galleryImages[fullPath]?.default;
 };
 
-const title = "Fotógrafo Fitness en Valencia";
+const title = "Fotógrafo Fitness en Valencia — Sesiones de Gimnasio y Atletas";
 const description =
-    "Fotografía fitness profesional en Valencia. Capturo tu esfuerzo, dedicación y progreso físico con un estilo visual potente y motivador.";
+    "Fotógrafo fitness profesional en Valencia. Sesiones en gimnasio y exteriores con Reel corto de regalo para potenciar tu marca personal y redes. Tarifas desde 90€.";
+const subtitle = "Luce tu progreso físico con edición High-End, entrega de avance en 48h y packs desde 90 €.";
 const heroImg = getImg("Modelo/f3-fit-modelo.webp");
 const mainImg = getImg("Modelo/fitness-leggins.webp");
 
@@ -39,43 +40,77 @@ const features = [
 
 const faqs = [
     {
-        q: "¿Dónde se realizan las sesiones de fotos fitness?",
-        a: "Podemos realizarlas en tu gimnasio habitual (previa autorización), en centros colaboradores en Valencia o en exteriores si buscas un estilo más lifestyle.",
+        q: "¿Cuánto cuesta un fotógrafo fitness en Valencia?",
+        a: "Nuestros packs van desde la Glow Session por 90 €-110 € (perfecta para redes), pasando por el Athlete Portfolio por 160 €-190 € (con Reel de regalo incluido), hasta el Gym Brand a partir de 280 € enfocado en entrenadores y marcas.",
     },
     {
-        q: "¿Necesito experiencia posando?",
-        a: "Para nada. Te guiaré en cada postura para resaltar tus puntos fuertes y conseguir ese ángulo que mejor muestre tu condición física.",
+        q: "¿Qué incluye una sesión de fotos fitness profesional?",
+        a: "Todas las sesiones incluyen revelado digital de luz y color, fotos con retoque avanzado High-End y entrega de galería privada. En los packs más populares, incluimos reels de regalo listos para publicar.",
     },
     {
-        q: "¿Qué ropa debo llevar?",
-        a: "Recomiendo traer varios conjuntos de ropa deportiva que te hagan sentir cómodo y seguro. Los colores sólidos suelen funcionar mejor en cámara.",
+        q: "¿Necesito experiencia previa posando en el gimnasio?",
+        a: "No, en absoluto. Te guiaré durante toda la sesión sobre cómo colocarte, qué angles favorecen tu estructura física y cómo posar de forma natural para que luzcas lo mejor posible.",
+    },
+    {
+        q: "¿Cuánto tardan en llegar las fotos?",
+        a: "Recibirás una galería de selección en 48 horas tras el shooting para elegir tus preferidas. Las fotos finales totalmente editadas se entregan en 7 a 10 días laborables.",
+    },
+    {
+        q: "¿Te desplazas a mi gimnasio habitual en Valencia?",
+        a: "Sí, podemos realizar la sesión en tu gimnasio habitual previa autorización de los responsables del centro, o en exteriores y localizaciones seleccionadas en Valencia.",
     },
 ];
+
+// JSON-LD Schema para FAQPage
+const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((faq) => ({
+        "@type": "Question",
+        "name": faq.q,
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.a,
+        },
+    })),
+};
 ---
 
 <Layout title={title} description={description} activePage="servicios">
+    <!-- JSON-LD FAQ Schema -->
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(faqSchema)} />
+
     <section class="services-hero subpage-hero">
         <div class="container">
-            <h1 class="section-title reveal hero-title">{title}</h1>
+            <h1 class="section-title reveal hero-title">Fotógrafo Fitness en Valencia — Sesiones con Reel Incluido para Atletas y Gimnasios</h1>
             <p class="section-subtitle reveal hero-subtitle">
-                {description}
+                {subtitle}
             </p>
         </div>
     </section>
 
-    <section id="tarifas" class="section-padding reveal">
+    <section class="section-padding reveal seo-content-section">
         <div class="container">
-            <h2 class="section-title">Packs y Tarifas</h2>
-            <p class="text-center tariffs-subtitle">
-                Elige el nivel de cobertura que necesitas para tu portfolio fitness.
-            </p>
+            <div class="seo-content-inner text-center-desktop">
+                <h2>Fotografía fitness: plasma el resultado de tu disciplina</h2>
+                <p>
+                    El fitness no es solo un hobby; es un estilo de vida que requiere paciencia, sudor y constancia diaria. Cada línea de tu definición muscular, cada bombeo y cada pose cuenta una historia de superación. Como fotógrafo fitness en Valencia, me especializo en esculpir tu cuerpo a través de la luz, capturando tu mejor condición física en imágenes potentes, nítidas y estéticas. Ya seas atleta de competición, entrenador o estés orgulloso de tu cambio físico, conseguirás fotografías y vídeos brutales listos para inspirar a tu audiencia.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="tarifas" class="section-padding reveal secondary-bg">
+        <div class="container">
+            <h2 class="section-title">Packs y Tarifas de Fotografía Fitness</h2>
+            <p class="text-center tariffs-subtitle">Elige el nivel de cobertura que necesitas para tu portfolio fitness.</p>
             <PricingPacks serviceId="fitness" />
         </div>
     </section>
 
-    <section class="section-padding reveal secondary-bg">
+    <section class="section-padding reveal">
         <div class="container">
-            <h2 class="section-title">Servicios Especializados</h2>
+            <h2 class="section-title">Servicios Especializados de Fotografía y Vídeo</h2>
             <div class="services-minimal-grid">
                 {
                     features.map((feature) => (
@@ -92,9 +127,108 @@ const faqs = [
         </div>
     </section>
 
+    <section class="section-padding reveal secondary-bg">
+        <div class="container">
+            <div class="seo-content-inner">
+                <h2>Especialidades en Sesiones Fitness</h2>
+                <p>Nos adaptamos a tu estilo y objetivos ofreciendo diferentes enfoques en cada sesión:</p>
+                <div class="disciplines-grid">
+                    <div class="discipline-card">
+                        <i class="fas fa-building"></i>
+                        <h3>Sesiones en Gimnasio (Entrenamiento Real)</h3>
+                        <p>Acción, sudor e intensidad real. Traemos luces profesionales para destacar tu físico en tu box de CrossFit o centro de entrenamiento habitual.</p>
+                    </div>
+                    <div class="discipline-card">
+                        <i class="fas fa-trophy"></i>
+                        <h3>Fotografía de Culturismo y Estética</h3>
+                        <p>Sesiones artísticas controladas de poses oficiales para culturistas en fase de volumen o de definición absoluta.</p>
+                    </div>
+                    <div class="discipline-card">
+                        <i class="fas fa-tree"></i>
+                        <h3>Lifestyle Fitness en Exterior</h3>
+                        <p>Fotografía urbana y lifestyle aprovechando la luz natural mediterránea en parques o la icónica arquitectura de Valencia.</p>
+                    </div>
+                    <div class="discipline-card">
+                        <i class="fas fa-tshirt"></i>
+                        <h3>Marcas de Ropa y Suplementación</h3>
+                        <p>Campañas de contenido estéticas orientadas al branding de marcas de ropa deportiva, suplementos alimenticios y equipamiento.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="section-padding reveal">
         <div class="container">
-            <h2 class="section-title">Preguntas Frecuentes</h2>
+            <div class="seo-content-inner">
+                <h2>¿Cómo funciona una sesión de fotos fitness en Valencia?</h2>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <span class="step-number">01</span>
+                        <h3>1. Planificación y estilo</h3>
+                        <p>Elegimos el gimnasio o exteriores en Valencia y definimos los outfits y la estética visual que mejor resalte tus objetivos y marcas.</p>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-number">02</span>
+                        <h3>2. Shooting y bombeo muscular</h3>
+                        <p>Hacemos una sesión dinámica guiándote con las poses y la iluminación ideal mientras congestionas el músculo para un físico óptimo.</p>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-number">03</span>
+                        <h3>3. Selección en 48h</h3>
+                        <p>En menos de 48 horas tendrás acceso a una galería digital privada para elegir tus capturas preferidas cómodamente.</p>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-number">04</span>
+                        <h3>4. Edición avanzada High-End</h3>
+                        <p>Aplicamos retoque digital avanzado de luces, sombras y piel para lograr un acabado cinematográfico en un plazo de 7 a 10 días laborables.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding reveal secondary-bg">
+        <div class="container">
+            <h2 class="section-title">Para quién es la fotografía fitness profesional</h2>
+            <div class="for-whom-grid">
+                <div class="for-whom-card">
+                    <h3>Para atletas de competición y culturistas</h3>
+                    <p>Registra tu punto de forma (peak week) o tu preparación antes de subir a la tarima con un portafolio de calidad profesional.</p>
+                </div>
+                <div class="for-whom-card">
+                    <h3>Para entrenadores personales e influencers fitness</h3>
+                    <p>Muestra tu estilo de vida y cómo entrenas a otros. Genera confianza y credibilidad en redes sociales con reels y fotos de alta calidad que venden tus asesorías.</p>
+                </div>
+                <div class="for-whom-card">
+                    <h3>Para centros deportivos y marcas de fitness</h3>
+                    <p>Contenido profesional para gimnasios, boxes de CrossFit o marcas de suplementos que quieren destacar sus instalaciones y su comunidad.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding reveal">
+        <div class="container text-center">
+            <h2 class="section-title">Lo que opinan mis clientes del sector fitness</h2>
+            <div class="featured-testimonial">
+                <div class="testimonial-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <p class="testimonial-text">
+                    "Un gran profesional, se nota que entiende y que le gusta su trabajo, da gusto encontrar a gente así, lo recomiendo 100%."
+                </p>
+                <span class="testimonial-author">— Ivan Garcia, cliente de Fitness en Valencia</span>
+            </div>
+            <div class="testimonials-link-box">
+                <a href="/#testimonios" class="btn luxury-gallery-btn">Ver todas las opiniones en la página de inicio <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding reveal secondary-bg">
+        <div class="container">
+            <h2 class="section-title">Preguntas frecuentes sobre fotografía fitness en Valencia</h2>
             <div class="faq-container-narrow">
                 {
                     faqs.map((faq) => (
@@ -108,35 +242,22 @@ const faqs = [
         </div>
     </section>
 
-    <section class="section-padding seo-content-section reveal secondary-bg">
-        <div class="container">
-            <div class="seo-content-inner">
-                <h2>¿Por qué contratar un fotógrafo fitness en Valencia?</h2>
-                <p>En el mundo del fitness y el culturismo, la imagen lo es todo. Como <strong>fotógrafo fitness profesional en Valencia</strong>, entiendo perfectamente la dedicación, las horas de entrenamiento y la estricta dieta que hay detrás de cada físico. Mi objetivo es traducir todo ese esfuerzo y disciplina en imágenes de alto impacto visual que reflejen tu mejor versión y documenten tu progreso de forma estética y profesional.</p>
-                <p>Ya seas un entrenador personal buscando mejorar su marca personal, un atleta preparándose para una competición, o simplemente alguien orgulloso de su transformación física tras meses de sacrificio, una sesión de fotos profesional marcará la diferencia en tus redes sociales y portfolio. En Valencia contamos con gimnasios espectaculares, ubicaciones urbanas increíbles y zonas al aire libre perfectas para sesiones de fotos fitness tanto en interiores con iluminación controlada como en exteriores aprovechando la luz natural.</p>
-                <h3>Iluminación y Técnicas para Fotografía de Gimnasio</h3>
-                <p>La clave de unas fotografías de gimnasio espectaculares reside en el dominio de la iluminación. Utilizo esquemas de luces profesionales, flashes de estudio y modificadores específicos para esculpir el cuerpo mediante luces y sombras. Esta técnica resalta al máximo la definición muscular, el bombeo, la vascularidad y las proporciones anatómicas, logrando ese aspecto tridimensional, épico y motivador que ves en las portadas de las revistas especializadas en fitness y culturismo.</p>
-                <p>Además, te guiaré durante toda la sesión: desde el <em>pumping</em> previo necesario para congestionar el músculo hasta las poses exactas para que tu físico luzca en su punto máximo de tensión, simetría y estética. No necesitas tener experiencia previa posando frente a la cámara; mi trabajo como fotógrafo deportivo y fitness es dirigir cada disparo, corregir tu postura y asegurar resultados perfectos que te harán sentir orgulloso de tu trabajo en el gimnasio.</p>
-            </div>
-        </div>
-    </section>
-
     <section class="section-padding reveal related-services-section">
         <div class="container text-center">
             <h2 class="section-title">Otros servicios que podrían interesarte</h2>
             <div class="related-links-grid">
+                <a href="/servicios/fotografo-deportivo-valencia" class="related-link-card">Fotografía Deportiva</a>
                 <a href="/servicios/retratos-profesionales-valencia" class="related-link-card">Retratos Profesionales</a>
                 <a href="/servicios/fotografia-marca-personal-valencia" class="related-link-card">Marca Personal</a>
-                <a href="/servicios/fotografo-deportivo-valencia" class="related-link-card">Fotografía Deportiva</a>
-                <a href="/servicios/fotografo-eventos-valencia" class="related-link-card">Eventos</a>
+                <a href="/servicios/fotografo-eventos-valencia" class="related-link-card">Eventos Corporativos</a>
             </div>
         </div>
     </section>
 
     <section id="cta-servicios" class="section-padding">
         <div class="container text-center reveal">
-            <h2>¿Listo para el siguiente nivel?</h2>
-            <p class="cta-subtitle">Reserva tu sesión ahora y muestra el resultado de tu disciplina.</p>
+            <h2>¿Listo para tu sesión de fotografía fitness en Valencia?</h2>
+            <p class="cta-subtitle">Reservas sin compromiso. Asegura tu fecha con una señal del 25% del total.</p>
             <a href="/contacto" class="btn luxury-gallery-btn">Reservar Sesión <i class="fas fa-calendar-check"></i></a>
         </div>
     </section>
@@ -144,7 +265,7 @@ const faqs = [
 
 <style define:vars={{ heroUrl: `url('${heroImg?.src}')` }}>
     .subpage-hero {
-        background-image: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), var(--heroUrl);
+        background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), var(--heroUrl);
         background-size: cover;
         background-position: center;
         min-height: 60vh;
@@ -157,10 +278,12 @@ const faqs = [
     .hero-title {
         color: white;
         margin-bottom: 1rem;
+        font-size: 2.2rem;
+        line-height: 1.2;
     }
 
     .hero-subtitle {
-        color: rgba(255,255,255,0.9);
+        color: rgba(255, 255, 255, 0.9);
         font-size: 1.2rem;
     }
 
@@ -184,9 +307,164 @@ const faqs = [
 
     .faq-sub-q {
         color: var(--color-gold);
+        font-size: 1.15rem;
+        margin-bottom: 0.5rem;
     }
 
     .cta-subtitle {
         margin-bottom: 2rem;
+    }
+
+    .disciplines-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    @media (max-width: 768px) {
+        .disciplines-grid {
+            gap: 1rem;
+        }
+        .discipline-card {
+            padding: 1.5rem 1.25rem !important;
+        }
+    }
+
+    @media (min-width: 769px) {
+        .disciplines-grid .discipline-card:last-child:nth-child(odd) {
+            grid-column: span 2;
+        }
+    }
+
+    .discipline-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 3rem 2.5rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    .discipline-card:hover {
+        border-color: var(--color-gold);
+        background: rgba(255, 255, 255, 0.04);
+        transform: translateY(-3px);
+    }
+
+    .discipline-card i {
+        font-size: 2.5rem;
+        color: var(--color-gold);
+        margin-bottom: 1.25rem;
+    }
+
+    .discipline-card h3 {
+        font-size: 1.3rem;
+        margin-bottom: 0.75rem;
+        color: #fff;
+    }
+
+    .discipline-card p {
+        font-size: 0.95rem;
+        color: var(--color-text-light);
+        line-height: 1.6;
+    }
+
+    .process-steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .step-item {
+        position: relative;
+        padding-top: 1.5rem;
+    }
+
+    .step-number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: rgba(197, 160, 89, 0.15);
+        position: absolute;
+        top: -1rem;
+        left: 0;
+        font-family: 'Outfit', sans-serif;
+    }
+
+    .step-item h3 {
+        font-size: 1.15rem;
+        color: #fff;
+        margin-bottom: 0.75rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .step-item p {
+        font-size: 0.9rem;
+        color: var(--color-text-light);
+        line-height: 1.6;
+    }
+
+    .for-whom-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    .for-whom-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 2rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    .for-whom-card:hover {
+        border-color: var(--color-gold);
+    }
+
+    .for-whom-card h3 {
+        font-size: 1.15rem;
+        color: var(--color-gold);
+        margin-bottom: 0.75rem;
+    }
+
+    .for-whom-card p {
+        font-size: 0.9rem;
+        color: var(--color-text-light);
+        line-height: 1.6;
+    }
+
+    .featured-testimonial {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        border: 1px solid rgba(197, 160, 89, 0.2);
+        background: rgba(255, 255, 255, 0.01);
+        position: relative;
+    }
+
+    .testimonial-stars {
+        color: var(--color-gold);
+        margin-bottom: 1rem;
+    }
+
+    .testimonial-text {
+        font-size: 1.1rem;
+        font-style: italic;
+        color: #fff;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+
+    .testimonial-author {
+        color: var(--color-gold);
+        font-weight: 700;
+        font-size: 0.95rem;
+    }
+
+    .testimonials-link-box {
+        margin-top: 1.5rem;
     }
 </style>

@@ -29,3 +29,6 @@ pnpm-debug.log*
 optimize-images.ps1
 optimizar-fotos.bat
 DOCUMENTATION.md
+
+# Carpeta de contexto de negocio y estrategia SEO (solo local)
+negocio/

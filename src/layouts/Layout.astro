@@ -63,10 +63,11 @@ const schema = {
     {
       "@type": "ProfessionalService",
       "name": "JaviPhoto - Javier Fernández Ramos",
-      "image": `${siteUrl}/favicon.png`,
-      "@id": `${siteUrl}/`,
+      "image": absoluteOgImageUrl,
+      "@id": `${siteUrl}/#localbusiness`,
       "url": `${siteUrl}/`,
       "telephone": contactInfo.phone,
+      "priceRange": "90€ - 350€",
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Valencia",
@@ -78,7 +79,11 @@ const schema = {
         "latitude": 39.4699,
         "longitude": -0.3763
       },
-      "priceRange": "$$",
+      "sameAs": [
+        contactInfo.instagramUrl,
+        contactInfo.tiktokUrl,
+        "https://g.page/r/CfhBvKmELu39EBM"
+      ],
       "openingHoursSpecification": {
         "@type": "OpeningHoursSpecification",
         "dayOfWeek": [
@@ -90,8 +95,8 @@ const schema = {
           "Saturday",
           "Sunday"
         ],
-        "opens": "00:00",
-        "closes": "23:59"
+        "opens": "09:00",
+        "closes": "21:00"
       }
     }
   ]

@@ -13,9 +13,10 @@ const getImg = (path: string) => {
     return galleryImages[fullPath]?.default;
 };
 
-const title = "Fotógrafo de Eventos en Valencia";
+const title = "Fotógrafo de Eventos en Valencia — Corporativos y Sociales";
 const description =
-    "Cobertura profesional de eventos en Valencia. Fotografía para congresos, fiestas corporativas y celebraciones sociales con una visión técnica y elegante.";
+    "Fotógrafo profesional para eventos en Valencia. Cobertura de congresos, fiestas de empresa, cumpleaños y eventos privados. Highlight video de regalo en packs desde 100€.";
+const subtitle = "Fotografía elegante, video resumen de regalo y entrega de avance en 48 horas. Tarifas claras desde 100 €.";
 const heroImg = getImg("Eventos/1.webp");
 
 const features = [
@@ -38,43 +39,77 @@ const features = [
 
 const faqs = [
     {
-        q: "¿Qué tendencias en fotografía de eventos veremos en 2026?",
-        a: 'La tendencia principal es la autenticidad: menos fotos posadas y más "documentary style". El uso de iluminación natural y la entrega rápida son fundamentales.',
+        q: "¿Cuánto cobra un fotógrafo de eventos en Valencia?",
+        a: "Nuestras tarifas oficiales para eventos empiezan en el pack Essential Event por 100 €-120 € (1 hora de cobertura), el pack Full Coverage por 180 €-220 € (3 horas y video de regalo) y el Premium Event a partir de 300 € para jornadas completas.",
     },
     {
-        q: "¿Realizas vídeos para eventos de empresa en Valencia?",
-        a: "Sí, ofrezco servicios combinados de fotografía y vídeo para que tengas una cobertura completa y coherente de tu evento.",
+        q: "¿Cuántas horas de cobertura fotográfica necesito contratar?",
+        a: "Para aniversarios o inauguraciones sencillas, 1 hora suele bastar. Para cenas de gala, conferencias o ferias corporativas con discursos y networking, recomendamos de 3 a 6 horas de cobertura.",
     },
     {
-        q: "¿Te desplazas por toda la Comunidad Valenciana?",
-        a: "Principalmente trabajo en Valencia capital, pero realizo reportajes en toda la provincia y alrededores según las necesidades.",
+        q: "¿Ofreces también el servicio de vídeo o aftermovie para eventos?",
+        a: "Sí. El pack Full Coverage incluye un highlight video de 15 segundos de regalo, y ofrecemos servicios opcionales de aftermovies corporativos de 1 a 3 minutos para redes o uso interno.",
+    },
+    {
+        q: "¿Cuánto tiempo tardas en entregar la galería completa?",
+        a: "Entregamos una selección de avance rápido en 48 horas. La galería digital completa optimizada y revelada se entrega en un plazo de 7 a 10 días laborables.",
+    },
+    {
+        q: "¿Te desplazas por toda la provincia y Comunidad Valenciana?",
+        a: "Sí. Mi base de trabajo está en Valencia capital, pero cubro eventos en toda la provincia y Comunidad Valenciana (consultar disponibilidad y costes de kilometraje).",
     },
 ];
+
+// JSON-LD Schema para FAQPage
+const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((faq) => ({
+        "@type": "Question",
+        "name": faq.q,
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.a,
+        },
+    })),
+};
 ---
 
 <Layout title={title} description={description} activePage="servicios">
+    <!-- JSON-LD FAQ Schema -->
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(faqSchema)} />
+
     <section class="services-hero subpage-hero">
         <div class="container">
-            <h1 class="section-title reveal hero-title">{title}</h1>
+            <h1 class="section-title reveal hero-title">Fotógrafo de Eventos Corporativos en Valencia — Cobertura para Conferencias y Empresas</h1>
             <p class="section-subtitle reveal hero-subtitle">
-                {description}
+                {subtitle}
             </p>
         </div>
     </section>
 
-    <section id="tarifas" class="section-padding reveal">
+    <section class="section-padding reveal seo-content-section">
         <div class="container">
-            <h2 class="section-title">Packs y Tarifas</h2>
-            <p class="text-center tariffs-subtitle">
-                Selecciona el pack que mejor se adapte a tu evento.
-            </p>
+            <div class="seo-content-inner text-center-desktop">
+                <h2>Fotografía de eventos: captura la atmósfera sin alterar el ritmo</h2>
+                <p>
+                    Cada evento corporativo o social requiere meses de planificación, esfuerzo y un presupuesto meditado. No dejes el recuerdo de ese trabajo en manos de fotografías improvisadas hechas con teléfonos móviles. Como fotógrafo de eventos en Valencia, mi propósito es documentar de forma discreta y elegante cada instante clave: el networking real, las expresiones de los ponentes en el escenario y los detalles de tu branding corporativo. Obtendrás un reportaje completo de alta resolución listo para prensa, redes sociales o comunicación corporativa, con un avance rápido en 48 horas.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="tarifas" class="section-padding reveal secondary-bg">
+        <div class="container">
+            <h2 class="section-title">Packs y Tarifas para Cobertura de Eventos</h2>
+            <p class="text-center tariffs-subtitle">Selecciona el pack que mejor se adapte a tu evento.</p>
             <PricingPacks serviceId="eventos" />
         </div>
     </section>
 
-    <section class="section-padding reveal secondary-bg">
+    <section class="section-padding reveal">
         <div class="container">
-            <h2 class="section-title">Servicios Opcionales de Vídeo</h2>
+            <h2 class="section-title">Servicios Opcionales de Vídeo para Eventos</h2>
             <div class="services-minimal-grid">
                 {
                     features.map((feature) => (
@@ -91,9 +126,108 @@ const faqs = [
         </div>
     </section>
 
+    <section class="section-padding reveal secondary-bg">
+        <div class="container">
+            <div class="seo-content-inner">
+                <h2>Tipos de Eventos que Cubro en Valencia</h2>
+                <p>Ofrecemos cobertura fotográfica adaptada para todo tipo de celebraciones y reuniones en la Comunidad Valenciana:</p>
+                <div class="disciplines-grid">
+                    <div class="discipline-card">
+                        <i class="fas fa-handshake"></i>
+                        <h3>Conferencias y Congresos</h3>
+                        <p>Capturando discursos, presentaciones clave, mesas redondas, público interactuando y momentos genuinos de networking.</p>
+                    </div>
+                    <div class="discipline-card">
+                        <i class="fas fa-award"></i>
+                        <h3>Presentaciones e Inauguraciones</h3>
+                        <p>Reportaje detallado de la puesta de largo de tu marca, corte de cinta, photocall de invitados y ambiente general.</p>
+                    </div>
+                    <div class="discipline-card">
+                        <i class="fas fa-users-viewfinder"></i>
+                        <h3>Fiestas de Empresa y Team Building</h3>
+                        <p>Documentando de forma informal y divertida la unión, actividades conjuntas y celebraciones de tu equipo corporativo.</p>
+                    </div>
+                    <div class="discipline-card">
+                        <i class="fas fa-cake-candles"></i>
+                        <h3>Celebraciones y Eventos Privados</h3>
+                        <p>Cumpleaños, aniversarios de club y fiestas familiares con un trato cercano, asegurando fotos nítidas para el recuerdo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="section-padding reveal">
         <div class="container">
-            <h2 class="section-title">Preguntas Frecuentes</h2>
+            <div class="seo-content-inner">
+                <h2>¿Cómo funciona la cobertura de tu evento en Valencia?</h2>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <span class="step-number">01</span>
+                        <h3>1. Planificación del timing</h3>
+                        <p>Coordinamos previamente la agenda del evento, los momentos más importantes (discursos, photocall, entrega de premios) y tus prioridades de imagen de marca.</p>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-number">02</span>
+                        <h3>2. Cobertura documental y discreta</h3>
+                        <p>Durante la jornada, trabajamos de manera silenciosa integrándonos entre los invitados, capturando reacciones naturales sin alterar el transcurso de las actividades.</p>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-number">03</span>
+                        <h3>3. Avance rápido en 48h</h3>
+                        <p>Te entregamos una selección de avance en menos de 48 horas para que puedas publicarla o enviarla a prensa mientras el evento siga de actualidad.</p>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-number">04</span>
+                        <h3>4. Entrega de galería completa</h3>
+                        <p>Procesamos y editamos todas las fotografías de la jornada, entregando el reportaje digital final completo en un plazo de 7 a 10 días laborables.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding reveal secondary-bg">
+        <div class="container">
+            <h2 class="section-title">Para quién es este servicio de eventos</h2>
+            <div class="for-whom-grid">
+                <div class="for-whom-card">
+                    <h3>Para agencias y departamentos de marketing o RRHH</h3>
+                    <p>Consigue imágenes corporativas profesionales para notas de prensa, redes institucionales, publicaciones en LinkedIn y boletines internos de la empresa.</p>
+                </div>
+                <div class="for-whom-card">
+                    <h3>Para organizadores de congresos y ferias</h3>
+                    <p>Asegura un material visual de alta calidad que sirva para ilustrar la web del congreso y atraer a nuevos patrocinadores y asistentes en tu próxima edición.</p>
+                </div>
+                <div class="for-whom-card">
+                    <h3>Para particulares (celebraciones y fiestas privadas)</h3>
+                    <p>Guarda un recuerdo profesional y nítido de tus cumpleaños, aniversarios o eventos de club sin tener que estar pendiente de tu propio móvil.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding reveal">
+        <div class="container text-center">
+            <h2 class="section-title">Opiniones sobre mis servicios de fotografía de eventos</h2>
+            <div class="featured-testimonial">
+                <div class="testimonial-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <p class="testimonial-text">
+                    "Un gran profesional, se nota que entiende y que le gusta su trabajo, da gusto encontrar a gente así, lo recomiendo 100%."
+                </p>
+                <span class="testimonial-author">— Ivan Garcia, cliente de Eventos en Valencia</span>
+            </div>
+            <div class="testimonials-link-box">
+                <a href="/#testimonios" class="btn luxury-gallery-btn">Ver todas las opiniones en la página de inicio <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding reveal secondary-bg">
+        <div class="container">
+            <h2 class="section-title">Preguntas frecuentes sobre fotografía de eventos en Valencia</h2>
             <div class="faq-container-narrow">
                 {
                     faqs.map((faq) => (
@@ -103,19 +237,6 @@ const faqs = [
                         </div>
                     ))
                 }
-            </div>
-        </div>
-    </section>
-
-    <section class="section-padding seo-content-section reveal secondary-bg">
-        <div class="container">
-            <div class="seo-content-inner">
-                <h2>¿Por qué contratar un fotógrafo de eventos en Valencia?</h2>
-                <p>Organizar un congreso, una inauguración, un evento de <em>team building</em> o una feria requiere meses de planificación, esfuerzo y presupuesto. Como <strong>fotógrafo de eventos profesional en Valencia</strong>, mi responsabilidad es que ese esfuerzo quede documentado para siempre con imágenes de la más alta calidad, listas para ser utilizadas en tu próxima campaña de marketing, dossier de prensa o comunicación interna.</p>
-                <p>Valencia se ha convertido en un hub europeo clave para la organización de eventos corporativos, con recintos espectaculares como Feria Valencia, el Palacio de Congresos o la Ciudad de las Artes y las Ciencias. Conozco estos espacios y sé cómo aprovechar la luz arquitectónica, lidiar con los complicados contrastes lumínicos de los escenarios y capturar el ambiente real del evento sin interrumpir el flujo natural de los asistentes.</p>
-                <h3>Fotografía documental corporativa: discreción y calidad</h3>
-                <p>Mi estilo fotográfico en eventos se centra en el fotoperiodismo corporativo: capturar momentos de networking genuino, expresiones de los ponentes en plena acción, reacciones del público y detalles del <em>setup</em> (branding, iluminación, catering) de manera totalmente discreta. Busco documentar la verdadera energía y profesionalidad de la ocasión huyendo de los posados artificiales.</p>
-                <p>Además, ofrezco la opción de combinar el reportaje fotográfico con la creación de un <strong>aftermovie en vídeo</strong>. Este servicio es ideal para resumir la jornada en clips cortos y dinámicos (1-2 minutos) de alto impacto visual, perfectos para compartir en LinkedIn, Instagram o la web de tu empresa, atrayendo a patrocinadores y nuevos asistentes para tus futuras ediciones.</p>
             </div>
         </div>
     </section>
@@ -134,11 +255,9 @@ const faqs = [
 
     <section id="cta-servicios" class="section-padding">
         <div class="container text-center reveal">
-            <h2>¿Planeando un evento?</h2>
-            <p class="cta-subtitle">Asegúrate un reportaje profesional que destaque los valores de tu marca.</p>
-            <a href="/contacto" class="btn luxury-gallery-btn"
-                >Solicitar Presupuesto <i class="fas fa-paper-plane"></i></a
-            >
+            <h2>¿Planeando un evento en Valencia? Reserva hoy</h2>
+            <p class="cta-subtitle">Reservas sin compromiso. Asegura tu fecha con una señal del 25% del total.</p>
+            <a href="/contacto" class="btn luxury-gallery-btn">Solicitar Presupuesto <i class="fas fa-calendar-check"></i></a>
         </div>
     </section>
 </Layout>
@@ -158,6 +277,8 @@ const faqs = [
     .hero-title {
         color: white;
         margin-bottom: 1rem;
+        font-size: 2.2rem;
+        line-height: 1.2;
     }
 
     .hero-subtitle {
@@ -185,9 +306,164 @@ const faqs = [
 
     .faq-sub-q {
         color: var(--color-gold);
+        font-size: 1.15rem;
+        margin-bottom: 0.5rem;
     }
 
     .cta-subtitle {
         margin-bottom: 2rem;
+    }
+
+    .disciplines-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    @media (max-width: 768px) {
+        .disciplines-grid {
+            gap: 1rem;
+        }
+        .discipline-card {
+            padding: 1.5rem 1.25rem !important;
+        }
+    }
+
+    @media (min-width: 769px) {
+        .disciplines-grid .discipline-card:last-child:nth-child(odd) {
+            grid-column: span 2;
+        }
+    }
+
+    .discipline-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 3rem 2.5rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    .discipline-card:hover {
+        border-color: var(--color-gold);
+        background: rgba(255, 255, 255, 0.04);
+        transform: translateY(-3px);
+    }
+
+    .discipline-card i {
+        font-size: 2.5rem;
+        color: var(--color-gold);
+        margin-bottom: 1.25rem;
+    }
+
+    .discipline-card h3 {
+        font-size: 1.3rem;
+        margin-bottom: 0.75rem;
+        color: #fff;
+    }
+
+    .discipline-card p {
+        font-size: 0.95rem;
+        color: var(--color-text-light);
+        line-height: 1.6;
+    }
+
+    .process-steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .step-item {
+        position: relative;
+        padding-top: 1.5rem;
+    }
+
+    .step-number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: rgba(197, 160, 89, 0.15);
+        position: absolute;
+        top: -1rem;
+        left: 0;
+        font-family: 'Outfit', sans-serif;
+    }
+
+    .step-item h3 {
+        font-size: 1.15rem;
+        color: #fff;
+        margin-bottom: 0.75rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .step-item p {
+        font-size: 0.9rem;
+        color: var(--color-text-light);
+        line-height: 1.6;
+    }
+
+    .for-whom-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    .for-whom-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 2rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    .for-whom-card:hover {
+        border-color: var(--color-gold);
+    }
+
+    .for-whom-card h3 {
+        font-size: 1.15rem;
+        color: var(--color-gold);
+        margin-bottom: 0.75rem;
+    }
+
+    .for-whom-card p {
+        font-size: 0.9rem;
+        color: var(--color-text-light);
+        line-height: 1.6;
+    }
+
+    .featured-testimonial {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        border: 1px solid rgba(197, 160, 89, 0.2);
+        background: rgba(255, 255, 255, 0.01);
+        position: relative;
+    }
+
+    .testimonial-stars {
+        color: var(--color-gold);
+        margin-bottom: 1rem;
+    }
+
+    .testimonial-text {
+        font-size: 1.1rem;
+        font-style: italic;
+        color: #fff;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+
+    .testimonial-author {
+        color: var(--color-gold);
+        font-weight: 700;
+        font-size: 0.95rem;
+    }
+
+    .testimonials-link-box {
+        margin-top: 1.5rem;
     }
 </style>

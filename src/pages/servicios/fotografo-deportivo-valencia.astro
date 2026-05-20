@@ -13,9 +13,10 @@ const getImg = (path: string) => {
     return galleryImages[fullPath]?.default;
 };
 
-const title = "Fotógrafo Deportivo en Valencia";
+const title = "Fotógrafo Deportivo en Valencia — Sesiones Deportivas";
 const description =
-    "Fotografía deportiva especializada en Valencia. Capturo la intensidad y emoción de cada competición, desde deportes de motor hasta tenis y fitness.";
+    "Fotografía deportiva profesional en Valencia. Sesiones para atletas de crossfit, atletismo, clubes y eventos deportivos con edición incluida y entrega de avance en 48h.";
+const subtitle = "Edición profesional incluida, entrega de avance en 48h y tarifas claras desde 90 €.";
 const heroImg = getImg("Deportes/2.webp");
 const mainImg = getImg("Deportes/1.webp");
 
@@ -39,41 +40,83 @@ const features = [
 
 const faqs = [
     {
-        q: "¿Qué tipo de eventos deportivos cubres en Valencia?",
-        a: "Cubro una amplia gama de disciplinas, incluyendo competiciones de atletismo (maratones, 10K), deportes de raqueta y eventos de motor, etc.",
+        q: "¿Cuánto cuesta contratar un fotógrafo deportivo en Valencia?",
+        a: "Las tarifas oficiales comienzan desde los 90 € del pack Quick Action (para sesiones cortas) hasta los 160 €-190 € del pack Full Performance (el más popular, con fotos extra incluidas) y a partir de 250 € para la cobertura de eventos completos o de clubes.",
     },
     {
-        q: "¿Ofreces también servicios de videógrafo para competiciones?",
-        a: "Ofrezco videos cortos de unos 10-20 segundos de duracion con calidad para redes sociales, resumen de eventos, trailer cinematografico y presentaciones.",
+        q: "¿Puedes fotografiar mi disciplina aunque no sea fútbol?",
+        a: "¡Sí, por supuesto! Aunque cubro fútbol, me especializo en disciplinas que exigen máxima precisión y velocidad, como atletismo, crossfit, deportes de combate (boxeo, artes marciales), tenis, pádel, halterofilia y ciclismo.",
     },
     {
-        q: "¿Cuál es el tiempo de entrega de las fotos?",
-        a: "Entiendo la importancia de la inmediatez en el deporte. Ofrezco un adelanto de fotos para redes sociales en 24 o 48 horas y la galería completa en 5-7 días laborables.",
+        q: "¿Cuánto tardan en llegar las fotos de la sesión?",
+        a: "Sé que la rapidez es vital para compartir tu rendimiento. Entrego una selección de avance optimizada para tus redes en 48 horas y la galería completa totalmente editada en un plazo de 7 a 10 días laborables.",
+    },
+    {
+        q: "¿Entregas las fotos sin editar (RAW)?",
+        a: "No. Mi trabajo incluye el revelado de color y luz y la edición artística profesional. Solo se entregan las fotos finales editadas para garantizar el estándar de calidad de JaviPhoto.",
+    },
+    {
+        q: "¿Te desplazas fuera de Valencia para eventos o competiciones?",
+        a: "Sí, mi base de operaciones está en Valencia, pero estoy disponible para desplazarme a cualquier punto de la península para cubrir competiciones, torneos o entrenamientos especiales (consultar presupuesto y disponibilidad).",
     },
 ];
+
+// JSON-LD Schema para FAQPage
+const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.q,
+        acceptedAnswer: {
+            "@type": "Answer",
+            text: faq.a,
+        },
+    })),
+};
 ---
 
 <Layout title={title} description={description} activePage="servicios">
+    <!-- JSON-LD FAQ Schema -->
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(faqSchema)} />
+
     <section class="services-hero subpage-hero">
         <div class="container">
-            <h1 class="section-title reveal hero-title">{title}</h1>
+            <h1 class="section-title reveal hero-title">
+                Fotógrafo Deportivo en Valencia — Sesiones para Atletas, Clubes y Deportes
+            </h1>
             <p class="section-subtitle reveal hero-subtitle">
-                {description}
+                {subtitle}
             </p>
         </div>
     </section>
 
-    <section id="tarifas" class="section-padding reveal">
+    <section class="section-padding reveal seo-content-section">
         <div class="container">
-            <h2 class="section-title">Packs y Tarifas</h2>
+            <div class="seo-content-inner text-center-desktop">
+                <h2>Fotografía deportiva profesional: lo que consigues con mi cámara</h2>
+                <p>
+                    Cuando estás compitiendo o entrenando duro, estás en tu zona de máximo rendimiento. Esa intensidad,
+                    el esfuerzo bruto y la concentración no se pueden fingir. Con mi cámara capto exactamente eso: tu
+                    fuerza, tu técnica y tu pasión en imágenes limpias y de alta calidad que hablarán por sí solas.
+                    Olvídate de fotos borrosas hechas con el móvil de un amigo; consigue un portafolio profesional para
+                    lucir en redes sociales, atraer patrocinadores y recordar tu progreso con orgullo.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="tarifas" class="section-padding reveal secondary-bg">
+        <div class="container">
+            <h2 class="section-title">Packs y Tarifas de Fotografía Deportiva en Valencia</h2>
             <p class="text-center tariffs-subtitle">Selecciona el pack que mejor se adapte a tu nivel y necesidades.</p>
             <PricingPacks serviceId="deportes" />
         </div>
     </section>
 
-    <section class="section-padding reveal secondary-bg">
+    <section class="section-padding reveal">
         <div class="container">
-            <h2 class="section-title">Servicios Opcionales de Vídeo</h2>
+            <h2 class="section-title">Servicios Opcionales de Vídeo y Cobertura Extra</h2>
             <div class="services-minimal-grid">
                 {
                     features.map((feature) => (
@@ -90,9 +133,158 @@ const faqs = [
         </div>
     </section>
 
+    <section class="section-padding reveal secondary-bg">
+        <div class="container">
+            <div class="seo-content-inner">
+                <h2>Disciplinas Deportivas que Fotografío en Valencia</h2>
+                <p>
+                    Valencia es una ciudad que respira deporte y superación. Cubro una amplia variedad de disciplinas
+                    donde la acción, el contacto y el detalle técnico son claves:
+                </p>
+                <div class="disciplines-grid">
+                    <div class="discipline-card">
+                        <i class="fas fa-bolt"></i>
+                        <h3>CrossFit y Halterofilia</h3>
+                        <p>
+                            Congelando la fuerza, la tensión muscular y la explosividad en cada levantamiento pesado o
+                            WOD.
+                        </p>
+                    </div>
+                    <div class="discipline-card">
+                        <i class="fas fa-running"></i>
+                        <h3>Atletismo y Running</h3>
+                        <p>
+                            Capturando la zancada perfecta, la concentración antes de la salida y la emoción cruzando la
+                            meta.
+                        </p>
+                    </div>
+                    <div class="discipline-card">
+                        <i class="fas fa-table-tennis-paddle-ball"></i>
+                        <h3>Deportes de Raqueta</h3>
+                        <p>
+                            Siguiendo la velocidad, colocación y tensión del drive o revés en partidos intensos de tenis
+                            y pádel.
+                        </p>
+                    </div>
+                    <div class="discipline-card">
+                        <i class="fas fa-user-ninja"></i>
+                        <h3>Deportes de Combate</h3>
+                        <p>
+                            Artes marciales, boxeo y MMA en el instante exacto del impacto o la sumisión, reflejando el
+                            esfuerzo del ring.
+                        </p>
+                    </div>
+                    <div class="discipline-card">
+                        <i class="fas fa-bicycle"></i>
+                        <h3>Ciclismo y Motor</h3>
+                        <p>
+                            Fotografía dinámica en exteriores y circuitos para congelar la velocidad extrema sobre dos o
+                            cuatro ruedas.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="section-padding reveal">
         <div class="container">
-            <h2 class="section-title">Preguntas Frecuentes</h2>
+            <div class="seo-content-inner">
+                <h2>¿Cómo funciona una sesión de fotos deportiva en Valencia?</h2>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <span class="step-number">01</span>
+                        <h3>1. Planificación de la sesión</h3>
+                        <p>
+                            Hablamos sobre tu disciplina, tus objetivos con las fotos (redes, portfolio, sponsors) y
+                            seleccionamos el mejor lugar (pista, gimnasio o exteriores en Valencia).
+                        </p>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-number">02</span>
+                        <h3>2. El shooting de acción</h3>
+                        <p>
+                            Durante la sesión nos enfocamos en tu entrenamiento o competición, priorizando siempre el
+                            movimiento real y la acción natural para capturar tu rendimiento.
+                        </p>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-number">03</span>
+                        <h3>3. Selección en 48h</h3>
+                        <p>
+                            En menos de 48 horas recibirás un enlace privado con las tomas de avance para que selecciones
+                            tus fotografías favoritas cómodamente desde casa.
+                        </p>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-number">04</span>
+                        <h3>4. Edición y entrega final</h3>
+                        <p>
+                            Revelamos digitalmente y editamos cada foto seleccionada con acabado profesional y de alta
+                            resolución, entregando el pack en un plazo de 7 a 10 días laborables.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding reveal secondary-bg">
+        <div class="container">
+            <h2 class="section-title">Para quién es la fotografía deportiva</h2>
+            <div class="for-whom-grid">
+                <div class="for-whom-card">
+                    <h3>Para atletas individuales y competidores</h3>
+                    <p>
+                        Tanto si eres un deportista amateur como profesional, necesitas documentar tu progreso y tu
+                        pasión con fotos que transmitan tu disciplina real en redes sociales o dosieres de patrocinio.
+                    </p>
+                </div>
+                <div class="for-whom-card">
+                    <h3>Para entrenadores personales y creadores de contenido fitness</h3>
+                    <p>
+                        Eleva tu marca personal y muestra cómo trabajas con tus clientes. Contenido profesional que
+                        genera autoridad y atrae nuevos alumnos a tu marca de coaching.
+                    </p>
+                </div>
+                <div class="for-whom-card">
+                    <h3>Para clubes deportivos y eventos en Valencia</h3>
+                    <p>
+                        Cobertura completa de torneos, campeonatos o entrenamientos grupales. Fotos en alta resolución
+                        ideales para cartelería, prensa y redes del club.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding reveal">
+        <div class="container text-center">
+            <h2 class="section-title">Opiniones de los deportistas que han trabajado conmigo</h2>
+            <div class="featured-testimonial">
+                <div class="testimonial-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                        class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <p class="testimonial-text">
+                    "La verdad que una pasada la experiencia, muy preparado en cada momento del proceso y super
+                    profesional en cada instante y fotografía. La próxima vez cuando lo necesite volveré a contactar,
+                    super recomendable para cualquier tipo de sesión de fotos ya sea en el deporte que me dedico o en
+                    cualquier otra cosa, perfecta adaptación al entorno."
+                </p>
+                <span class="testimonial-author">— Jorge Prats, deportista de Valencia</span>
+            </div>
+            <div class="testimonials-link-box">
+                <a href="/#testimonios" class="btn luxury-gallery-btn"
+                    >Ver todas las opiniones en la página de inicio <i class="fas fa-arrow-right"></i></a
+                >
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding reveal secondary-bg">
+        <div class="container">
+            <h2 class="section-title">Preguntas frecuentes sobre fotografía deportiva en Valencia</h2>
             <div class="faq-container-narrow">
                 {
                     faqs.map((faq) => (
@@ -102,35 +294,6 @@ const faqs = [
                         </div>
                     ))
                 }
-            </div>
-        </div>
-    </section>
-
-    <section class="section-padding seo-content-section reveal secondary-bg">
-        <div class="container">
-            <div class="seo-content-inner">
-                <h2>¿Por qué contratar un fotógrafo deportivo en Valencia?</h2>
-                <p>
-                    La fotografía deportiva no trata solo de disparar rápido. Como <strong
-                        >fotógrafo deportivo profesional en Valencia</strong
-                    >, mi pasión es congelar la adrenalina, la explosividad y la emoción extrema en el punto máximo de
-                    acción. Capturar ese golpe ganador en el ring, el sudor de la victoria o la concentración milimétrica
-                    requiere equipo técnico de primer nivel y una profunda comprensión de la disciplina.
-                </p>
-                <p>
-                    Valencia es una ciudad que respira deporte, y mi enfoque principal está en disciplinas donde la técnica y el contacto lo son todo. Desde intensos combates de artes marciales y boxeo, hasta la velocidad explosiva de los deportes de raqueta (tenis, pádel) o atletismo. Mi experiencia cubriendo este tipo de competiciones me permite anticiparme a cada movimiento, asegurando que cada fotografía transmita la auténtica atmósfera de la lucha y el esfuerzo.
-                </p>
-                <h3>Técnica y Precisión en Alta Velocidad</h3>
-                <p>
-                    Para conseguir fotos deportivas que impacten de verdad, aplico técnicas avanzadas de disparo en ráfaga a muy alta velocidad. Esto es crucial en deportes de contacto o raqueta, donde la acción ocurre en fracciones de segundo: congelar el sudor saltando en un impacto, la máxima tensión muscular en un <em>drive</em> perfecto, o la fuerza bruta de un levantamiento de pesas.
-                </p>
-                <p>
-                    Tanto si eres un atleta profesional, un deportista amateur buscando patrocinadores para tu dossier,
-                    o la organización de un evento que necesita cobertura fotográfica completa, documentaré la jornada
-                    con un estilo cinematográfico y vibrante. Entiendo la importancia de la inmediatez: ofrezco entregas
-                    ultrarrápidas para que puedas actualizar tus redes sociales y medios de comunicación cuando la
-                    noticia sigue caliente.
-                </p>
             </div>
         </div>
     </section>
@@ -150,9 +313,9 @@ const faqs = [
 
     <section id="cta-servicios" class="section-padding">
         <div class="container text-center reveal">
-            <h2>¿Quieres saber más?</h2>
-            <p class="cta-subtitle">Solicita un presupuesto sin compromiso para tu sesión en Valencia.</p>
-            <a href="/contacto" class="btn luxury-gallery-btn">Contactar Ahora <i class="fas fa-calendar-check"></i></a>
+            <h2>¿Listo para tu sesión de fotografía deportiva en Valencia?</h2>
+            <p class="cta-subtitle">Reservas sin compromiso. Asegura tu fecha con una señal del 25% del total.</p>
+            <a href="/contacto" class="btn luxury-gallery-btn">Reservar Sesión <i class="fas fa-calendar-check"></i></a>
         </div>
     </section>
 </Layout>
@@ -172,6 +335,8 @@ const faqs = [
     .hero-title {
         color: white;
         margin-bottom: 1rem;
+        font-size: 2.2rem;
+        line-height: 1.2;
     }
 
     .hero-subtitle {
@@ -199,9 +364,164 @@ const faqs = [
 
     .faq-sub-q {
         color: var(--color-gold);
+        font-size: 1.15rem;
+        margin-bottom: 0.5rem;
     }
 
     .cta-subtitle {
         margin-bottom: 2rem;
+    }
+
+    .disciplines-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    @media (max-width: 768px) {
+        .disciplines-grid {
+            gap: 1rem;
+        }
+        .discipline-card {
+            padding: 1.5rem 1.25rem !important;
+        }
+    }
+
+    @media (min-width: 769px) {
+        .disciplines-grid .discipline-card:last-child:nth-child(odd) {
+            grid-column: span 2;
+        }
+    }
+
+    .discipline-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 3rem 2.5rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    .discipline-card:hover {
+        border-color: var(--color-gold);
+        background: rgba(255, 255, 255, 0.04);
+        transform: translateY(-3px);
+    }
+
+    .discipline-card i {
+        font-size: 2.5rem;
+        color: var(--color-gold);
+        margin-bottom: 1.25rem;
+    }
+
+    .discipline-card h3 {
+        font-size: 1.3rem;
+        margin-bottom: 0.75rem;
+        color: #fff;
+    }
+
+    .discipline-card p {
+        font-size: 0.95rem;
+        color: var(--color-text-light);
+        line-height: 1.6;
+    }
+
+    .process-steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .step-item {
+        position: relative;
+        padding-top: 1.5rem;
+    }
+
+    .step-number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: rgba(197, 160, 89, 0.15);
+        position: absolute;
+        top: -1rem;
+        left: 0;
+        font-family: "Outfit", sans-serif;
+    }
+
+    .step-item h3 {
+        font-size: 1.15rem;
+        color: #fff;
+        margin-bottom: 0.75rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .step-item p {
+        font-size: 0.9rem;
+        color: var(--color-text-light);
+        line-height: 1.6;
+    }
+
+    .for-whom-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    .for-whom-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 2rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    .for-whom-card:hover {
+        border-color: var(--color-gold);
+    }
+
+    .for-whom-card h3 {
+        font-size: 1.15rem;
+        color: var(--color-gold);
+        margin-bottom: 0.75rem;
+    }
+
+    .for-whom-card p {
+        font-size: 0.9rem;
+        color: var(--color-text-light);
+        line-height: 1.6;
+    }
+
+    .featured-testimonial {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        border: 1px solid rgba(197, 160, 89, 0.2);
+        background: rgba(255, 255, 255, 0.01);
+        position: relative;
+    }
+
+    .testimonial-stars {
+        color: var(--color-gold);
+        margin-bottom: 1rem;
+    }
+
+    .testimonial-text {
+        font-size: 1.1rem;
+        font-style: italic;
+        color: #fff;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+
+    .testimonial-author {
+        color: var(--color-gold);
+        font-weight: 700;
+        font-size: 0.95rem;
+    }
+
+    .testimonials-link-box {
+        margin-top: 1.5rem;
     }
 </style>

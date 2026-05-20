@@ -13,9 +13,10 @@ const getImg = (path: string) => {
     return galleryImages[fullPath]?.default;
 };
 
-const title = "Retratos Profesionales en Valencia";
+const title = "Fotógrafo de Retrato Profesional en Valencia — Perfil LinkedIn y Currículum";
 const description =
-    "Sesiones de retrato profesional en Valencia. Mejora tu imagen personal o profesional con retratos limpios, directos y de alta calidad técnica.";
+    "Mejora tu imagen corporativa con sesiones de retrato profesional en Valencia. Fotos de perfil para LinkedIn, currículum y marca personal. Cambio de outfit incluido.";
+const subtitle = "Potencia tu perfil con retoque avanzado, cambio de outfit y dirección de poses. Packs desde 90 €.";
 const heroImg = getImg("Modelo/2.webp");
 
 const features = [
@@ -38,43 +39,77 @@ const features = [
 
 const faqs = [
     {
-        q: "¿Cómo posar para fotos de negocios?",
-        a: "No te preocupes por eso. Durante la sesión, te guiaré paso a paso para que proyectes seguridad y naturalidad.",
+        q: "¿Cuánto cuesta una sesión de fotos de retrato profesional en Valencia?",
+        a: "Disponemos de la Sesión Express por 90 €-110 € (ideal para una actualización rápida), el Pro Portfolio por 160 €-190 € (nuestro pack estrella con cambio de outfit) y el pack Editorial / Brand a partir de 250 €.",
     },
     {
-        q: "¿Dónde se realizan las sesiones de retratos en Valencia?",
-        a: "Podemos realizarlas en estudio, en tu oficina o en localizaciones exteriores seleccionadas en el centro de Valencia.",
+        q: "¿Cómo elijo la ropa y me preparo para la sesión de fotos?",
+        a: "Recomiendo prendas de colores sólidos y neutros que te hagan sentir cómodo y seguro, evitando estampados excesivos o logos grandes. Te asesoraremos con detalle en la charla previa.",
     },
     {
-        q: "¿Cómo puedo reservar mi sesión de fotos de branding en Valencia?",
-        a: "Es muy sencillo. Solo tienes que contactarme a través del formulario indicando qué tipo de perfil necesitas.",
+        q: "¿Qué pasa si me da vergüenza o no sé posar?",
+        a: "Es lo más habitual y mi especialidad. Haremos una charla inicial relajada y te guiaré milímetro a milímetro en cada postura y mirada. Te sorprenderá lo fácil y natural que resulta.",
+    },
+    {
+        q: "¿Cuánto tardas en entregar los retratos editados?",
+        a: "Recibirás un enlace para seleccionar tus fotos preferidas en 48 horas. El pack final con retoque High-End se entrega entre 7 y 10 días laborables.",
+    },
+    {
+        q: "¿Dónde realizas las sesiones de retrato en Valencia?",
+        a: "Podemos realizar el shooting en estudio, directamente en tu oficina o en ubicaciones exteriores seleccionadas en el centro de Valencia.",
     },
 ];
+
+// JSON-LD Schema para FAQPage
+const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((faq) => ({
+        "@type": "Question",
+        "name": faq.q,
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.a,
+        },
+    })),
+};
 ---
 
 <Layout title={title} description={description} activePage="servicios">
+    <!-- JSON-LD FAQ Schema -->
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(faqSchema)} />
+
     <section class="services-hero subpage-hero">
         <div class="container">
-            <h1 class="section-title reveal hero-title">{title}</h1>
+            <h1 class="section-title reveal hero-title">Fotógrafo de Retrato Profesional en Valencia — Fotos de Perfil para LinkedIn y Currículum</h1>
             <p class="section-subtitle reveal hero-subtitle">
-                {description}
+                {subtitle}
             </p>
         </div>
     </section>
 
-    <section id="tarifas" class="section-padding reveal">
+    <section class="section-padding reveal seo-content-section">
         <div class="container">
-            <h2 class="section-title">Packs y Tarifas</h2>
-            <p class="text-center tariffs-subtitle">
-                Selecciona el pack que mejor se adapte a tu nivel y necesidades.
-            </p>
+            <div class="seo-content-inner text-center-desktop">
+                <h2>Tu retrato profesional: la primera impresión que abre puertas</h2>
+                <p>
+                    En el entorno digital, tu foto de perfil es tu tarjeta de presentación. Un selfie recortado o una imagen antigua ya no son suficientes para destacar en el mercado actual. Como fotógrafo especializado en retratos en Valencia, me encargo de que proyectes profesionalidad, seguridad y cercanía con imágenes de la más alta calidad técnica. No te preocupes por posar: mi trabajo es guiarte de forma natural y cercana para capturar tu mejor versión, logrando fotos impecables listas para tu currículum, perfil de LinkedIn o sitio web corporativo.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="tarifas" class="section-padding reveal secondary-bg">
+        <div class="container">
+            <h2 class="section-title">Packs y Tarifas de Retratos Profesionales</h2>
+            <p class="text-center tariffs-subtitle">Selecciona el pack que mejor se adapte a tu nivel y necesidades.</p>
             <PricingPacks serviceId="retratos" />
         </div>
     </section>
 
-    <section class="section-padding reveal secondary-bg">
+    <section class="section-padding reveal">
         <div class="container">
-            <h2 class="section-title">Servicios Opcionales de Vídeo</h2>
+            <h2 class="section-title">Servicios Opcionales de Vídeo y Retrato Dinámico</h2>
             <div class="services-minimal-grid">
                 {
                     features.map((feature) => (
@@ -91,9 +126,108 @@ const faqs = [
         </div>
     </section>
 
+    <section class="section-padding reveal secondary-bg">
+        <div class="container">
+            <div class="seo-content-inner">
+                <h2>Tipos de Retrato Profesional en Valencia</h2>
+                <p>Nos adaptamos a tu sector para conseguir el estilo visual idóneo que necesitas comunicar:</p>
+                <div class="disciplines-grid">
+                    <div class="discipline-card">
+                        <i class="fas fa-id-card"></i>
+                        <h3>Retrato Corporativo para LinkedIn</h3>
+                        <p>Imagen limpia, profesional y moderna que transmite confianza, seriedad y cercanía a tus clientes o reclutadores.</p>
+                    </div>
+                    <div class="discipline-card">
+                        <i class="fas fa-images"></i>
+                        <h3>Portafolios Artísticos y Modelos</h3>
+                        <p>Sesión completa enfocada en composites para agencias, portfolios de actores, actrices y creadores de contenido visual.</p>
+                    </div>
+                    <div class="discipline-card">
+                        <i class="fas fa-feather-pointed"></i>
+                        <h3>Retrato Editorial y Creativo</h3>
+                        <p>Producción sofisticada para marcas y autores en exteriores, capturando la personalidad del cliente con iluminación artística.</p>
+                    </div>
+                    <div class="discipline-card">
+                        <i class="fas fa-sliders"></i>
+                        <h3>Retrato de Estudio Clásico</h3>
+                        <p>Fondos neutros e iluminación de estudio controlada milimétricamente para un acabado sobrio y pulcro.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="section-padding reveal">
         <div class="container">
-            <h2 class="section-title">Preguntas Frecuentes</h2>
+            <div class="seo-content-inner">
+                <h2>¿Cómo funciona una sesión de retratos en Valencia?</h2>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <span class="step-number">01</span>
+                        <h3>1. Asesoría de estilo y vestuario</h3>
+                        <p>Coordinamos las prendas de ropa y los colores que mejor se adaptan a tu profesión y marca personal. Seleccionamos el entorno (estudio, oficina o exterior en Valencia).</p>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-number">02</span>
+                        <h3>2. Dirección de poses y shooting</h3>
+                        <p>Hacemos una sesión cercana y guiada. Te indicaré paso a paso cómo colocarte para que te sientas cómodo, relajado y natural frente al objetivo.</p>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-number">03</span>
+                        <h3>3. Selección en 48h</h3>
+                        <p>Tendrás acceso a una galería online privada en menos de 48 horas tras el shooting para ver las pruebas y elegir tus retratos preferidos.</p>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-number">04</span>
+                        <h3>4. Retoque digital High-End</h3>
+                        <p>Realizamos una edición estética cuidadosa que respeta tu textura natural de piel y optimiza la luz en un plazo de 7 a 10 días laborables.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding reveal secondary-bg">
+        <div class="container">
+            <h2 class="section-title">Para quién es este servicio de retratos</h2>
+            <div class="for-whom-grid">
+                <div class="for-whom-card">
+                    <h3>Para profesionales B2B y directivos (LinkedIn)</h3>
+                    <p>Actualiza tu imagen corporativa con un retrato moderno que destaque tu seriedad y confianza en LinkedIn o la web de tu empresa.</p>
+                </div>
+                <div class="for-whom-card">
+                    <h3>Para autónomos, freelancers y asesores</h3>
+                    <p>Conecta con tus clientes en tu sección "Sobre mí" mostrando el rostro y la calidez humana detrás de tus servicios digitales.</p>
+                </div>
+                <div class="for-whom-card">
+                    <h3>Para modelos y artistas en Valencia</h3>
+                    <p>Fotografías nítidas y de alta calidad para renovar o iniciar tu portafolio artístico y composite para audiciones.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding reveal">
+        <div class="container text-center">
+            <h2 class="section-title">Lo que dicen los profesionales del sector</h2>
+            <div class="featured-testimonial">
+                <div class="testimonial-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <p class="testimonial-text">
+                    "La profesionalidad de Javi es indiscutible, el mejor fotógrafo que hemos conocido."
+                </p>
+                <span class="testimonial-author">— Román Uzcátegui, profesional de Valencia</span>
+            </div>
+            <div class="testimonials-link-box">
+                <a href="/#testimonios" class="btn luxury-gallery-btn">Ver todas las opiniones en la página de inicio <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding reveal secondary-bg">
+        <div class="container">
+            <h2 class="section-title">Preguntas frecuentes sobre retratos profesionales en Valencia</h2>
             <div class="faq-container-narrow">
                 {
                     faqs.map((faq) => (
@@ -103,19 +237,6 @@ const faqs = [
                         </div>
                     ))
                 }
-            </div>
-        </div>
-    </section>
-
-    <section class="section-padding seo-content-section reveal secondary-bg">
-        <div class="container">
-            <div class="seo-content-inner">
-                <h2>La importancia de un buen retrato profesional en Valencia</h2>
-                <p>Tu rostro es la primera impresión que tienen de ti tus clientes, empleadores o socios comerciales. Un selfie con el móvil o una foto recortada de unas vacaciones ya no son suficientes en el mercado actual. Como <strong>fotógrafo especializado en retratos en Valencia</strong>, me dedico a crear imágenes que proyecten profesionalidad, seguridad y cercanía, factores clave para destacar en LinkedIn, en la página "Sobre mí" de tu web corporativa o en tu currículum.</p>
-                <p>El retrato profesional ha evolucionado. Atrás quedaron las sonrisas forzadas y los fondos grises planos y aburridos. Mi objetivo es capturar tu verdadera esencia. En mi estudio, en tus oficinas o en localizaciones de Valencia, trabajaremos juntos para encontrar el estilo fotográfico que mejor se adapte a tu sector: desde retratos corporativos tradicionales para ejecutivos y abogados, hasta retratos creativos y <em>lifestyle</em> para artistas, freelancers y emprendedores digitales.</p>
-                <h3>Técnica fotográfica: luz, dirección y retoque High-End</h3>
-                <p>La diferencia entre una foto común y un retrato excepcional es la iluminación y la dirección de arte. Utilizo técnicas de iluminación de estudio avanzadas para resaltar tus mejores rasgos, suavizar imperfecciones de forma natural y crear un ambiente visual que hable por ti. Durante el <em>shooting</em>, te guiaré paso a paso con las poses y la expresión facial, asegurando que te relajes y muestres tu actitud más genuina.</p>
-                <p>Una vez terminada la sesión, aplico un proceso de retoque <em>High-End</em> (alta gama). Esto significa que edito cada fotografía con máxima precisión: limpieza de la piel respetando su textura natural, ajuste de colorimetría para dar un aspecto <em>premium</em> y optimización para los formatos exigidos por las redes sociales o medios impresos. El resultado es un retrato impecable, listo para elevar tu perfil profesional al instante.</p>
             </div>
         </div>
     </section>
@@ -134,9 +255,9 @@ const faqs = [
 
     <section id="cta-servicios" class="section-padding">
         <div class="container text-center reveal">
-            <h2>¿Es hora de actualizar tu imagen?</h2>
-            <p class="cta-subtitle">Solicita un presupuesto sin compromiso para tu sesión en Valencia.</p>
-            <a href="/contacto" class="btn luxury-gallery-btn">Reservar Sesión <i class="fas fa-user-tie"></i></a>
+            <h2>¿Es hora de actualizar tu imagen profesional?</h2>
+            <p class="cta-subtitle">Reservas sin compromiso. Asegura tu fecha con una señal del 25% del total.</p>
+            <a href="/contacto" class="btn luxury-gallery-btn">Reservar Sesión <i class="fas fa-calendar-check"></i></a>
         </div>
     </section>
 </Layout>
@@ -156,6 +277,8 @@ const faqs = [
     .hero-title {
         color: white;
         margin-bottom: 1rem;
+        font-size: 2.2rem;
+        line-height: 1.2;
     }
 
     .hero-subtitle {
@@ -183,9 +306,164 @@ const faqs = [
 
     .faq-sub-q {
         color: var(--color-gold);
+        font-size: 1.15rem;
+        margin-bottom: 0.5rem;
     }
 
     .cta-subtitle {
         margin-bottom: 2rem;
+    }
+
+    .disciplines-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    @media (max-width: 768px) {
+        .disciplines-grid {
+            gap: 1rem;
+        }
+        .discipline-card {
+            padding: 1.5rem 1.25rem !important;
+        }
+    }
+
+    @media (min-width: 769px) {
+        .disciplines-grid .discipline-card:last-child:nth-child(odd) {
+            grid-column: span 2;
+        }
+    }
+
+    .discipline-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 3rem 2.5rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    .discipline-card:hover {
+        border-color: var(--color-gold);
+        background: rgba(255, 255, 255, 0.04);
+        transform: translateY(-3px);
+    }
+
+    .discipline-card i {
+        font-size: 2.5rem;
+        color: var(--color-gold);
+        margin-bottom: 1.25rem;
+    }
+
+    .discipline-card h3 {
+        font-size: 1.3rem;
+        margin-bottom: 0.75rem;
+        color: #fff;
+    }
+
+    .discipline-card p {
+        font-size: 0.95rem;
+        color: var(--color-text-light);
+        line-height: 1.6;
+    }
+
+    .process-steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .step-item {
+        position: relative;
+        padding-top: 1.5rem;
+    }
+
+    .step-number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: rgba(197, 160, 89, 0.15);
+        position: absolute;
+        top: -1rem;
+        left: 0;
+        font-family: 'Outfit', sans-serif;
+    }
+
+    .step-item h3 {
+        font-size: 1.15rem;
+        color: #fff;
+        margin-bottom: 0.75rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .step-item p {
+        font-size: 0.9rem;
+        color: var(--color-text-light);
+        line-height: 1.6;
+    }
+
+    .for-whom-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    .for-whom-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 2rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    .for-whom-card:hover {
+        border-color: var(--color-gold);
+    }
+
+    .for-whom-card h3 {
+        font-size: 1.15rem;
+        color: var(--color-gold);
+        margin-bottom: 0.75rem;
+    }
+
+    .for-whom-card p {
+        font-size: 0.9rem;
+        color: var(--color-text-light);
+        line-height: 1.6;
+    }
+
+    .featured-testimonial {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        border: 1px solid rgba(197, 160, 89, 0.2);
+        background: rgba(255, 255, 255, 0.01);
+        position: relative;
+    }
+
+    .testimonial-stars {
+        color: var(--color-gold);
+        margin-bottom: 1rem;
+    }
+
+    .testimonial-text {
+        font-size: 1.1rem;
+        font-style: italic;
+        color: #fff;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+
+    .testimonial-author {
+        color: var(--color-gold);
+        font-weight: 700;
+        font-size: 0.95rem;
+    }
+
+    .testimonials-link-box {
+        margin-top: 1.5rem;
     }
 </style>
