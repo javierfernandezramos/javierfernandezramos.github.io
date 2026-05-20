@@ -227,9 +227,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let tInterval;
 
     if (testimonialSlider && tSlides.length > 0) {
-        let slideWidth = tSlides[0].offsetWidth; 
         function updateSliderPosition() {
-            testimonialSlider.style.transform = `translateX(${-tCurrentSlide * slideWidth}px)`;
+            testimonialSlider.style.transform = `translateX(${-tCurrentSlide * 100}%)`;
         }
         function startAutoScroll() {
             if (tInterval) clearInterval(tInterval);
@@ -245,9 +244,5 @@ document.addEventListener('DOMContentLoaded', () => {
             nextBtn.addEventListener('click', () => { tCurrentSlide = (tCurrentSlide + 1) % tSlides.length; updateSliderPosition(); startAutoScroll(); });
         }
         startAutoScroll();
-        window.addEventListener('resize', () => {
-            slideWidth = tSlides[0].offsetWidth; 
-            updateSliderPosition();
-        });
     }
 });
