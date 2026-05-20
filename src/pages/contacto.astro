@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import type { ImageMetadata } from 'astro';
+import { contactInfo } from '../data/config';
 
 // Import images
 const galleryImages = import.meta.glob<{ default: ImageMetadata }>('../assets/Fotos/**/*.{jpg,jpeg,png,webp}', { eager: true });
@@ -28,24 +29,24 @@ const heroImg = getImg('hero-image.webp');
         <div class="container">
             <h2 class="section-title">Métodos de Contacto</h2>
             <div class="contact-methods-grid">
-                <a href="mailto:javierfernandezramos9@gmail.com" class="contact-method-card gmail-social-card" data-mailto="javierfernandezramos9@gmail.com">
+                <a href={`mailto:${contactInfo.email}`} class="contact-method-card gmail-social-card" data-mailto={contactInfo.email}>
                     <div class="method-icon"><i class="fas fa-envelope"></i></div>
                     <h3>Correo Electrónico</h3>
-                    <p>javierfernandezramos9@gmail.com</p>
+                    <p>{contactInfo.email}</p>
                     <span class="method-link">Enviar email <i class="fas fa-arrow-right"></i></span>
                 </a>
 
-                <a href="https://www.instagram.com/javier.fzr/" target="_blank" rel="noopener noreferrer" class="contact-method-card" aria-label="Visitar mi perfil de Instagram">
+                <a href={contactInfo.instagramUrl} target="_blank" rel="noopener noreferrer" class="contact-method-card" aria-label="Visitar mi perfil de Instagram">
                     <div class="method-icon"><i class="fab fa-instagram"></i></div>
                     <h3>Instagram</h3>
                     <p>@javier.fzr</p>
                     <span class="method-link">Ver perfil <i class="fas fa-arrow-right"></i></span>
                 </a>
 
-                <a href="https://wa.me/34665018516" target="_blank" rel="noopener noreferrer" class="contact-method-card" aria-label="Enviar mensaje por WhatsApp">
+                <a href={contactInfo.whatsappUrl} target="_blank" rel="noopener noreferrer" class="contact-method-card" aria-label="Enviar mensaje por WhatsApp">
                     <div class="method-icon"><i class="fab fa-whatsapp"></i></div>
                     <h3>WhatsApp</h3>
-                    <p>+34 665 018 516</p>
+                    <p>{contactInfo.formattedPhone}</p>
                     <span class="method-link">Escribir ahora <i class="fas fa-arrow-right"></i></span>
                 </a>
             </div>

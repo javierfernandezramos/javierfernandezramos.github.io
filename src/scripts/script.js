@@ -1,3 +1,5 @@
+import { contactInfo } from '../data/config';
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- 0. LOADER INICIAL (PRIORIDAD MÁXIMA) ---
@@ -11,35 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 100);
     }
 
-    // --- 1. INICIALIZACIÓN DE LENIS (CON PROTECCIÓN) ---
-    let lenis = null;
-    if (typeof Lenis !== 'undefined') {
-        lenis = new Lenis({
-            duration: 1.8,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            direction: 'vertical',
-            gestureDirection: 'vertical',
-            smooth: true,
-            mouseMultiplier: 1.1,
-            smoothTouch: false,
-            touchMultiplier: 2,
-            infinite: false,
-        });
-
-        function raf(time) {
-            if (lenis) lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-        window.lenis = lenis;
-    }
-
     // --- 2. OPTIMIZACIÓN DE SCROLL UNIFICADA ---
     const navbar = document.getElementById('navbar');
     const backToTopBtn = document.getElementById('back-to-top');
 
     const onScroll = () => {
-        const scrollY = lenis ? lenis.animatedScroll : window.scrollY;
+        const scrollY = window.scrollY;
         if (navbar) {
             if (scrollY > 50) navbar.classList.add('scrolled');
             else navbar.classList.remove('scrolled');
@@ -49,11 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    if (lenis) {
-        lenis.on('scroll', onScroll);
-    } else {
-        window.addEventListener('scroll', onScroll, { passive: true });
-    }
+    window.addEventListener('scroll', onScroll, { passive: true });
 
     // Ejecutar una vez al cargar para setear el estado inicial
     onScroll();
@@ -69,18 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnPrev = document.getElementById('lightbox-prev');
     const btnNext = document.getElementById('lightbox-next');
 
-    const mainImageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target.querySelector('img');
-                if (img && img.dataset.src) {
-                    img.src = img.dataset.src;
-                    img.classList.add('loaded');
-                }
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { rootMargin: '300px' });
+
 
     const preloadImage = (url) => {
         if (!url) return;
@@ -146,8 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.paddingRight = `${scrollbarWidth}px`;
         if (navbar) navbar.style.paddingRight = `${scrollbarWidth}px`;
 
-        if (lenis) lenis.stop(); 
-
         if (mobileMenuBtn) mobileMenuBtn.classList.add('active');
         window.updateLightboxImage();
     };
@@ -161,7 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.paddingRight = '';
         if (navbar) navbar.style.paddingRight = '';
 
-        if (window.lenis) window.lenis.start();
         if (mobileMenuBtn) mobileMenuBtn.classList.remove('active');
     };
 
@@ -170,7 +131,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (lightbox) lightbox.addEventListener('click', (e) => { if (e.target === lightbox) hideLightbox(); });
 
     galleryItems.forEach(item => {
-        mainImageObserver.observe(item);
         item.addEventListener('click', () => {
             const highRes = item.getAttribute('data-src');
             const parentGrid = item.closest('.gallery-grid');
@@ -193,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
     revealElements.forEach(el => revealObserver.observe(el));
 
     // --- 6. CONTACTO ---
-    const miCorreo = 'javierfernandezramos9@gmail.com';
+    const miCorreo = contactInfo.email;
     function handleContactRedirect(asunto = '', mensaje = '') {
         const sub = encodeURIComponent(asunto || 'Consulta Portfolio');
         const body = encodeURIComponent(mensaje ? `Hola Javier,\n\n${mensaje}` : `Hola Javier,\n\nMe gustaría hablar contigo sobre un proyecto...`);
@@ -234,7 +194,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const isActive = navLinksMenu.classList.contains('active');
             document.body.style.overflow = isActive ? 'hidden' : '';
             document.documentElement.style.overflow = isActive ? 'hidden' : '';
-            if (lenis) isActive ? lenis.stop() : lenis.start();
         });
 
         navLinksMenu.querySelectorAll('a').forEach(link => {
@@ -243,7 +202,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 mobileMenuBtn.classList.remove('active');
                 document.body.style.overflow = '';
                 document.documentElement.style.overflow = '';
-                if (lenis) lenis.start();
             });
         });
 
@@ -258,8 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 8. VOLVER ARRIBA ---
     if (backToTopBtn) {
         backToTopBtn.addEventListener('click', () => {
-            if (lenis) lenis.scrollTo(0);
-            else window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
 

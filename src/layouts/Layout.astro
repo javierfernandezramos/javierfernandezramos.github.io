@@ -2,7 +2,9 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/style.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import defaultOgImage from '../assets/Fotos/hero-image.webp';
+import { contactInfo } from '../data/config';
 
 interface Props {
 	title: string;
@@ -21,13 +23,78 @@ const {
     noIndex = false,
     ogImage = defaultOgImage.src
 } = Astro.props;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://javierfernandezramos.github.io/#person",
+      "name": "Javier Fernández Ramos",
+      "url": "https://javierfernandezramos.github.io/",
+      "image": "https://javierfernandezramos.github.io/favicon.png",
+      "sameAs": [
+        contactInfo.instagramUrl,
+        contactInfo.tiktokUrl
+      ],
+      "jobTitle": "Fotógrafo Profesional",
+      "description": "Fotógrafo profesional en Valencia especializado en retratos, eventos deportivos y marca personal."
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://javierfernandezramos.github.io/#organization",
+      "name": "JaviPhoto",
+      "url": "https://javierfernandezramos.github.io/",
+      "logo": "https://javierfernandezramos.github.io/favicon.png",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": contactInfo.email,
+        "contactType": "customer service"
+      }
+    },
+    {
+      "@type": "ProfessionalService",
+      "name": "JaviPhoto - Javier Fernández Ramos",
+      "image": "https://javierfernandezramos.github.io/favicon.png",
+      "@id": "https://javierfernandezramos.github.io/",
+      "url": "https://javierfernandezramos.github.io/",
+      "telephone": contactInfo.phone,
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Valencia",
+        "addressRegion": "Valencia",
+        "addressCountry": "ES"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 39.4699,
+        "longitude": -0.3763
+      },
+      "priceRange": "$$",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      }
+    }
+  ]
+};
 ---
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <!-- Google Tag Manager -->
-    <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    <script type="text/partytown">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
@@ -37,116 +104,42 @@ const {
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0a0a0a">
-    
-    {noIndex && <meta name="robots" content="noindex, nofollow" />}
-    
-    <!-- SEO Básico -->
-    <title>{title}</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="generator" content={Astro.generator} />
 
-    <meta name="description" content={description} />
-    <meta name="author" content="Javier Fernández Ramos" />
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
-
-    <!-- Preloads Críticos -->
-    {preloadImage && <link rel="preload" href={preloadImage} as="image" fetchpriority="high" />}
-    
     <!-- DNS Prefetch & Preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-
-    <!-- Open Graph / Redes Sociales -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content={Astro.url}>
-    <meta property="og:title" content={title}>
-    <meta property="og:description" content={description}>
-    <meta property="og:image" content={new URL(ogImage, Astro.site)}>
-    <meta property="og:locale" content="es_ES">
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content={Astro.url}>
-    <meta name="twitter:title" content={title}>
-    <meta name="twitter:description" content={description}>
-    <meta name="twitter:image" content={new URL(ogImage, Astro.site)}>
 
     <!-- Fuentes y Estilos (Optimizado no-bloqueante) -->
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;800&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;800&display=swap" media="print" onload="this.media='all'">
     
-    <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" media="print" onload="this.media='all'">
+    <!-- SEO Meta Tags -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
     
-    <link rel="icon" type="image/png" href="/favicon.png">
+    <!-- Robots meta tag for control indexing -->
+    {noIndex ? <meta name="robots" content="noindex, nofollow" /> : <meta name="robots" content="index, follow" />}
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://javierfernandezramos.github.io/" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://javierfernandezramos.github.io/" />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={ogImage} />
+
+    {preloadImage && <link rel="preload" href={preloadImage} as="image" type="image/webp" />}
 
     <!-- Schema.org - Identidad y GEO (Optimización para LLMs) -->
-    <script is:inline type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "Person",
-          "@id": "https://javierfernandezramos.github.io/#person",
-          "name": "Javier Fernández Ramos",
-          "url": "https://javierfernandezramos.github.io/",
-          "image": "https://javierfernandezramos.github.io/favicon.png",
-          "sameAs": [
-            "https://www.instagram.com/javier.fzr/",
-            "https://www.tiktok.com/@javier.fzr"
-          ],
-          "jobTitle": "Fotógrafo Profesional",
-          "description": "Fotógrafo profesional en Valencia especializado en retratos, eventos deportivos y marca personal."
-        },
-        {
-          "@type": "Organization",
-          "@id": "https://javierfernandezramos.github.io/#organization",
-          "name": "JaviPhoto",
-          "url": "https://javierfernandezramos.github.io/",
-          "logo": "https://javierfernandezramos.github.io/favicon.png",
-          "contactPoint": {
-            "@type": "ContactPoint",
-            "email": "javierfernandezramos9@gmail.com",
-            "contactType": "customer service"
-          }
-        },
-        {
-          "@type": "ProfessionalService",
-          "name": "JaviPhoto - Javier Fernández Ramos",
-          "image": "https://javierfernandezramos.github.io/favicon.png",
-          "@id": "https://javierfernandezramos.github.io/",
-          "url": "https://javierfernandezramos.github.io/",
-          "telephone": "",
-          "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Valencia",
-            "addressRegion": "Valencia",
-            "addressCountry": "ES"
-          },
-          "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": 39.4699,
-            "longitude": -0.3763
-          },
-          "priceRange": "$$",
-          "openingHoursSpecification": {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": [
-              "Monday",
-              "Tuesday",
-              "Wednesday",
-              "Thursday",
-              "Friday",
-              "Saturday",
-              "Sunday"
-            ],
-            "opens": "00:00",
-            "closes": "23:59"
-          }
-        }
-      ]
-    }
-    </script>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
 </head>
 
 <body>
@@ -183,7 +176,7 @@ const {
     </div>
 
     <!-- Botón de WhatsApp -->
-    <a href="https://wa.me/34665018516" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
+    <a href={contactInfo.whatsappUrl} class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
 

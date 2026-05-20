@@ -22,3 +22,189 @@ const { title, tag, description, link, image, reverse, galleryLink } = Astro.pro
         </div>
     </div>
 </section>
+
+<style>
+    .service-detail-section {
+        padding: 4rem 0;
+    }
+
+    .service-detail-row {
+        display: flex;
+        align-items: center;
+        gap: 4rem;
+        margin-bottom: 2rem;
+    }
+
+    .service-detail-row.reverse {
+        flex-direction: row-reverse;
+    }
+
+    .service-detail-img {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+        border-radius: var(--radius-lg);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .service-detail-img img {
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        width: 100%;
+        height: auto;
+        display: block;
+        transition: transform 0.6s ease;
+    }
+
+    .service-detail-img:hover img {
+        transform: scale(1.05);
+    }
+
+    .service-detail-text {
+        flex: 1;
+    }
+
+    .service-tag {
+        color: var(--color-gold);
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        display: block;
+        margin-bottom: 1rem;
+    }
+
+    .service-detail-text h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .service-detail-text p {
+        color: var(--color-text-light);
+        font-size: 1.1rem;
+        line-height: 1.8;
+        margin-bottom: 1.5rem;
+    }
+
+    .service-actions {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        margin-top: 2rem;
+    }
+
+    @media (max-width: 600px) {
+        .service-actions {
+            flex-direction: column;
+            gap: 1rem;
+        }
+    }
+
+    /* Adaptaciones de la tarjeta en versión móvil (cuando está dentro del slider) */
+    @media (max-width: 1038px) {
+        .service-detail-section {
+            flex: 0 0 85%;
+            padding: 0 !important;
+            display: flex;
+            scroll-snap-align: center;
+            scroll-snap-stop: always;
+        }
+
+        .service-detail-section :global(.container) {
+            width: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .service-detail-row,
+        .service-detail-row.reverse {
+            flex-direction: column !important;
+            gap: 0 !important;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 0 !important;
+            display: flex;
+            flex: 1;
+            height: 100%;
+        }
+
+        .service-detail-img {
+            width: 100% !important;
+            aspect-ratio: 1 / 1 !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            border: none !important;
+        }
+
+        .service-detail-img img {
+            height: 100% !important;
+            aspect-ratio: auto !important;
+            object-fit: cover;
+        }
+
+        .service-detail-text {
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0.6rem 1rem 1.2rem !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
+            border: none !important;
+            text-align: left !important;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .service-detail-text h2 {
+            font-size: 1.1rem !important;
+            margin-bottom: 0.4rem !important;
+            margin-top: 0 !important;
+            letter-spacing: 1px !important;
+        }
+
+        .service-detail-text p {
+            font-size: 0.75rem !important;
+            line-height: 1.4 !important;
+            margin-bottom: 1rem !important;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            opacity: 0.8;
+        }
+
+        .service-tag {
+            font-size: 0.65rem !important;
+            margin-bottom: 0.2rem !important;
+            margin-top: 0 !important;
+            letter-spacing: 2px !important;
+        }
+
+        .service-actions {
+            margin-top: auto !important;
+            gap: 0.8rem;
+        }
+
+        .service-detail-text .btn {
+            padding: 0.6rem 1.2rem !important;
+            font-size: 0.7rem !important;
+            letter-spacing: 1px !important;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: auto;
+        }
+    }
+</style>

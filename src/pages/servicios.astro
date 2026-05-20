@@ -82,8 +82,65 @@ const heroImg = getImg("hero-image.webp");
     </section>
 
     <style>
+        .services-hero {
+            padding: 220px 0 60px !important;
+            text-align: center;
+        }
+
         .cta-subtitle {
             margin-bottom: 2rem;
+        }
+
+        @media (max-width: 1038px) {
+            .services-hero {
+                padding: 150px 0 40px !important;
+            }
+        }
+
+        /* Slider de Servicios para Móvil */
+        @media (max-width: 1038px) {
+            .services-wrapper-mobile {
+                display: flex;
+                overflow-x: auto;
+                overflow-y: hidden;
+                scroll-snap-type: x mandatory;
+                padding: 0.5rem 4% 2rem;
+                gap: 1.2rem;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                align-items: stretch;
+            }
+
+            .services-wrapper-mobile::-webkit-scrollbar {
+                display: none;
+            }
+
+            #cta-servicios {
+                padding: 3rem 0;
+            }
+
+            #cta-servicios h2 {
+                font-size: 1.4rem;
+                margin-bottom: 1.5rem;
+            }
+
+            /* Animación premium para el hint de servicios */
+            @keyframes hintSwipe {
+                0% {
+                    transform: translateX(0);
+                }
+                30% {
+                    transform: translateX(-80px);
+                }
+                100% {
+                    transform: translateX(0);
+                }
+            }
+
+            /* Aplicamos la animación a las tarjetas individuales para que no se "corte" el contenedor */
+            .services-wrapper-mobile.hint-active :global(.service-detail-section) {
+                animation: hintSwipe 1.4s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+            }
         }
     </style>
 </Layout>
