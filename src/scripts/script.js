@@ -346,6 +346,33 @@ document.addEventListener('DOMContentLoaded', () => {
             prevBtn.addEventListener('click', () => { tCurrentSlide = (tCurrentSlide - 1 + tSlides.length) % tSlides.length; updateSliderPosition(); startAutoScroll(); });
             nextBtn.addEventListener('click', () => { tCurrentSlide = (tCurrentSlide + 1) % tSlides.length; updateSliderPosition(); startAutoScroll(); });
         }
+        
+        // Deslizamiento táctil para móviles
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        testimonialSlider.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        testimonialSlider.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleGesture();
+        }, { passive: true });
+
+        function handleGesture() {
+            const swipeThreshold = 50; // distancia mínima en px
+            if (touchEndX < touchStartX - swipeThreshold) {
+                tCurrentSlide = (tCurrentSlide + 1) % tSlides.length;
+                updateSliderPosition();
+                startAutoScroll();
+            } else if (touchEndX > touchStartX + swipeThreshold) {
+                tCurrentSlide = (tCurrentSlide - 1 + tSlides.length) % tSlides.length;
+                updateSliderPosition();
+                startAutoScroll();
+            }
+        }
+
         startAutoScroll();
     }
 });

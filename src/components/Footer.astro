@@ -1,5 +1,5 @@
 ---
-import { contactInfo } from '../data/config';
+import { contactInfo } from "../data/config";
 ---
 
 <footer>
@@ -13,27 +13,24 @@ import { contactInfo } from '../data/config';
                 <a
                     href={contactInfo.instagramUrl}
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="noopener noreferrer nofollow"
                     aria-label="Visitar mi Instagram">
                     <i class="fab fa-instagram"></i>
                 </a>
-                <a
-                    href={`mailto:${contactInfo.email}`}
-                    aria-label="Enviar correo electrónico"
-                    id="footer-gmail-link">
+                <a href={`mailto:${contactInfo.email}`} aria-label="Enviar correo electrónico" id="footer-gmail-link">
                     <i class="fas fa-envelope"></i>
                 </a>
                 <a
                     href={contactInfo.tiktokUrl}
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="noopener noreferrer nofollow"
                     aria-label="Visitar mi TikTok">
                     <i class="fab fa-tiktok"></i>
                 </a>
                 <a
                     href={contactInfo.googleReviewUrl}
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="noopener noreferrer nofollow"
                     aria-label="Dejar una reseña en Google Maps">
                     <i class="fab fa-google"></i>
                 </a>
@@ -75,7 +72,9 @@ import { contactInfo } from '../data/config';
                 <div class="footer-col">
                     <h3>Servicios</h3>
                     <ul class="footer-links">
+                        <li><a href="/fotografo-en-valencia">Valencia</a></li>
                         <li><a href="/servicios/fotografo-deportivo-valencia">Deportes</a></li>
+                        <li><a href="/servicios/fotografo-fitness-valencia">Fitness</a></li>
                         <li><a href="/servicios/fotografo-eventos-valencia">Eventos</a></li>
                         <li><a href="/servicios/retratos-profesionales-valencia">Retratos</a></li>
                         <li><a href="/servicios/fotografia-marca-personal-valencia">Branding</a></li>
@@ -102,7 +101,7 @@ import { contactInfo } from '../data/config';
 
     /* Decoración sutil de fondo */
     footer::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 50%;
@@ -329,7 +328,7 @@ import { contactInfo } from '../data/config';
     }
 
     .footer-links a::before {
-        content: '→';
+        content: "→";
         position: absolute;
         left: -15px;
         opacity: 0;
