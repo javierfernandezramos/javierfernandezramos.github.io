@@ -7,7 +7,11 @@ export default defineConfig({
   site: 'https://javiphoto.es',
   trailingSlash: 'never',
   integrations: [
-    sitemap(),
+    sitemap({
+      filter: (page) => 
+        !page.endsWith('/personalizar-pack') && 
+        !page.endsWith('/debug')
+    }),
     partytown({
       config: {
         forward: ['dataLayer.push'],

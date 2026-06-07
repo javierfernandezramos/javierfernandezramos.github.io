@@ -174,7 +174,7 @@ const schema = {
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
-    <div id="loader">
+    <div id="loader" data-nosnippet>
         <div class="spinner"></div>
     </div>
 
@@ -186,7 +186,7 @@ const schema = {
 
     <Footer />
 
-    <div id="lightbox" class="lightbox">
+    <div id="lightbox" class="lightbox" data-nosnippet>
         <div class="lightbox-wrapper">
             <button id="lightbox-close-red" class="lightbox-close-red" aria-label="Cerrar"><i class="fas fa-times"></i></button>
             <button id="lightbox-prev" class="lightbox-nav prev" aria-label="Foto anterior"><i class="fas fa-chevron-left"></i></button>
@@ -203,12 +203,12 @@ const schema = {
     </div>
 
     <!-- Botón de WhatsApp -->
-    <a href={contactInfo.whatsappUrl} class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
+    <a href={contactInfo.whatsappUrl} class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp" data-nosnippet>
         <i class="fab fa-whatsapp"></i>
     </a>
 
     <!-- Botón Volver Arriba -->
-    <button id="back-to-top" class="back-to-top" aria-label="Volver arriba">
+    <button id="back-to-top" class="back-to-top" aria-label="Volver arriba" data-nosnippet>
         <i class="fas fa-arrow-up"></i>
     </button>
 
