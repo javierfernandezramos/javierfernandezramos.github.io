@@ -8,7 +8,7 @@
 html,
 body {
     max-width: 100%;
-    overflow-x: hidden;
+    overflow-x: clip;
 }
 
 :root {
@@ -1775,10 +1775,32 @@ section:not(.hero-section):not(.error-section) {
 
 /* --- CATEGORÍAS MENU ELEGANCE --- */
 .categories-menu-wrapper {
-    position: relative;
+    position: sticky;
+    top: 80px;
+    z-index: 2000;
+    background: rgba(10, 10, 10, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: top 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
     margin-bottom: 2rem;
     overflow: hidden;
 }
+
+#navbar.scrolled + main .categories-menu-wrapper {
+    top: 64px;
+    background: rgba(10, 10, 10, 0.95);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 1037px) {
+    .categories-menu-wrapper {
+        top: 76px;
+    }
+    #navbar.scrolled + main .categories-menu-wrapper {
+        top: 56px;
+    }
+}
+
 
 /* Degradado que indica más contenido a la derecha */
 .categories-menu-wrapper::after {

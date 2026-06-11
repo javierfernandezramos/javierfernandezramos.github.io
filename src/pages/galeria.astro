@@ -34,7 +34,7 @@ const categories = [
         </div>
     </header>
 
-    <div class="categories-menu-wrapper reveal">
+    <div class="categories-menu-wrapper">
         <div class="container">
             <div class="categories-menu" id="categories-menu">
                 {
@@ -102,6 +102,19 @@ const categories = [
                         newUrl.searchParams.set('filter', targetId);
                         window.history.replaceState({}, '', newUrl);
                     }
+
+                    // Scroll back to the top of the grid with offset for sticky menus
+                    const gridContainer = document.getElementById('photo-grid-container');
+                    if (gridContainer) {
+                        const headerOffset = 150;
+                        const elementPosition = gridContainer.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                    }
                 });
             });
 
@@ -159,6 +172,29 @@ const categories = [
     .categories-menu-wrapper {
         text-align: center;
         width: 100%;
+        position: sticky;
+        top: 80px;
+        z-index: 2000;
+        background: rgba(10, 10, 10, 0.9);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        transition: top 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+        margin-bottom: 2rem;
+    }
+
+    :global(#navbar.scrolled) + main .categories-menu-wrapper {
+        top: 64px;
+        background: rgba(10, 10, 10, 0.95);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    @media (max-width: 1037px) {
+        .categories-menu-wrapper {
+            top: 76px;
+        }
+        :global(#navbar.scrolled) + main .categories-menu-wrapper {
+            top: 56px;
+        }
     }
 
     .categories-menu {
@@ -166,9 +202,8 @@ const categories = [
         justify-content: flex-start;
         max-width: 100%;
         gap: 1rem;
-        padding: 2rem 1rem;
+        padding: 1.5rem 1rem;
         border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        margin-bottom: 2rem;
         overflow-x: auto;
         white-space: nowrap;
         /* Scrollbar Firefox */

@@ -1,0 +1,111 @@
+---
+import { contactInfo } from "../data/config";
+
+interface Props {
+    title?: string;
+    showGoogleButton?: boolean;
+}
+
+const { title = "Opiniones de Atletas y Clientes", showGoogleButton = true } = Astro.props;
+---
+
+<section id="testimonios" class="section-padding testimonios-section">
+    <div class="container reveal">
+        <h2 class="section-title">{title}</h2>
+        <div class="testimonials-nav-wrapper">
+            <button class="slider-nav-btn prev" id="testimonial-prev" aria-label="Anterior testimonio">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slider-nav-btn next" id="testimonial-next" aria-label="Siguiente testimonio">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="testimonials-slider-wrapper">
+                <div class="testimonials-slider" id="testimonials-slider">
+                    <div class="testimonial-item">
+                        <div class="testimonial-content">
+                            <div class="testimonial-header">
+                                <span class="testimonial-author">Jorge Prats</span>
+                                <span class="testimonial-role">Cliente Verificado en Google</span>
+                            </div>
+                            <div class="testimonial-stars">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <p>
+                                "La verdad que una pasada la experiencia, muy preparado en cada momento del proceso y
+                                super professional en cada instante y fotografia, la verdad que la proxima vez cuando lo
+                                necesite volvere a contactar, super recomendable para cualquier tipo de sesion de fotos
+                                ya sea en el deporte que me dedico o en cualqueir otra cosa, perfecta adaptación al
+                                entorno."
+                            </p>
+                        </div>
+                    </div>
+                    <div class="testimonial-item">
+                        <div class="testimonial-content">
+                            <div class="testimonial-header">
+                                <span class="testimonial-author">Román Uzcátegui</span>
+                                <span class="testimonial-role">Cliente Verificado en Google</span>
+                            </div>
+                            <div class="testimonial-stars">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <p>
+                                "La profesionalidad de Javi es indiscutible, el mejor fotógrafo que hemos conocido."
+                            </p>
+                        </div>
+                    </div>
+                    <div class="testimonial-item">
+                        <div class="testimonial-content">
+                            <div class="testimonial-header">
+                                <span class="testimonial-author">Ivan Garcia</span>
+                                <span class="testimonial-role">Cliente Verificado en Google</span>
+                            </div>
+                            <div class="testimonial-stars">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <p>
+                                "Un gran profesional, se nota que entiende y que le gusta su trabajo, da gusto encontrar
+                                a gente así, lo recomiendo 100%"
+                            </p>
+                        </div>
+                    </div>
+                    <div class="testimonial-item">
+                        <div class="testimonial-content">
+                            <div class="testimonial-header">
+                                <span class="testimonial-author">Angel Lopez Palao</span>
+                                <span class="testimonial-role">Cliente Verificado en Google</span>
+                            </div>
+                            <div class="testimonial-stars">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <p>
+                                "Muy satisfecho, es un chaval de 10, llegó puntual a la ubicación e hizo un trabajo
+                                espectacular, está muy poco reconocido la verdad, agradecido con haberle encontrado."
+                            </p>
+                        </div>
+                    </div>
+                    <div class="testimonial-item">
+                        <div class="testimonial-content">
+                            <div class="testimonial-header">
+                                <span class="testimonial-author">Javi Antón Martinez</span>
+                                <span class="testimonial-role">Cliente Verificado en Google</span>
+                            </div>
+                            <div class="testimonial-stars">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <p>
+                                "Increíbles fotos, no puedo estar mas contento con este servicio"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {showGoogleButton && (
+            <div class="testimonials-link-box text-center" style="margin-top: 3rem;">
+                <a href={contactInfo.googleReviewUrl} target="_blank" rel="noopener noreferrer" class="btn luxury-gallery-btn">
+                    Ver Reseñas en Google My Business <i class="fab fa-google"></i>
+                </a>
+            </div>
+        )}
+    </div>
+</section>
