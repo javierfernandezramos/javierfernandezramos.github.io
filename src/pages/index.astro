@@ -23,14 +23,14 @@ const getImg = (path: string) => {
 
 <Layout
     title="Fotógrafo en Valencia - Retratos, Eventos y Deportes"
-    description="Javier Fernández Ramos, fotógrafo profesional en Valencia - retratos, eventos, deportes y marca personal. Capturando la esencia de cada momento."
+    description="Javier Fernández Ramos, fotógrafo profesional en Valencia - retratos, eventos, deportes y marca personal."
     activePage="inicio"
     preloadImage={heroImg.src}>
     <section id="hero" class="hero-section">
         <div class="hero-content">
-            <h1 class="reveal">Javier Photography <span class="sr-only">| Fotógrafo en Valencia</span></h1>
+            <h1 class="reveal">Javier Photography</h1>
             <p class="reveal">
-                "Capturando la esencia de momentos fugaces." <br />
+                Fotógrafo Profesional en Valencia <br />
                 <a href="/contacto">Contáctame <i class="fa-solid fa-right-to-bracket"></i></a>
             </p>
             <a href="#galeria" class="btn reveal">Ver Más <i class="fas fa-arrow-down"></i></a>
@@ -40,24 +40,6 @@ const getImg = (path: string) => {
     <section id="acerca" class="section-padding">
         <div class="container acerca-grid reveal">
             <div class="acerca-text">
-                <div class="acerca-profile-wrapper">
-                    <div class="acerca-mobile-profile">
-                        <Image
-                            src={photographerImg}
-                            alt="Javier Fernández Ramos"
-                            width={300}
-                            height={300}
-                            class="photographer-main-img loaded profile-img-rounded"
-                        />
-                    </div>
-                    <a
-                        target="_blank"
-                        href="https://www.instagram.com/javier.fzr/"
-                        class="instagram-profile-icon"
-                        aria-label="Visitar Instagram de Javier Fernández Ramos">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                </div>
                 <h2 class="section-title main-title">El Arte de lo Esencial</h2>
                 <div class="editorial-body">
                     <p>
@@ -72,11 +54,26 @@ const getImg = (path: string) => {
                     </p>
                 </div>
                 <div class="contact-links-luxury">
-                    <a href="#" class="luxury-cta-link">Cuéntame tu visión →</a>
+                    <a href="/contacto" class="luxury-cta-link">Cuéntame tu visión →</a>
                 </div>
             </div>
-            <div class="acerca-img glass-frame reveal">
-                <Image src={photographerImg} alt="Retrato del fotógrafo" width={800} />
+            
+            <div class="acerca-profile-wrapper-unified glass-frame reveal">
+                <div class="acerca-profile-img-container">
+                    <Image
+                        src={photographerImg}
+                        alt="Javier Fernández Ramos"
+                        width={800}
+                        class="photographer-main-img loaded"
+                    />
+                </div>
+                <a
+                    target="_blank"
+                    href="https://www.instagram.com/javier.fzr/"
+                    class="instagram-profile-icon"
+                    aria-label="Visitar Instagram de Javier Fernández Ramos">
+                    <i class="fab fa-instagram"></i>
+                </a>
             </div>
         </div>
     </section>
@@ -693,6 +690,84 @@ const getImg = (path: string) => {
 
             .signature-box {
                 padding: 3rem 1.5rem !important;
+            }
+        }
+
+        .acerca-profile-wrapper-unified {
+            position: relative;
+            display: block;
+            width: 100%;
+        }
+
+        .acerca-profile-img-container {
+            width: 100%;
+            height: auto;
+            overflow: hidden;
+        }
+
+        .acerca-profile-img-container img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            display: block;
+        }
+
+        .acerca-profile-wrapper-unified .instagram-profile-icon {
+            display: none;
+        }
+
+        @media (max-width: 1050px) {
+            .acerca-grid {
+                position: relative;
+            }
+
+            .acerca-profile-wrapper-unified {
+                position: absolute;
+                top: -20px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 90px;
+                height: 90px;
+                z-index: 20;
+            }
+
+            .acerca-profile-wrapper-unified::before {
+                display: none !important;
+            }
+
+            .acerca-profile-img-container {
+                width: 90px;
+                height: 90px;
+                border-radius: 50%;
+                border: 2px solid var(--color-gold);
+                background: var(--color-secondary);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            }
+
+            .acerca-profile-img-container img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center 25%;
+                border-radius: 50%;
+            }
+
+            .acerca-profile-wrapper-unified .instagram-profile-icon {
+                display: flex;
+                position: absolute;
+                top: 0;
+                right: -10px;
+                width: 32px;
+                height: 32px;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.1rem;
+                color: var(--color-gold);
+                background: var(--color-secondary);
+                border-radius: 50%;
+                border: 2px solid var(--color-gold);
+                z-index: 2;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
             }
         }
     </style>

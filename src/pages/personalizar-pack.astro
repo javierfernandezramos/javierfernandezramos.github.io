@@ -1,18 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { servicesPacks } from '../data/packs';
-
-// We'll still try to get them on server-side for initial render if possible
-const url = new URL(Astro.request.url);
-const serviceId = url.searchParams.get('service');
-const packId = url.searchParams.get('pack');
-
-const initialService = serviceId ? servicesPacks[serviceId] : null;
-const initialPack = initialService ? initialService.packs.find(p => p.id === packId) : null;
 ---
 
 <Layout 
-    title="Personalizar Pack | JaviPhoto"
+    title="Personalizar Pack - JaviPhoto"
     description="Personaliza tu pack de fotografía con extras y calcula el presupuesto final."
     noIndex={true}
 >

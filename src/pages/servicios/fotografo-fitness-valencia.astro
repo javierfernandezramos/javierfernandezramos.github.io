@@ -1,7 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import PricingPacks from "../../components/PricingPacks.astro";
-import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 
 // Import images
@@ -13,12 +12,11 @@ const getImg = (path: string) => {
     return galleryImages[fullPath]?.default;
 };
 
-const title = "Fotógrafo Fitness en Valencia — Sesiones de Gimnasio y Atletas";
+const title = "Fotógrafo Fitness en Valencia - Sesiones de Gimnasio y Atletas";
 const description =
     "Fotógrafo fitness profesional en Valencia. Sesiones en gimnasio y exteriores con Reel corto de regalo para potenciar tu marca personal y redes. Tarifas desde 90€.";
 const subtitle = "Luce tu progreso físico con edición High-End, entrega de avance en 48h y packs desde 90 €.";
 const heroImg = getImg("Modelo/f3-fit-modelo.webp");
-const mainImg = getImg("Modelo/fitness-leggins.webp");
 
 const features = [
     {
@@ -60,20 +58,6 @@ const faqs = [
         a: "Sí, podemos realizar la sesión en tu gimnasio habitual previa autorización de los responsables del centro, o en exteriores y localizaciones seleccionadas en Valencia.",
     },
 ];
-
-// JSON-LD Schema para FAQPage
-const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": faqs.map((faq) => ({
-        "@type": "Question",
-        "name": faq.q,
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": faq.a,
-        },
-    })),
-};
 ---
 
 <Layout title={title} description={description} activePage="servicios">
@@ -81,7 +65,7 @@ const faqSchema = {
 
     <section class="services-hero subpage-hero">
         <div class="container">
-            <h1 class="section-title reveal hero-title">Fotógrafo Fitness en Valencia — Sesiones con Reel Incluido para Atletas y Gimnasios</h1>
+            <h1 class="section-title reveal hero-title">Fotógrafo Fitness en Valencia - Sesiones con Reel Incluido para Atletas y Gimnasios</h1>
             <p class="section-subtitle reveal hero-subtitle">
                 {subtitle}
             </p>
@@ -217,7 +201,7 @@ const faqSchema = {
                 <p class="testimonial-text">
                     "Un gran profesional, se nota que entiende y que le gusta su trabajo, da gusto encontrar a gente así, lo recomiendo 100%."
                 </p>
-                <span class="testimonial-author">— Ivan Garcia, cliente de Fitness en Valencia</span>
+                <span class="testimonial-author">- Ivan Garcia, cliente de Fitness en Valencia</span>
             </div>
             <div class="testimonials-link-box">
                 <a href="/#testimonios" class="btn luxury-gallery-btn">Ver todas las opiniones en la página de inicio <i class="fas fa-arrow-right"></i></a>

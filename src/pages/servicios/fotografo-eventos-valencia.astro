@@ -1,7 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import PricingPacks from "../../components/PricingPacks.astro";
-import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 
 // Import images
@@ -13,7 +12,7 @@ const getImg = (path: string) => {
     return galleryImages[fullPath]?.default;
 };
 
-const title = "Fotógrafo de Eventos en Valencia — Corporativos y Sociales";
+const title = "Fotógrafo de Eventos en Valencia - Corporativos y Sociales";
 const description =
     "Fotógrafo profesional para eventos en Valencia. Cobertura de congresos, fiestas de empresa, cumpleaños y eventos privados. Highlight video de regalo en packs desde 100€.";
 const subtitle = "Fotografía elegante, video resumen de regalo y entrega de avance en 48 horas. Tarifas claras desde 100 €.";
@@ -59,20 +58,6 @@ const faqs = [
         a: "Sí. Mi base de trabajo está en Valencia capital, pero cubro eventos en toda la provincia y Comunidad Valenciana (consultar disponibilidad y costes de kilometraje).",
     },
 ];
-
-// JSON-LD Schema para FAQPage
-const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": faqs.map((faq) => ({
-        "@type": "Question",
-        "name": faq.q,
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": faq.a,
-        },
-    })),
-};
 ---
 
 <Layout title={title} description={description} activePage="servicios">
@@ -80,7 +65,7 @@ const faqSchema = {
 
     <section class="services-hero subpage-hero">
         <div class="container">
-            <h1 class="section-title reveal hero-title">Fotógrafo de Eventos Corporativos en Valencia — Cobertura para Conferencias y Empresas</h1>
+            <h1 class="section-title reveal hero-title">Fotógrafo de Eventos Corporativos en Valencia - Cobertura para Conferencias y Empresas</h1>
             <p class="section-subtitle reveal hero-subtitle">
                 {subtitle}
             </p>
@@ -216,7 +201,7 @@ const faqSchema = {
                 <p class="testimonial-text">
                     "Un gran profesional, se nota que entiende y que le gusta su trabajo, da gusto encontrar a gente así, lo recomiendo 100%."
                 </p>
-                <span class="testimonial-author">— Ivan Garcia, cliente de Eventos en Valencia</span>
+                <span class="testimonial-author">- Ivan Garcia, cliente de Eventos en Valencia</span>
             </div>
             <div class="testimonials-link-box">
                 <a href="/#testimonios" class="btn luxury-gallery-btn">Ver todas las opiniones en la página de inicio <i class="fas fa-arrow-right"></i></a>

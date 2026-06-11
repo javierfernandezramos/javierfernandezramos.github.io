@@ -1,7 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import PricingPacks from "../../components/PricingPacks.astro";
-import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 
 // Import images
@@ -13,12 +12,11 @@ const getImg = (path: string) => {
     return galleryImages[fullPath]?.default;
 };
 
-const title = "Fotógrafo Deportivo en Valencia — Sesiones Deportivas";
+const title = "Fotógrafo Deportivo en Valencia - Sesiones Deportivas";
 const description =
     "Fotografía deportiva profesional en Valencia. Sesiones para atletas de crossfit, atletismo, clubes y eventos deportivos con edición incluida y entrega de avance en 48h.";
 const subtitle = "Edición profesional incluida, entrega de avance en 48h y tarifas claras desde 90 €.";
 const heroImg = getImg("Deportes/2.webp");
-const mainImg = getImg("Deportes/1.webp");
 
 const features = [
     {
@@ -60,20 +58,6 @@ const faqs = [
         a: "Sí, mi base de operaciones está en Valencia, pero estoy disponible para desplazarme a cualquier punto de la península para cubrir competiciones, torneos o entrenamientos especiales (consultar presupuesto y disponibilidad).",
     },
 ];
-
-// JSON-LD Schema para FAQPage
-const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqs.map((faq) => ({
-        "@type": "Question",
-        name: faq.q,
-        acceptedAnswer: {
-            "@type": "Answer",
-            text: faq.a,
-        },
-    })),
-};
 ---
 
 <Layout title={title} description={description} activePage="servicios">
@@ -82,7 +66,7 @@ const faqSchema = {
     <section class="services-hero subpage-hero">
         <div class="container">
             <h1 class="section-title reveal hero-title">
-                Fotógrafo Deportivo en Valencia — Sesiones para Atletas, Clubes y Deportes
+                Fotógrafo Deportivo en Valencia - Sesiones para Atletas, Clubes y Deportes
             </h1>
             <p class="section-subtitle reveal hero-subtitle">
                 {subtitle}
@@ -271,7 +255,7 @@ const faqSchema = {
                     super recomendable para cualquier tipo de sesión de fotos ya sea en el deporte que me dedico o en
                     cualquier otra cosa, perfecta adaptación al entorno."
                 </p>
-                <span class="testimonial-author">— Jorge Prats, deportista de Valencia</span>
+                <span class="testimonial-author">- Jorge Prats, deportista de Valencia</span>
             </div>
             <div class="testimonials-link-box">
                 <a href="/#testimonios" class="btn luxury-gallery-btn"

@@ -1,7 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import PricingPacks from "../../components/PricingPacks.astro";
-import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 
 // Import images
@@ -13,7 +12,7 @@ const getImg = (path: string) => {
     return galleryImages[fullPath]?.default;
 };
 
-const title = "Fotógrafo de Marca Personal en Valencia — Sesiones de Branding";
+const title = "Fotógrafo de Marca Personal en Valencia - Sesiones de Branding";
 const description =
     "Fotografía de marca personal y branding en Valencia para emprendedores y coaches. Consigue contenido estratégico para un mes de redes sociales y web. Desde 90€.";
 const subtitle = "Consigue contenido estratégico para un mes de redes sociales. Precios claros desde 90 €.";
@@ -59,20 +58,6 @@ const faqs = [
         a: "No. La edición es el 50% de nuestra firma visual. Solo entregamos las tomas seleccionadas con revelado profesional y retoque digital de alta calidad.",
     },
 ];
-
-// JSON-LD Schema para FAQPage
-const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": faqs.map((faq) => ({
-        "@type": "Question",
-        "name": faq.q,
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": faq.a,
-        },
-    })),
-};
 ---
 
 <Layout title={title} description={description} activePage="servicios">
@@ -80,7 +65,7 @@ const faqSchema = {
 
     <section class="services-hero subpage-hero">
         <div class="container">
-            <h1 class="section-title reveal hero-title">Fotógrafo de Marca Personal en Valencia — Sesión de Fotos de Branding para Emprendedores y Coaches</h1>
+            <h1 class="section-title reveal hero-title">Fotógrafo de Marca Personal en Valencia - Sesión de Fotos de Branding para Emprendedores y Coaches</h1>
             <p class="section-subtitle reveal hero-subtitle">
                 {subtitle}
             </p>
@@ -216,7 +201,7 @@ const faqSchema = {
                 <p class="testimonial-text">
                     "Muy satisfecho, es un chaval de 10, llegó puntual a la ubicación e hizo un trabajo espectacular. Está muy poco reconocido la verdad, agradecido con haberle encontrado."
                 </p>
-                <span class="testimonial-author">— Angel Lopez Palao, cliente de marca personal en Valencia</span>
+                <span class="testimonial-author">- Angel Lopez Palao, cliente de marca personal en Valencia</span>
             </div>
             <div class="testimonials-link-box">
                 <a href="/#testimonios" class="btn luxury-gallery-btn">Ver todas las opiniones en la página de inicio <i class="fas fa-arrow-right"></i></a>

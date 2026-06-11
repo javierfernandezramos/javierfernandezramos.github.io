@@ -8,7 +8,6 @@ const galleryImages = import.meta.glob<{ default: ImageMetadata }>("../assets/Fo
     eager: true,
 });
 const getImg = (path: string) => galleryImages[`../assets/Fotos/${path}`]?.default;
-const heroImg = getImg("hero-image.webp");
 ---
 
 <Layout

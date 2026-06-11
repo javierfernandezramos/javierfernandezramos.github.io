@@ -20,14 +20,13 @@ const getImg = (path: string) => {
 // Define hero & key images
 const heroImg = getImg("hero-image.webp");
 const portraitImg = getImg("Modelo/retrato-flex-form-f3.webp") || heroImg;
-const weddingImg = getImg("novios1.webp") || heroImg;
-const eventImg = getImg("Eventos/3.webp") || heroImg;
 const photographerImg = getImg("photographer.webp") || heroImg;
 const sportsImg = getImg("Deportes/1.webp") || heroImg;
 const eventSportsImg = getImg("RicardoTormo31.webp") || heroImg;
 
-const title = "Fotógrafo en Valencia | Fotografía Deportiva y Fitness | JaviPhoto";
-const description = "¿Buscas un fotógrafo en Valencia especialista en deporte y fitness? Capturo la fuerza de tus entrenamientos y eventos con máxima fidelidad gráfica. ¡Reserva ya!";
+const title = "Fotógrafo en Valencia - JaviPhoto";
+const description =
+    "¿Buscas un fotógrafo en Valencia especialista en deporte y fitness? Capturo la fuerza de tus entrenamientos y eventos con máxima fidelidad gráfica. ¡Reserva ya!";
 
 const faqs = [
     {
@@ -50,42 +49,25 @@ const siteUrl = "https://javiphoto.es";
 const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
-    "name": "JaviPhoto - Javier Fernández Ramos Fotógrafo Valencia",
-    "image": `${siteUrl}/assets/Fotos/hero-image.webp`,
+    name: "JaviPhoto - Javier Fernández Ramos Fotógrafo Valencia",
+    image: `${siteUrl}/assets/Fotos/hero-image.webp`,
     "@id": `${siteUrl}/#localbusiness-valencia`,
-    "url": `${siteUrl}/fotografo-en-valencia`,
-    "telephone": contactInfo.phone,
-    "priceRange": "90€ - 350€",
-    "address": {
+    url: `${siteUrl}/fotografo-en-valencia`,
+    telephone: contactInfo.phone,
+    priceRange: "90€ - 350€",
+    address: {
         "@type": "PostalAddress",
-        "addressLocality": "Valencia",
-        "addressRegion": "Valencia",
-        "postalCode": "46001",
-        "addressCountry": "ES"
+        addressLocality: "Valencia",
+        addressRegion: "Valencia",
+        postalCode: "46001",
+        addressCountry: "ES",
     },
-    "geo": {
+    geo: {
         "@type": "GeoCoordinates",
-        "latitude": 39.4699,
-        "longitude": -0.3763
+        latitude: 39.4699,
+        longitude: -0.3763,
     },
-    "sameAs": [
-        contactInfo.instagramUrl,
-        contactInfo.tiktokUrl,
-        "https://g.page/r/CfhBvKmELu39EBM"
-    ]
-};
-
-const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": faqs.map((faq) => ({
-        "@type": "Question",
-        "name": faq.q,
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": faq.a,
-        },
-    })),
+    sameAs: [contactInfo.instagramUrl, contactInfo.tiktokUrl, "https://g.page/r/CfhBvKmELu39EBM"],
 };
 ---
 
@@ -97,12 +79,21 @@ const faqSchema = {
     <!-- HERO SECTION -->
     <section class="services-hero valencia-hero">
         <div class="container">
-            <h1 class="section-title reveal hero-title">Fotógrafo en Valencia Especializado en Deporte, Fitness y Eventos</h1>
+            <h1 class="section-title reveal hero-title">
+                Fotógrafo en Valencia Especializado en Deporte, Fitness y Eventos
+            </h1>
             <p class="section-subtitle reveal hero-subtitle">
-                Capturar la intensidad de un movimiento, la fuerza de un levantamiento o la adrenalina de un evento requiere algo más que presionar un botón. Exige entender el esfuerzo detrás de cada atleta. Soy Javier Fernández, la mente detrás de <strong>JaviPhoto</strong>, y trabajo como <strong>fotógrafo en Valencia</strong> ayudando a atletas, entrenadores, centros de fitness y organizadores de eventos a inmortalizar su rendimiento con imágenes que impactan.
+                Capturar la intensidad de un movimiento, la fuerza de un levantamiento o la adrenalina de un evento
+                requiere algo más que presionar un botón. Exige entender el esfuerzo detrás de cada atleta. Soy Javier
+                Fernández, la mente detrás de <strong>JaviPhoto</strong>, y trabajo como <strong
+                    >fotógrafo en Valencia</strong
+                > ayudando a atletas, entrenadores, centros de fitness y organizadores de eventos a inmortalizar su rendimiento
+                con imágenes que impactan.
             </p>
             <div class="hero-cta-box reveal">
-                <a href="#contacto-landing" class="btn luxury-gallery-btn">Reserva tu Sesión <i class="fas fa-calendar-alt"></i></a>
+                <a href="#contacto-landing" class="btn luxury-gallery-btn"
+                    >Reserva tu Sesión <i class="fas fa-calendar-alt"></i></a
+                >
             </div>
         </div>
     </section>
@@ -113,7 +104,9 @@ const faqSchema = {
             <div class="seo-content-inner text-center-desktop">
                 <h2>Tu historia a través de la luz: Fotografía profesional con identidad</h2>
                 <p class="intro-paragraph">
-                    Si buscas un reportaje visual que refleje la realidad sin filtros artificiales, estás en el lugar idóneo. Me desplazo por toda la provincia de Valencia para cubrir tus sesiones de entrenamiento, competiciones o eventos corporativos.
+                    Si buscas un reportaje visual que refleje la realidad sin filtros artificiales, estás en el lugar
+                    idóneo. Me desplazo por toda la provincia de Valencia para cubrir tus sesiones de entrenamiento,
+                    competiciones o eventos corporativos.
                 </p>
             </div>
         </div>
@@ -123,58 +116,103 @@ const faqSchema = {
     <section class="section-padding reveal secondary-bg">
         <div class="container">
             <h2 class="section-title">Servicios de Fotografía Profesional en Valencia</h2>
-            <p class="text-center tariffs-subtitle">Como fotógrafo especializado, adapto mi equipo y mi técnica a la velocidad y exigencia de cada disciplina:</p>
-            
+            <p class="text-center tariffs-subtitle">
+                Como fotógrafo especializado, adapto mi equipo y mi técnica a la velocidad y exigencia de cada
+                disciplina:
+            </p>
+
             <div class="services-detail-grid">
                 <!-- Fitness y Marca Personal -->
                 <div class="service-detail-card reveal">
                     <div class="service-detail-img-wrapper">
-                        {portraitImg && <Image src={portraitImg} alt="Fotografía fitness en un gimnasio de Valencia por JaviPhoto" width={500} class="service-detail-img" />}
+                        {
+                            portraitImg && (
+                                <Image
+                                    src={portraitImg}
+                                    alt="Fotografía fitness en un gimnasio de Valencia por JaviPhoto"
+                                    width={500}
+                                    class="service-detail-img"
+                                />
+                            )
+                        }
                     </div>
                     <div class="service-detail-content">
                         <h3>Fotografía Fitness y de Marca Personal</h3>
                         <p>
-                            Lleva tu marca al siguiente nivel. Realizo sesiones de fotos en gimnasios, boxes de CrossFit o exteriores en Valencia para creadores de contenido, entrenadores personales y atletas que necesitan un porfolio profesional y estético.
+                            Lleva tu marca al siguiente nivel. Realizo sesiones de fotos en gimnasios, boxes de CrossFit
+                            o exteriores en Valencia para creadores de contenido, entrenadores personales y atletas que
+                            necesitan un porfolio profesional y estético.
                         </p>
-                        <a href="/servicios/fotografo-fitness-valencia" class="btn-text-gold">Saber más sobre fitness <i class="fas fa-arrow-right"></i></a>
+                        <a href="/servicios/fotografo-fitness-valencia" class="btn-text-gold"
+                            >Saber más sobre fitness <i class="fas fa-arrow-right"></i></a
+                        >
                     </div>
                 </div>
 
                 <!-- Deportiva de Alta Velocidad -->
                 <div class="service-detail-card reveal">
                     <div class="service-detail-img-wrapper">
-                        {sportsImg && <Image src={sportsImg} alt="Fotógrafo deportivo de alta velocidad en Valencia" width={500} class="service-detail-img" />}
+                        {
+                            sportsImg && (
+                                <Image
+                                    src={sportsImg}
+                                    alt="Fotógrafo deportivo de alta velocidad en Valencia"
+                                    width={500}
+                                    class="service-detail-img"
+                                />
+                            )
+                        }
                     </div>
                     <div class="service-detail-content">
                         <h3>Fotografía Deportiva de Alta Velocidad</h3>
                         <p>
-                            Especialista en congelar el tiempo en disciplinas de fuerza, atletismo y deportes de equipo. Capturo el momento exacto del esfuerzo máximo con una nitidez técnica impecable.
+                            Especialista en congelar el tiempo en disciplinas de fuerza, atletismo y deportes de equipo.
+                            Capturo el momento exacto del esfuerzo máximo con una nitidez técnica impecable.
                         </p>
-                        <a href="/servicios/fotografo-deportivo-valencia" class="btn-text-gold">Saber más sobre deporte <i class="fas fa-arrow-right"></i></a>
+                        <a href="/servicios/fotografo-deportivo-valencia" class="btn-text-gold"
+                            >Saber más sobre deporte <i class="fas fa-arrow-right"></i></a
+                        >
                     </div>
                 </div>
 
                 <!-- Cobertura de Eventos y Competiciones -->
                 <div class="service-detail-card reveal">
                     <div class="service-detail-img-wrapper">
-                        {eventSportsImg && <Image src={eventSportsImg} alt="Cobertura de eventos y competiciones en Valencia" width={500} class="service-detail-img" />}
+                        {
+                            eventSportsImg && (
+                                <Image
+                                    src={eventSportsImg}
+                                    alt="Cobertura de eventos y competiciones en Valencia"
+                                    width={500}
+                                    class="service-detail-img"
+                                />
+                            )
+                        }
                     </div>
                     <div class="service-detail-content">
                         <h3>Cobertura de Eventos y Competiciones</h3>
                         <p>
-                            Desde competiciones locales en la Comunidad Valenciana hasta eventos corporativos o deportivos de gran escala. Cobertura completa con entrega rápida de material optimizado para prensa y redes sociales.
+                            Desde competiciones locales en la Comunidad Valenciana hasta eventos corporativos o
+                            deportivos de gran escala. Cobertura completa con entrega rápida de material optimizado para
+                            prensa y redes sociales.
                         </p>
-                        <a href="/servicios/fotografo-eventos-valencia" class="btn-text-gold">Saber más sobre eventos <i class="fas fa-arrow-right"></i></a>
+                        <a href="/servicios/fotografo-eventos-valencia" class="btn-text-gold"
+                            >Saber más sobre eventos <i class="fas fa-arrow-right"></i></a
+                        >
                     </div>
                 </div>
             </div>
-            
+
             <!-- Otros servicios adicionales para cubrir búsquedas secundarias -->
             <div class="other-services-row text-center reveal">
                 <p class="small-text-heading">También realizo:</p>
                 <div class="other-services-badges">
-                    <a href="/servicios/retratos-profesionales-valencia" class="service-badge"><i class="fas fa-user-tie"></i> Retratos Profesionales</a>
-                    <a href="/servicios/fotografia-marca-personal-valencia" class="service-badge"><i class="fas fa-briefcase"></i> Marca Personal / Branding</a>
+                    <a href="/servicios/retratos-profesionales-valencia" class="service-badge"
+                        ><i class="fas fa-user-tie"></i> Retratos Profesionales</a
+                    >
+                    <a href="/servicios/fotografia-marca-personal-valencia" class="service-badge"
+                        ><i class="fas fa-briefcase"></i> Marca Personal / Branding</a
+                    >
                 </div>
             </div>
         </div>
@@ -184,37 +222,89 @@ const faqSchema = {
     <section class="section-padding reveal">
         <div class="container">
             <h2 class="section-title">Mi Porfolio: Trabajos Recientes en la Comunidad Valenciana</h2>
-            <p class="text-center tariffs-subtitle">Una pequeña muestra de proyectos capturados en localizaciones exclusivas de Valencia.</p>
-            
+            <p class="text-center tariffs-subtitle">
+                Una pequeña muestra de proyectos capturados en localizaciones exclusivas de Valencia.
+            </p>
+
             <div class="gallery-grid">
                 <div class="gallery-item reveal active" data-src={getImg("Novios/3.webp")?.src}>
-                    {getImg("Novios/3.webp") && <Image src={getImg("Novios/3.webp")!} alt="Fotografía de boda en la Ciudad de las Artes, Valencia" width={600} />}
+                    {
+                        getImg("Novios/3.webp") && (
+                            <Image
+                                src={getImg("Novios/3.webp")!}
+                                alt="Fotografía de boda en la Ciudad de las Artes, Valencia"
+                                width={600}
+                            />
+                        )
+                    }
                     <div class="overlay"><span><i class="fa-solid fa-magnifying-glass"></i> Bodas</span></div>
                 </div>
                 <div class="gallery-item reveal active" data-src={getImg("Modelo/retrato-flex-form-f3.webp")?.src}>
-                    {getImg("Modelo/retrato-flex-form-f3.webp") && <Image src={getImg("Modelo/retrato-flex-form-f3.webp")!} alt="Retrato profesional en las calles del centro de Valencia" width={600} />}
+                    {
+                        getImg("Modelo/retrato-flex-form-f3.webp") && (
+                            <Image
+                                src={getImg("Modelo/retrato-flex-form-f3.webp")!}
+                                alt="Retrato profesional en las calles del centro de Valencia"
+                                width={600}
+                            />
+                        )
+                    }
                     <div class="overlay"><span><i class="fa-solid fa-magnifying-glass"></i> Retratos</span></div>
                 </div>
                 <div class="gallery-item reveal active" data-src={getImg("Eventos/3.webp")?.src}>
-                    {getImg("Eventos/3.webp") && <Image src={getImg("Eventos/3.webp")!} alt="Reportaje fotográfico de evento corporativo en el Carmen, Valencia" width={600} />}
+                    {
+                        getImg("Eventos/3.webp") && (
+                            <Image
+                                src={getImg("Eventos/3.webp")!}
+                                alt="Reportaje fotográfico de evento corporativo en el Carmen, Valencia"
+                                width={600}
+                            />
+                        )
+                    }
                     <div class="overlay"><span><i class="fa-solid fa-magnifying-glass"></i> Eventos</span></div>
                 </div>
                 <div class="gallery-item reveal active" data-src={getImg("Novios/5.webp")?.src}>
-                    {getImg("Novios/5.webp") && <Image src={getImg("Novios/5.webp")!} alt="Sesión fotográfica de pareja al atardecer en la Albufera de Valencia" width={600} />}
+                    {
+                        getImg("Novios/5.webp") && (
+                            <Image
+                                src={getImg("Novios/5.webp")!}
+                                alt="Sesión fotográfica de pareja al atardecer en la Albufera de Valencia"
+                                width={600}
+                            />
+                        )
+                    }
                     <div class="overlay"><span><i class="fa-solid fa-magnifying-glass"></i> Exteriores</span></div>
                 </div>
                 <div class="gallery-item reveal active" data-src={getImg("Deportes/1.webp")?.src}>
-                    {getImg("Deportes/1.webp") && <Image src={getImg("Deportes/1.webp")!} alt="Fotografía de acción deportiva de atletismo en Valencia" width={600} />}
+                    {
+                        getImg("Deportes/1.webp") && (
+                            <Image
+                                src={getImg("Deportes/1.webp")!}
+                                alt="Fotografía de acción deportiva de atletismo en Valencia"
+                                width={600}
+                            />
+                        )
+                    }
                     <div class="overlay"><span><i class="fa-solid fa-magnifying-glass"></i> Deportes</span></div>
                 </div>
                 <div class="gallery-item reveal active" data-src={getImg("Marca/2.webp")?.src}>
-                    {getImg("Marca/2.webp") && <Image src={getImg("Marca/2.webp")!} alt="Sesión de fotos de marca personal para profesional en Valencia" width={600} />}
+                    {
+                        getImg("Marca/2.webp") && (
+                            <Image
+                                src={getImg("Marca/2.webp")!}
+                                alt="Sesión de fotos de marca personal para profesional en Valencia"
+                                width={600}
+                            />
+                        )
+                    }
                     <div class="overlay"><span><i class="fa-solid fa-magnifying-glass"></i> Marca Personal</span></div>
                 </div>
             </div>
 
             <div class="text-center reveal" style="margin-top: 2rem;">
-                <a href="/galeria" class="btn luxury-gallery-btn">Ver Galería Completa <i class="fas fa-arrow-right"></i></a>
+                <a href="/galeria" class="btn luxury-gallery-btn"
+                    >Ver Galería Completa <i class="fas fa-arrow-right"></i></a
+                >
             </div>
         </div>
     </section>
@@ -225,13 +315,17 @@ const faqSchema = {
             <div class="eeat-text">
                 <div class="acerca-profile-wrapper">
                     <div class="acerca-mobile-profile">
-                        {photographerImg && <Image
-                            src={photographerImg}
-                            alt="Javier Fernández Ramos"
-                            width={300}
-                            height={300}
-                            class="photographer-main-img loaded profile-img-rounded"
-                        />}
+                        {
+                            photographerImg && (
+                                <Image
+                                    src={photographerImg}
+                                    alt="Javier Fernández Ramos"
+                                    width={300}
+                                    height={300}
+                                    class="photographer-main-img loaded profile-img-rounded"
+                                />
+                            )
+                        }
                     </div>
                     <a
                         target="_blank"
@@ -244,19 +338,26 @@ const faqSchema = {
                 <h2>Fidelidad Gráfica y Acción: Mi Filosofía de Trabajo</h2>
                 <div class="editorial-body">
                     <p class="lead-text">
-                        El mercado está lleno de imágenes con filtros excesivos que distorsionan la realidad. En <strong>JaviPhoto</strong> apuesto por una filosofía clara: <strong>máxima fidelidad gráfica</strong>.
+                        El mercado está lleno de imágenes con filtros excesivos que distorsionan la realidad. En <strong
+                            >JaviPhoto</strong
+                        > apuesto por una filosofía clara: <strong>máxima fidelidad gráfica</strong>.
                     </p>
                     <p>
-                        Busco que cada fotografía sea un reflejo real y crudo de la potencia del atleta, respetando los colores, las texturas y la iluminación natural del entorno.
+                        Busco que cada fotografía sea un reflejo real y crudo de la potencia del atleta, respetando los
+                        colores, las texturas y la iluminación natural del entorno.
                     </p>
                     <blockquote>
-                        "Mi objetivo no es solo tomar una foto bonita, es congelar el milisegundo exacto donde se demuestra la disciplina y el trabajo duro."
+                        "Mi objetivo no es solo tomar una foto bonita, es congelar el milisegundo exacto donde se
+                        demuestra la disciplina y el trabajo duro."
                     </blockquote>
                     <p>
-                        Trabajo con cuerpos de cámara y ópticas de última generación capaces de enfocar al instante en las condiciones de luz más complejas (gimnasios cerrados, pabellones o luz solar directa). Esto me permite garantizar imágenes nítidas, contrastadas y listas para usar en tu web, porfolio o redes sociales.
+                        Trabajo con cuerpos de cámara y ópticas de última generación capaces de enfocar al instante en
+                        las condiciones de luz más complejas (gimnasios cerrados, pabellones o luz solar directa). Esto
+                        me permite garantizar imágenes nítidas, contrastadas y listas para usar en tu web, porfolio o
+                        redes sociales.
                     </p>
                 </div>
-                
+
                 <div class="eeat-badges">
                     <div class="eeat-badge-card">
                         <i class="fas fa-camera"></i>
@@ -273,7 +374,16 @@ const faqSchema = {
                 </div>
             </div>
             <div class="eeat-img-box glass-frame">
-                {photographerImg && <Image src={photographerImg} alt="Javier Fernández Ramos, fotógrafo en Valencia" width={800} class="eeat-img" />}
+                {
+                    photographerImg && (
+                        <Image
+                            src={photographerImg}
+                            alt="Javier Fernández Ramos, fotógrafo en Valencia"
+                            width={800}
+                            class="eeat-img"
+                        />
+                    )
+                }
             </div>
         </div>
     </section>
@@ -283,9 +393,10 @@ const faqSchema = {
         <div class="container">
             <h2 class="section-title">Garantía E-E-A-T: Por qué Elegir a JaviPhoto</h2>
             <p class="text-center tariffs-subtitle">
-                A la hora de contratar un <strong>fotógrafo profesional en Valencia</strong>, la confianza y la experiencia sobre el terreno lo son todo. Mi enfoque de trabajo se apoya en tres pilares:
+                A la hora de contratar un <strong>fotógrafo profesional en Valencia</strong>, la confianza y la
+                experiencia sobre el terreno lo son todo. Mi enfoque de trabajo se apoya en tres pilares:
             </p>
-            
+
             <div class="eeat-pillars-grid">
                 <div class="pillar-card reveal">
                     <div class="pillar-icon-wrapper">
@@ -293,7 +404,9 @@ const faqSchema = {
                     </div>
                     <h3>Experiencia Real</h3>
                     <p>
-                        Conozco desde dentro las dinámicas del entrenamiento de fuerza y el movimiento. Sé exactamente en qué fase del levantamiento o del ejercicio se produce el momento de máxima plasticidad y estética visual.
+                        Conozco desde dentro las dinámicas del entrenamiento de fuerza y el movimiento. Sé exactamente
+                        en qué fase del levantamiento o del ejercicio se produce el momento de máxima plasticidad y
+                        estética visual.
                     </p>
                 </div>
                 <div class="pillar-card reveal">
@@ -302,7 +415,8 @@ const faqSchema = {
                     </div>
                     <h3>Conocimiento Técnico</h3>
                     <p>
-                        Utilizo configuraciones avanzadas de obturación y enfoque de última tecnología para asegurar que ninguna foto salga movida, sin importar la velocidad de la acción.
+                        Utilizo configuraciones avanzadas de obturación y enfoque de última tecnología para asegurar que
+                        ninguna foto salga movida, sin importar la velocidad de la acción.
                     </p>
                 </div>
                 <div class="pillar-card reveal">
@@ -311,7 +425,9 @@ const faqSchema = {
                     </div>
                     <h3>Compromiso Local</h3>
                     <p>
-                        Como fotógrafo basado en Valencia, ofrezco total flexibilidad para desplazarme a cualquier instalación deportiva, box, estadio o localización exterior de la zona metropolitana y alrededores.
+                        Como fotógrafo basado en Valencia, ofrezco total flexibilidad para desplazarme a cualquier
+                        instalación deportiva, box, estadio o localización exterior de la zona metropolitana y
+                        alrededores.
                     </p>
                 </div>
             </div>
@@ -337,10 +453,15 @@ const faqSchema = {
                                 <span class="testimonial-role">Cliente Verificado en Google</span>
                             </div>
                             <div class="testimonial-stars">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i>
                             </div>
                             <p>
-                                "La verdad que una pasada la experiencia, muy preparado en cada momento del proceso y super professional en cada instante y fotografia, la verdad que la proxima vez cuando lo necesite volvere a contactar, super recomendable para cualquier tipo de sesion de fotos ya sea en el deporte que me dedico o en cualqueir otra cosa, perfecta adaptación al entorno."
+                                "La verdad que una pasada la experiencia, muy preparado en cada momento del proceso y
+                                super professional en cada instante y fotografia, la verdad que la proxima vez cuando lo
+                                necesite volvere a contactar, super recomendable para cualquier tipo de sesion de fotos
+                                ya sea en el deporte que me dedico o en cualqueir otra cosa, perfecta adaptación al
+                                entorno."
                             </p>
                         </div>
                     </div>
@@ -351,11 +472,10 @@ const faqSchema = {
                                 <span class="testimonial-role">Cliente Verificado en Google</span>
                             </div>
                             <div class="testimonial-stars">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i>
                             </div>
-                            <p>
-                                "La profesionalidad de Javi es indiscutible, el mejor fotógrafo que hemos conocido."
-                            </p>
+                            <p>"La profesionalidad de Javi es indiscutible, el mejor fotógrafo que hemos conocido."</p>
                         </div>
                     </div>
                     <div class="testimonial-item">
@@ -365,10 +485,12 @@ const faqSchema = {
                                 <span class="testimonial-role">Cliente Verificado en Google</span>
                             </div>
                             <div class="testimonial-stars">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i>
                             </div>
                             <p>
-                                "Un gran profesional, se nota que entiende y que le gusta su trabajo, da gusto encontrar a gente así, lo recomiendo 100%"
+                                "Un gran profesional, se nota que entiende y que le gusta su trabajo, da gusto encontrar
+                                a gente así, lo recomiendo 100%"
                             </p>
                         </div>
                     </div>
@@ -379,10 +501,12 @@ const faqSchema = {
                                 <span class="testimonial-role">Cliente Verificado en Google</span>
                             </div>
                             <div class="testimonial-stars">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i>
                             </div>
                             <p>
-                                "Muy satisfecho, es un chaval de 10, llegó puntual a la ubicación e hizo un trabajo espectacular, está muy poco reconocido la verdad, agradecido con haberle encontrado."
+                                "Muy satisfecho, es un chaval de 10, llegó puntual a la ubicación e hizo un trabajo
+                                espectacular, está muy poco reconocido la verdad, agradecido con haberle encontrado."
                             </p>
                         </div>
                     </div>
@@ -393,18 +517,22 @@ const faqSchema = {
                                 <span class="testimonial-role">Cliente Verificado en Google</span>
                             </div>
                             <div class="testimonial-stars">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i>
                             </div>
-                            <p>
-                                "Increíbles fotos, no puedo estar mas contento con este servicio"
-                            </p>
+                            <p>"Increíbles fotos, no puedo estar mas contento con este servicio"</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="testimonials-link-box text-center" style="margin-top: 3rem;">
-            <a href={contactInfo.googleReviewUrl} target="_blank" rel="noopener noreferrer" class="btn luxury-gallery-btn">Ver Reseñas en Google My Business <i class="fab fa-google"></i></a>
+            <a
+                href={contactInfo.googleReviewUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn luxury-gallery-btn">Ver Reseñas en Google My Business <i class="fab fa-google"></i></a
+            >
         </div>
     </section>
 
@@ -412,15 +540,17 @@ const faqSchema = {
     <section class="section-padding reveal secondary-bg">
         <div class="container">
             <h2 class="section-title">Preguntas Frecuentes sobre mis Servicios de Fotografía</h2>
-            <p class="text-center tariffs-subtitle">Resuelvo tus dudas principales antes de planificar tu sesión fotográfica.</p>
-            
+            <p class="text-center tariffs-subtitle">
+                Resuelvo tus dudas principales antes de planificar tu sesión fotográfica.
+            </p>
+
             <div class="faq-container-narrow">
                 {
                     faqs.map((faq) => (
                         <div class="faq-sub-item faq-item-interactive">
                             <div class="faq-question-bar">
                                 <h3 class="faq-sub-q">{faq.q}</h3>
-                                <i class="fas fa-plus toggle-icon"></i>
+                                <i class="fas fa-plus toggle-icon" />
                             </div>
                             <div class="faq-answer-block">
                                 <p>{faq.a}</p>
@@ -439,7 +569,7 @@ const faqSchema = {
             <p class="text-center form-subtitle">
                 Solicita disponibilidad sin compromiso. Escríbeme y diseñemos juntos un reportaje a tu medida.
             </p>
-            
+
             <!-- Formulario Formspree centrado similar a /contacto -->
             <div class="calculator-card" style="max-width: 800px; margin: 0 auto;">
                 <form id="contact-form-landing" class="luxury-form">
@@ -463,7 +593,7 @@ const faqSchema = {
                     <div class="input-group">
                         <label for="l-email">Correo Electrónico</label>
                         <div style="position: relative;">
-                                <i class="fas fa-envelope"></i>
+                            <i class="fas fa-envelope"></i>
                             <input type="email" id="l-email" name="email" placeholder="tu@email.com..." required />
                         </div>
                     </div>
@@ -471,8 +601,14 @@ const faqSchema = {
                     <div class="input-group">
                         <label for="l-asunto">¿Qué tipo de reportaje necesitas?</label>
                         <div style="position: relative;">
-                                <i class="fas fa-tag"></i>
-                            <input type="text" id="l-asunto" name="asunto" placeholder="Ej: Reportaje de boda, Sesión de retrato..." required />
+                            <i class="fas fa-tag"></i>
+                            <input
+                                type="text"
+                                id="l-asunto"
+                                name="asunto"
+                                placeholder="Ej: Reportaje de boda, Sesión de retrato..."
+                                required
+                            />
                         </div>
                     </div>
 
@@ -480,14 +616,23 @@ const faqSchema = {
                         <label for="l-mensaje">Cuéntame tu idea</label>
                         <div class="textarea-wrapper">
                             <i class="fas fa-comment-alt message-icon"></i>
-                            <textarea id="l-mensaje" name="mensaje" placeholder="Fechas estimadas, ideas de localización, número de personas..." rows="4" required></textarea>
+                            <textarea
+                                id="l-mensaje"
+                                name="mensaje"
+                                placeholder="Fechas estimadas, ideas de localización, número de personas..."
+                                rows="4"
+                                required></textarea>
                         </div>
                     </div>
 
                     <button type="submit" class="btn submit-btn full-width">
                         Enviar Solicitud de Reserva <i class="fas fa-paper-plane"></i>
                     </button>
-                    <p id="form-status-landing" class="small-note text-center" style="margin-top: 1.5rem; color: var(--color-gold); display: none;"></p>
+                    <p
+                        id="form-status-landing"
+                        class="small-note text-center"
+                        style="margin-top: 1.5rem; color: var(--color-gold); display: none;">
+                    </p>
                 </form>
             </div>
         </div>
@@ -496,31 +641,31 @@ const faqSchema = {
 
 <script>
     // Form Redirect/Handler similar to contact page
-    const form = document.getElementById('contact-form-landing');
-    const status = document.getElementById('form-status-landing');
+    const form = document.getElementById("contact-form-landing");
+    const status = document.getElementById("form-status-landing");
 
-    form?.addEventListener('submit', async (e) => {
+    form?.addEventListener("submit", async (e) => {
         e.preventDefault();
-        
-        const name = (document.getElementById('l-name') as HTMLInputElement).value;
-        const phone = (document.getElementById('l-phone') as HTMLInputElement).value;
-        const email = (document.getElementById('l-email') as HTMLInputElement).value;
-        const subject = (document.getElementById('l-asunto') as HTMLInputElement).value;
-        const message = (document.getElementById('l-mensaje') as HTMLTextAreaElement).value;
+
+        const name = (document.getElementById("l-name") as HTMLInputElement).value;
+        const phone = (document.getElementById("l-phone") as HTMLInputElement).value;
+        const email = (document.getElementById("l-email") as HTMLInputElement).value;
+        const subject = (document.getElementById("l-asunto") as HTMLInputElement).value;
+        const message = (document.getElementById("l-mensaje") as HTMLTextAreaElement).value;
         const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
 
         const formData = new FormData();
-        formData.append('_subject', `Reserva Landing Valencia: ${subject}`);
-        formData.append('nombre', name);
-        formData.append('email', email);
-        formData.append('telefono', phone);
-        formData.append('asunto', subject);
-        formData.append('mensaje', message);
+        formData.append("_subject", `Reserva Landing Valencia: ${subject}`);
+        formData.append("nombre", name);
+        formData.append("email", email);
+        formData.append("telefono", phone);
+        formData.append("asunto", subject);
+        formData.append("mensaje", message);
 
         if (status) {
-            status.textContent = 'Enviando solicitud...';
-            status.style.display = 'block';
-            status.style.color = 'var(--color-gold)';
+            status.textContent = "Enviando solicitud...";
+            status.style.display = "block";
+            status.style.color = "var(--color-gold)";
         }
 
         if (submitBtn) {
@@ -533,16 +678,18 @@ const faqSchema = {
                 method: "POST",
                 body: formData,
                 headers: {
-                    'Accept': 'application/json'
-                }
+                    Accept: "application/json",
+                },
             });
 
             if (response.ok) {
-                if (status) status.textContent = '¡Solicitud enviada con éxito! Nos pondremos en contacto contigo lo antes posible.';
+                if (status)
+                    status.textContent =
+                        "¡Solicitud enviada con éxito! Nos pondremos en contacto contigo lo antes posible.";
                 if (submitBtn) {
                     submitBtn.innerHTML = '¡Enviado! <i class="fas fa-check"></i>';
-                    submitBtn.style.backgroundColor = '#28a745';
-                    submitBtn.style.borderColor = '#28a745';
+                    submitBtn.style.backgroundColor = "#28a745";
+                    submitBtn.style.borderColor = "#28a745";
                 }
                 (form as HTMLFormElement).reset();
             } else {
@@ -550,8 +697,8 @@ const faqSchema = {
             }
         } catch (error) {
             if (status) {
-                status.textContent = 'Error al enviar. Por favor, inténtalo de nuevo.';
-                status.style.color = '#ff6b6b';
+                status.textContent = "Error al enviar. Por favor, inténtalo de nuevo.";
+                status.style.color = "#ff6b6b";
             }
             if (submitBtn) {
                 submitBtn.disabled = false;
@@ -571,7 +718,7 @@ const faqSchema = {
 
 <style define:vars={{ heroUrl: `url('${heroImg?.src}')` }}>
     .valencia-hero {
-        background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), var(--heroUrl);
+        background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), var(--heroUrl);
         background-size: cover;
         background-position: center;
         min-height: 70vh;
@@ -593,7 +740,7 @@ const faqSchema = {
     }
 
     .hero-subtitle {
-        color: rgba(255,255,255,0.9);
+        color: rgba(255, 255, 255, 0.9);
         font-size: 1.25rem;
         max-width: 800px;
         margin-left: auto;
@@ -692,7 +839,9 @@ const faqSchema = {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        transition: transform 0.3s ease, color 0.3s ease;
+        transition:
+            transform 0.3s ease,
+            color 0.3s ease;
     }
 
     .btn-text-gold:hover {
