@@ -1,7 +1,7 @@
 ---
 // ChatBot.astro - Asistente de IA para JaviPhoto usando Google Gemini 1.5 Flash
 import { contactInfo } from '../data/config';
-const apiKey = import.meta.env.PUBLIC_GEMINI_API_KEY || "";
+const apiKey = (import.meta.env.PUBLIC_GEMINI_API_KEY || "").trim();
 ---
 
 <div class="chatbot-wrapper" data-nosnippet>
@@ -39,7 +39,7 @@ const apiKey = import.meta.env.PUBLIC_GEMINI_API_KEY || "";
             <div class="message-wrapper bot-wrapper">
                 <span class="message-sender">Asistente</span>
                 <div class="message bot-message">
-                    <p>¡Hola! Soy el asistente virtual de JaviPhoto. Te puedo guiar sobre precios, packs de fotos o indicarte cómo reservar. ¿Qué te gustaría saber hoy?</p>
+                    <p>¡Hola! Soy el asistente virtual de JaviPhoto. Puedes hablar directamente con Javi o tambíen te puedo guiar sobre precios, packs de fotos o indicarte cómo reservar. ¿Qué te gustaría saber hoy?</p>
                 </div>
             </div>
             <!-- Sugerencias iniciales -->
@@ -440,6 +440,11 @@ const apiKey = import.meta.env.PUBLIC_GEMINI_API_KEY || "";
 
     /* Responsive */
     @media (max-width: 600px) {
+        :global(html.chatbot-active-scroll-lock), 
+        :global(body.chatbot-active-scroll-lock) {
+            overflow: hidden !important;
+        }
+
         .chatbot-wrapper {
             bottom: 20px;
             right: 20px;
@@ -461,11 +466,40 @@ const apiKey = import.meta.env.PUBLIC_GEMINI_API_KEY || "";
         }
 
         .chatbot-window {
-            bottom: 65px;
+            position: fixed;
+            top: 0;
+            left: 0;
             right: 0;
-            width: calc(100vw - 40px);
-            height: 420px;
-            max-width: 360px;
+            bottom: 0;
+            width: 100vw;
+            height: 100%;
+            height: 100dvh;
+            max-width: none;
+            border-radius: 0;
+            border: none;
+            z-index: 10005;
+            opacity: 1;
+            visibility: hidden;
+            transform: translateY(100%);
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.35s;
+        }
+
+        .chatbot-input-form {
+            padding: 0.75rem 1rem calc(1.5rem + env(safe-area-inset-bottom)) 1rem;
+        }
+
+        .chatbot-window.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* Ocultar botones flotantes cuando el chat está abierto */
+        .chatbot-wrapper.active-chat .chatbot-toggle-btn,
+        .chatbot-wrapper.active-chat .whatsapp-float-badge {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
         }
     }
 </style>
@@ -538,6 +572,30 @@ Reglas de comportamiento:
   * Si preguntan cómo reservar o contactar con Javi, añade el enlace a la página de [contacto](/contacto).
 - Si te preguntan algo de lo que no estás seguro (como disponibilidad de fechas), redirígelos amablemente a la sección de [contacto](/contacto) para hablar con Javier.`;
 
+    // Saneamiento profundo para asegurar que el historial sea alterno (user/model) y válido para Gemini
+    function sanitizeHistory(history) {
+        if (!Array.isArray(history)) return [];
+        const clean = [];
+        let expectedRole = "user";
+        for (let i = 0; i < history.length; i++) {
+            const msg = history[i];
+            const textContent = msg?.parts?.[0]?.text;
+            if (msg && msg.role === expectedRole && textContent && textContent.trim()) {
+                clean.push({
+                    role: msg.role,
+                    parts: [{ text: textContent }]
+                });
+                expectedRole = expectedRole === "user" ? "model" : "user";
+            }
+        }
+        // Si el último mensaje es del usuario, lo quitamos para que el historial acabe en respuesta del bot
+        // y esté listo para añadir el nuevo mensaje del usuario de forma alterna
+        if (clean.length > 0 && clean[clean.length - 1].role === "user") {
+            clean.pop();
+        }
+        return clean;
+    }
+
     // Estado del historial de conversación
     let conversationHistory = [];
 
@@ -545,7 +603,8 @@ Reglas de comportamiento:
     try {
         const storedHistory = sessionStorage.getItem("chatbot_history");
         if (storedHistory) {
-            conversationHistory = JSON.parse(storedHistory);
+            conversationHistory = sanitizeHistory(JSON.parse(storedHistory));
+            sessionStorage.setItem("chatbot_history", JSON.stringify(conversationHistory));
         }
     } catch (e) {
         console.error("Error al restaurar historial del chat:", e);
@@ -577,35 +636,96 @@ Reglas de comportamiento:
         });
     }
 
-    // Restaurar el estado abierto/cerrado de la ventana
+    const chatbotWrapper = document.querySelector(".chatbot-wrapper");
+
+    // Helper para bloquear/desbloquear scroll de fondo en móvil
+    function toggleScrollLock(isLocked) {
+        if (isLocked) {
+            document.documentElement.classList.add("chatbot-active-scroll-lock");
+            document.body.classList.add("chatbot-active-scroll-lock");
+        } else {
+            document.documentElement.classList.remove("chatbot-active-scroll-lock");
+            document.body.classList.remove("chatbot-active-scroll-lock");
+        }
+    }
+
+    // Helper centralizado para abrir/cerrar el chat
+    function toggleChatbot(isOpen) {
+        if (isOpen) {
+            chatbotWindow?.classList.add("active");
+            chatbotWrapper?.classList.add("active-chat");
+            sessionStorage.setItem("chatbot_active", "true");
+            toggleScrollLock(true);
+            
+            // Ajustar altura inicial en móvil basada en el área visible real (visualViewport)
+            if (window.innerWidth <= 600 && window.visualViewport) {
+                chatbotWindow.style.height = `${window.visualViewport.height}px`;
+            }
+
+            setTimeout(() => {
+                const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+                if (window.innerWidth > 768 && !isTouchDevice) {
+                    inputField?.focus();
+                }
+                scrollToBottom();
+            }, 100);
+        } else {
+            chatbotWindow?.classList.remove("active");
+            chatbotWrapper?.classList.remove("active-chat");
+            sessionStorage.setItem("chatbot_active", "false");
+            toggleScrollLock(false);
+            inputField?.blur();
+            
+            // Limpiar altura en línea al cerrar
+            if (chatbotWindow) {
+                chatbotWindow.style.height = "";
+            }
+        }
+    }
+
+    // Restaurar el estado abierto/cerrado de la ventana al cargar la página
     if (sessionStorage.getItem("chatbot_active") === "true") {
-        chatbotWindow?.classList.add("active");
-        setTimeout(scrollToBottom, 100); // Pequeño delay para asegurar renderizado correcto
+        toggleChatbot(true);
     }
 
     // Abrir/Cerrar Ventana de Chat
     chatbotToggle?.addEventListener("click", () => {
-        chatbotWindow?.classList.toggle("active");
-        const isActive = chatbotWindow?.classList.contains("active");
-        sessionStorage.setItem("chatbot_active", isActive ? "true" : "false");
-        if (isActive) {
-            inputField?.focus();
-            scrollToBottom();
-        }
+        const isOpen = !chatbotWindow?.classList.contains("active");
+        toggleChatbot(isOpen);
     });
 
     chatbotClose?.addEventListener("click", () => {
-        chatbotWindow?.classList.remove("active");
-        sessionStorage.setItem("chatbot_active", "false");
+        toggleChatbot(false);
     });
 
-    // Cerrar si pulsan fuera
+    // Ajustar altura dinámica en móvil según el Visual Viewport (para evitar que el teclado o barras del OS oculten el input)
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener("resize", () => {
+            if (chatbotWindow?.classList.contains("active")) {
+                if (window.innerWidth <= 600) {
+                    chatbotWindow.style.height = `${window.visualViewport.height}px`;
+                    scrollToBottom();
+                } else {
+                    chatbotWindow.style.height = "";
+                }
+            }
+        });
+    }
+
+    // Cerrar si pulsan fuera (solo para desktop, en móvil cubre toda la pantalla)
     document.addEventListener("click", (e) => {
         if (chatbotWindow?.classList.contains("active")) {
             if (!chatbotWindow.contains(e.target) && !chatbotToggle.contains(e.target)) {
-                chatbotWindow.classList.remove("active");
-                sessionStorage.setItem("chatbot_active", "false");
+                toggleChatbot(false);
             }
+        }
+    });
+
+    // Cerrar el chat inmediatamente cuando se pulsa sobre cualquier enlace interno
+    chatbotMessages?.addEventListener("click", (e) => {
+        const link = e.target.closest("a");
+        if (link) {
+            toggleChatbot(false);
         }
     });
 
@@ -642,7 +762,7 @@ Reglas de comportamiento:
             typingIndicator?.classList.remove("hidden");
             setTimeout(() => {
                 typingIndicator?.classList.add("hidden");
-                appendMessage("Vaya, parece que tengo un problema de conexión temporal. Puedes contactar directamente con Javier desde la sección de contacto (/contacto).", "bot-message");
+                appendFormattedBotMessage("Vaya, parece que tengo un problema de conexión temporal. Puedes contactar directamente con Javier a través de [contacto](/contacto).");
                 scrollToBottom();
             }, 800);
             return;
@@ -652,7 +772,10 @@ Reglas de comportamiento:
         typingIndicator?.classList.remove("hidden");
         scrollToBottom();
 
-        // 3. Añadir al historial y persistir
+        // 3. Sanear el historial antes de añadir el nuevo mensaje
+        conversationHistory = sanitizeHistory(conversationHistory);
+
+        // 4. Añadir al historial y persistir
         conversationHistory.push({
             role: "user",
             parts: [{ text: text }]
@@ -679,11 +802,16 @@ Reglas de comportamiento:
             });
 
             if (!response.ok) {
-                throw new Error("Error en la respuesta de la API de Gemini");
+                const errorData = await response.json().catch(() => ({}));
+                console.error("Gemini API Error Detail:", errorData);
+                if (response.status === 429) {
+                    throw new Error("RATE_LIMIT_ERROR");
+                }
+                throw new Error("API_ERROR");
             }
 
             const data = await response.json();
-            const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Lo siento, no he podido procesar tu solicitud. Por favor, contacta con Javier directamente desde la sección de contacto.";
+            const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Lo siento, no he podido procesar tu solicitud. Por favor, contacta con Javier directamente desde [contacto](/contacto).";
 
             // Ocultar typing
             typingIndicator?.classList.add("hidden");
@@ -702,7 +830,18 @@ Reglas de comportamiento:
         } catch (error) {
             console.error("Chatbot Error:", error);
             typingIndicator?.classList.add("hidden");
-            appendMessage("Vaya, parece que tengo un problema de conexión temporal. Puedes contactar directamente con Javier desde la sección de contacto (/contacto).", "bot-message");
+            
+            // Eliminar el mensaje fallido del historial para no corromper la secuencia user/model de la API
+            if (conversationHistory.length > 0 && conversationHistory[conversationHistory.length - 1].role === "user") {
+                conversationHistory.pop();
+                sessionStorage.setItem("chatbot_history", JSON.stringify(conversationHistory));
+            }
+
+            if (error.message === "RATE_LIMIT_ERROR") {
+                appendFormattedBotMessage("He recibido demasiadas preguntas en poco tiempo. Por favor, espera un minuto antes de volver a intentarlo, o escribe a Javier directamente desde [contacto](/contacto).");
+            } else {
+                appendFormattedBotMessage("Vaya, parece que tengo un problema de conexión temporal. Puedes contactar directamente con Javier desde [contacto](/contacto).");
+            }
             scrollToBottom();
         }
     }
