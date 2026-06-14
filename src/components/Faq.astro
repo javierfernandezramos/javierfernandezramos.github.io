@@ -1,0 +1,95 @@
+---
+interface Props {
+    title?: string;
+    subtitle?: string;
+    faqs: Array<{ q: string; a: string }>;
+}
+
+const { title = "Preguntas Frecuentes", subtitle, faqs } = Astro.props;
+---
+
+<section id="faq" class="section-padding faq-section">
+    <div class="container">
+        <h2 class="section-title">{title}</h2>
+        {subtitle && <p class="text-center tariffs-subtitle">{subtitle}</p>}
+        <div class="faq-container-inner reveal">
+            {faqs.map((faq) => (
+                <div class="faq-item">
+                    <div class="faq-question">
+                        {faq.q} <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>{faq.a}</p>
+                    </div>
+                </div>
+            ))}
+        </div>
+    </div>
+</section>
+
+<style>
+    .faq-section {
+        background: var(--color-secondary);
+    }
+
+    .faq-container-inner {
+        max-width: 800px;
+        margin: 2rem auto 0;
+    }
+
+    .tariffs-subtitle {
+        margin-bottom: 4rem;
+        color: var(--color-text-light);
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .faq-item {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 1rem 0;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .faq-question {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.9rem;
+        color: var(--color-gold);
+    }
+
+    .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .faq-answer p {
+        padding: 1.5rem 0;
+        color: var(--color-text-light);
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    .faq-item.active .faq-answer {
+        max-height: 200px;
+    }
+
+    .faq-item.active i {
+        transform: rotate(45deg);
+        color: #fff;
+    }
+</style>
+
+<script>
+    document.querySelectorAll(".faq-item").forEach((item) => {
+        item.addEventListener("click", () => {
+            item.classList.toggle("active");
+        });
+    });
+</script>

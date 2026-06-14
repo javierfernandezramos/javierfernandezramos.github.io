@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 import Testimonials from "../components/Testimonials.astro";
+import Faq from "../components/Faq.astro";
 
 // Import fixed images
 import photographerImg from "../assets/Fotos/photographer.webp";
@@ -20,6 +21,33 @@ const getImg = (path: string) => {
     }
     return galleryImages[fullPath].default;
 };
+
+const faqs = [
+    {
+        q: "¿Cuánto tiempo tardas en entregar las fotos?",
+        a: "Normalmente entrego una selección previa en 48h y el pack completo editado en un plazo de 7 a 10 días laborables.",
+    },
+    {
+        q: "¿Te desplazas fuera de Valencia?",
+        a: "¡Claro! Aunque mi base está en Valencia, puedo desplazarme a cualquier lugar. Consúltame disponibilidad y gastos de desplazamiento.",
+    },
+    {
+        q: "¿Cómo se realiza el pago?",
+        a: "Para reservar la fecha se abona una señal del 25%. El resto se paga el mismo día de la sesión o al finalizar el evento.",
+    },
+    {
+        q: "¿Entregas las fotos sin editar (RAW)?",
+        a: "No, mi trabajo incluye el revelado y la edición artística. Selecciono y edito las mejores tomas para asegurar un resultado profesional acorde a mi estilo visual.",
+    },
+    {
+        q: "¿Cómo puedo prepararme para una sesión de fotos?",
+        a: "Recomiendo descansar bien, elegir ropa con la que te sientas cómodo/a y evitar estampados demasiado llamativos o logos gigantes (a menos que sea fotografía de marca). Antes de la sesión, charlaremos para que tengas todo claro.",
+    },
+    {
+        q: "¿Ofreces packs personalizados?",
+        a: "¡Sí! Las tarifas de la web son orientativas para los servicios más comunes. Si tienes un proyecto especial, una boda, un evento de varios días o un requerimiento específico de marca, cuéntame tu idea y prepararé un presupuesto a tu medida.",
+    },
+];
 ---
 
 <Layout
@@ -29,11 +57,11 @@ const getImg = (path: string) => {
     preloadImage={heroImg.src}>
     <section id="hero" class="hero-section">
         <div class="hero-content">
-            <h1 class="reveal">Javier Photography</h1>
-            <p class="reveal">
+            <h1 class="hero-title reveal">Javier Photography</h1>
+            <h2 class="hero-subtitle reveal">
                 Fotógrafo Profesional en Valencia <br />
                 <a href="/contacto">Contáctame <i class="fa-solid fa-right-to-bracket"></i></a>
-            </p>
+            </h2>
             <a href="#galeria" class="btn reveal">Ver Más <i class="fas fa-arrow-down"></i></a>
         </div>
     </section>
@@ -44,7 +72,7 @@ const getImg = (path: string) => {
                 <h2 class="section-title main-title">El Arte de lo Esencial</h2>
                 <div class="editorial-body">
                     <p>
-                        Javier Fernández Ramos <a href="https://www.instagram.com/javier.fzr/">@javier.fzr</a>,
+                        ¡Hola! Soy Javier Fernández Ramos <a href="https://www.instagram.com/javier.fzr/">@javier.fzr</a>,
                         fotógrafo profesional en Valencia. Me especializo en capturar la realidad desde una perspectiva
                         limpia y directa, buscando siempre la fidelidad en cada imagen.
                     </p>
@@ -446,77 +474,7 @@ const getImg = (path: string) => {
     </style>
 
     <Testimonials title="Testimonios" showGoogleButton={false} />
-    <section id="faq" class="section-padding faq-section">
-        <div class="container">
-            <h2 class="section-title">Preguntas Frecuentes</h2>
-            <div class="faq-container-inner reveal">
-                <div class="faq-item">
-                    <div class="faq-question">
-                        ¿Cuánto tiempo tardas en entregar las fotos? <i class="fas fa-plus"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>
-                            Normalmente entrego una selección previa en 48h y el pack completo editado en un plazo de 7
-                            a 10 días laborables.
-                        </p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">¿Te desplazas fuera de Valencia? <i class="fas fa-plus"></i></div>
-                    <div class="faq-answer">
-                        <p>
-                            ¡Claro! Aunque mi base está en Valencia, puedo desplazarme a cualquier lugar. Consúltame
-                            disponibilidad y gastos de desplazamiento.
-                        </p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">¿Cómo se realiza el pago? <i class="fas fa-plus"></i></div>
-                    <div class="faq-answer">
-                        <p>
-                            Para reservar la fecha se abona una señal del 25%. El resto se paga el mismo día de la
-                            sesión o al finalizar el evento.
-                        </p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        ¿Entregas las fotos sin editar (RAW)? <i class="fas fa-plus"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>
-                            No, mi trabajo incluye el revelado y la edición artística. Selecciono y edito las mejores
-                            tomas para asegurar un resultado profesional acorde a mi estilo visual.
-                        </p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        ¿Cómo puedo prepararme para una sesión de fotos? <i class="fas fa-plus"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>
-                            Recomiendo descansar bien, elegir ropa con la que te sientas cómodo/a y evitar estampados
-                            demasiado llamativos o logos gigantes (a menos que sea fotografía de marca). Antes de la
-                            sesión, charlaremos para que tengas todo claro.
-                        </p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        ¿Ofreces packs personalizados? <i class="fas fa-plus"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>
-                            ¡Sí! Las tarifas de la web son orientativas para los servicios más comunes. Si tienes un
-                            proyecto especial, una boda, un evento de varios días o un requerimiento específico de
-                            marca, cuéntame tu idea y prepararé un presupuesto a tu medida.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <Faq faqs={faqs} />
 
     <!-- Final CTA Signature -->
     <section class="section-padding signature-cta">
@@ -535,52 +493,6 @@ const getImg = (path: string) => {
     </section>
 
     <style>
-        .faq-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .faq-item {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 1rem 0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .faq-question {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.9rem;
-            color: var(--color-gold);
-        }
-
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .faq-answer p {
-            padding: 1.5rem 0;
-            color: var(--color-text-light);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        .faq-item.active .faq-answer {
-            max-height: 200px;
-        }
-
-        .faq-item.active i {
-            transform: rotate(45deg);
-            color: #fff;
-        }
-
         .signature-cta {
             background: var(--color-secondary);
         }
@@ -682,11 +594,5 @@ const getImg = (path: string) => {
         }
     </style>
 
-    <script>
-        document.querySelectorAll(".faq-item").forEach((item) => {
-            item.addEventListener("click", () => {
-                item.classList.toggle("active");
-            });
-        });
-    </script>
+
 </Layout>

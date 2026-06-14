@@ -1,0 +1,761 @@
+---
+// ChatBot.astro - Asistente de IA para JaviPhoto usando Google Gemini 1.5 Flash
+import { contactInfo } from '../data/config';
+const apiKey = import.meta.env.PUBLIC_GEMINI_API_KEY || "";
+---
+
+<div class="chatbot-wrapper" data-nosnippet>
+    <!-- Botón de WhatsApp estilo notificación (Arriba a la Izquierda del botón de la IA) -->
+    <a href={contactInfo.whatsappUrl} class="whatsapp-float-badge" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Botón flotante (Abajo a la Derecha) -->
+    <button id="chatbot-toggle" class="chatbot-toggle-btn" aria-label="Abrir asistente de IA">
+        <i class="fas fa-comment-dots"></i>
+    </button>
+
+    <!-- Ventana de Chat -->
+    <div id="chatbot-window" class="chatbot-window">
+        <!-- Cabecera -->
+        <div class="chatbot-header">
+            <div class="header-info">
+                <div class="bot-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div>
+                    <h4>Asistente JaviPhoto</h4>
+                    <span class="status-indicator">En línea</span>
+                </div>
+            </div>
+            <button id="chatbot-close" class="close-btn" aria-label="Cerrar chat">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Historial de Mensajes -->
+        <div id="chatbot-messages" class="chatbot-messages">
+            <!-- Mensaje de bienvenida inicial -->
+            <div class="message-wrapper bot-wrapper">
+                <span class="message-sender">Asistente</span>
+                <div class="message bot-message">
+                    <p>¡Hola! Soy el asistente virtual de JaviPhoto. Te puedo guiar sobre precios, packs de fotos o indicarte cómo reservar. ¿Qué te gustaría saber hoy?</p>
+                </div>
+            </div>
+            <!-- Sugerencias iniciales -->
+            <div class="suggestion-chips-container">
+                <button class="suggestion-chip" data-question="¿Cuáles son tus packs y precios?">Ver packs y precios</button>
+                <button class="suggestion-chip" data-question="¿Cómo funciona la reserva?">¿Cómo reservo?</button>
+                <button class="suggestion-chip" data-question="¿Entregan las fotos editadas?">Entrega de fotos</button>
+            </div>
+        </div>
+
+        <!-- Indicador de Escribiendo... -->
+        <div id="chatbot-typing" class="chatbot-typing hidden">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <!-- Formulario de Entrada -->
+        <form id="chatbot-input-form" class="chatbot-input-form">
+            <input 
+                type="text" 
+                id="chatbot-input-field" 
+                placeholder="Escribe tu mensaje..." 
+                autocomplete="off" 
+                required 
+            />
+            <button type="submit" id="chatbot-send-btn" aria-label="Enviar mensaje">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </form>
+    </div>
+</div>
+
+<style>
+    /* Contenedor principal flotante */
+    .chatbot-wrapper {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 9999;
+        font-family: 'Outfit', sans-serif;
+    }
+
+    /* Botón de WhatsApp estilo notificación (Arriba a la Izquierda del botón de la IA) */
+    .whatsapp-float-badge {
+        position: absolute;
+        top: -6px;
+        left: -6px;
+        width: 26px;
+        height: 26px;
+        background-color: #25d366;
+        color: #fff;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.85rem;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+        z-index: 10002;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 2px solid var(--color-secondary, #0a0a0a);
+        text-decoration: none;
+    }
+
+    .whatsapp-float-badge:hover {
+        transform: scale(1.2) rotate(15deg);
+        background-color: #20ba5a;
+        box-shadow: 0 4px 15px rgba(37, 211, 102, 0.6);
+    }
+
+    /* Botón flotante */
+    .chatbot-toggle-btn {
+        width: 55px;
+        height: 55px;
+        background-color: var(--color-secondary, #0a0a0a);
+        border: 2px solid var(--color-gold, #c5a059);
+        color: var(--color-gold, #c5a059);
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.5rem;
+        cursor: pointer;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .chatbot-toggle-btn:hover {
+        transform: scale(1.08);
+        background-color: var(--color-gold, #c5a059);
+        color: var(--color-secondary, #0a0a0a);
+        box-shadow: 0 8px 30px rgba(197, 160, 89, 0.4);
+    }
+
+    /* Ventana de Chat */
+    .chatbot-window {
+        position: absolute;
+        bottom: 75px;
+        right: 0;
+        width: 390px;
+        height: 550px;
+        background: rgba(10, 10, 10, 0.96);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(197, 160, 89, 0.25);
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(20px) scale(0.95);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 10000;
+    }
+
+    .chatbot-window.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+    }
+
+    /* Cabecera */
+    .chatbot-header {
+        background: rgba(197, 160, 89, 0.08);
+        border-bottom: 1px solid rgba(197, 160, 89, 0.15);
+        padding: 1rem 1.25rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .header-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .bot-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(197, 160, 89, 0.15);
+        color: var(--color-gold, #c5a059);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.1rem;
+        border: 1px solid rgba(197, 160, 89, 0.3);
+    }
+
+    .header-info h4 {
+        margin: 0;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #fff;
+        letter-spacing: 0.5px;
+    }
+
+    .status-indicator {
+        font-size: 0.75rem;
+        color: #25d366;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .status-indicator::before {
+        content: '';
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        background-color: #25d366;
+        border-radius: 50%;
+    }
+
+    .close-btn {
+        background: transparent;
+        border: none;
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: color 0.2s ease;
+    }
+
+    .close-btn:hover {
+        color: var(--color-gold, #c5a059);
+    }
+
+    /* Historial de Mensajes */
+    .chatbot-messages {
+        flex: 1;
+        padding: 1.25rem;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(197, 160, 89, 0.2) transparent;
+    }
+
+    .chatbot-messages::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .chatbot-messages::-webkit-scrollbar-thumb {
+        background: rgba(197, 160, 89, 0.2);
+        border-radius: 4px;
+    }
+
+    .chatbot-messages :global(.message-wrapper) {
+        display: flex;
+        flex-direction: column;
+        max-width: 82%;
+        gap: 3px;
+    }
+
+    .chatbot-messages :global(.message-wrapper.bot-wrapper) {
+        align-self: flex-start;
+    }
+
+    .chatbot-messages :global(.message-wrapper.user-wrapper) {
+        align-self: flex-end;
+    }
+
+    .chatbot-messages :global(.message-sender) {
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin-bottom: 1px;
+        font-weight: 700;
+    }
+
+    .chatbot-messages :global(.bot-wrapper .message-sender) {
+        color: var(--color-gold, #c5a059);
+        align-self: flex-start;
+        margin-left: 4px;
+    }
+
+    .chatbot-messages :global(.user-wrapper .message-sender) {
+        color: rgba(255, 255, 255, 0.45);
+        align-self: flex-end;
+        margin-right: 4px;
+    }
+
+    .chatbot-messages :global(.message) {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border-radius: 12px;
+        font-size: 0.88rem;
+        line-height: 1.5;
+        word-wrap: break-word;
+        box-sizing: border-box;
+    }
+
+    .chatbot-messages :global(.message p) {
+        margin: 0;
+    }
+
+    .chatbot-messages :global(.message ul) {
+        margin: 0.5rem 0 0 1rem;
+        padding: 0;
+    }
+
+    .chatbot-messages :global(.message li) {
+        margin-bottom: 0.25rem;
+    }
+
+    .chatbot-messages :global(.bot-message) {
+        background: #181818;
+        border: 1px solid rgba(197, 160, 89, 0.25);
+        color: #ffffff;
+        border-bottom-left-radius: 2px;
+    }
+
+    .chatbot-messages :global(.user-message) {
+        background: var(--color-gold, #c5a059);
+        color: var(--color-secondary, #0a0a0a);
+        font-weight: 500;
+        border-bottom-right-radius: 2px;
+        border: none;
+    }
+
+    /* Sugerencias (Chips) */
+    .suggestion-chips-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 5px;
+        align-self: flex-start;
+    }
+
+    .suggestion-chip {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(197, 160, 89, 0.3);
+        color: var(--color-gold, #c5a059);
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.78rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-family: 'Outfit', sans-serif;
+    }
+
+    .suggestion-chip:hover {
+        background: rgba(197, 160, 89, 0.1);
+        border-color: var(--color-gold, #c5a059);
+        transform: translateY(-1px);
+    }
+
+    /* Animación Escribiendo */
+    .chatbot-typing {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 0.75rem 1.25rem;
+        align-self: flex-start;
+    }
+
+    .chatbot-typing.hidden {
+        display: none;
+    }
+
+    .chatbot-typing span {
+        width: 6px;
+        height: 6px;
+        background-color: var(--color-gold, #c5a059);
+        border-radius: 50%;
+        display: inline-block;
+        animation: chatbot-bounce 1.4s infinite ease-in-out both;
+        opacity: 0.6;
+    }
+
+    .chatbot-typing span:nth-child(1) {
+        animation-delay: -0.32s;
+    }
+
+    .chatbot-typing span:nth-child(2) {
+        animation-delay: -0.16s;
+    }
+
+    @keyframes chatbot-bounce {
+        0%, 80%, 100% { 
+            transform: scale(0);
+        } 40% { 
+            transform: scale(1.0);
+        }
+    }
+
+    /* Formulario de Entrada */
+    .chatbot-input-form {
+        border-top: 1px solid rgba(197, 160, 89, 0.15);
+        padding: 0.75rem 1rem;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        background: rgba(5, 5, 5, 0.5);
+    }
+
+    .chatbot-input-form input {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 30px;
+        padding: 0.6rem 1.2rem;
+        color: #fff;
+        font-size: 0.85rem;
+        outline: none;
+        transition: border-color 0.3s ease;
+        font-family: 'Outfit', sans-serif;
+    }
+
+    .chatbot-input-form input:focus {
+        border-color: var(--color-gold, #c5a059);
+    }
+
+    .chatbot-input-form button {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--color-gold, #c5a059);
+        color: var(--color-secondary, #0a0a0a);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.95rem;
+        transition: all 0.2s ease;
+    }
+
+    .chatbot-input-form button:hover {
+        transform: scale(1.05);
+        filter: brightness(1.1);
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+        .chatbot-wrapper {
+            bottom: 20px;
+            right: 20px;
+        }
+
+        .whatsapp-float-badge {
+            width: 21px;
+            height: 21px;
+            font-size: 0.75rem;
+            top: -4px;
+            left: -4px;
+            border-width: 1.5px;
+        }
+
+        .chatbot-toggle-btn {
+            width: 50px;
+            height: 50px;
+            font-size: 1.3rem;
+        }
+
+        .chatbot-window {
+            bottom: 65px;
+            right: 0;
+            width: calc(100vw - 40px);
+            height: 420px;
+            max-width: 360px;
+        }
+    }
+</style>
+
+<script define:vars={{ apiKey }}>
+    // Guardamos la configuración y API key en scope
+    const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent";
+    
+    // Instrucciones de sistema para moldear la personalidad de la IA
+    const systemInstruction = `Eres el asistente virtual de JaviPhoto (Javier Fernández Ramos), fotógrafo profesional en Valencia.
+Tu objetivo es ayudar a los usuarios que visitan la web a informarse sobre los servicios de Javier y guiarles a la sección de contacto.
+Responde de forma concisa, educada, cercana y profesional.
+
+PERSONA Y REGLA DE PUNTO DE VISTA OBLIGATORIA (MUY IMPORTANTE):
+- Debes hablar siempre en TERCERA PERSONA sobre Javier (Javi), refiriéndote a él como 'Javier' o 'Javi'.
+- NUNCA hables en primera persona ('yo', 'mi', 'mis tarifas', 'nosotros', 'puedes escribirme'). Tú eres su asistente de IA, NO eres Javier.
+- Ejemplo correcto: 'Las tarifas de Javi...', 'Javi ofrece...', 'puedes escribir a Javi a través de contacto...', 'Javier utiliza...'.
+- Ejemplo incorrecto: 'Mis tarifas...', 'Ofrezco...', 'puedes escribirme...', 'utilizo...'.
+- Las respuestas del chatbot deben reflejar esta tercera persona sobre Javier de forma constante en cada bocadillo.
+
+Detalles de los servicios y precios de Javi:
+1. Retratos:
+   - Express: 90€-110€ (para una actualización rápida de perfil).
+   - Pro Portfolio: 160€-190€ (el pack estrella de Javi, incluye cambio de ropa).
+   - Editorial/Brand: desde 250€ (retratos sofisticados en estudio o exteriores).
+2. Deportes:
+   - Quick Action: desde 90€ (sesiones de acción cortas).
+   - Full Performance: 160€-190€ (con fotos extra, ideal para atletas).
+   - Cobertura de Evento o Clubes: desde 250€.
+3. Fitness:
+   - Glow Session: 90€-110€ (perfecto para redes sociales).
+   - Athlete Portfolio: 160€-190€ (incluye un video Reel de regalo).
+   - Gym Brand: desde 280€ (para entrenadores y gimnasios).
+4. Eventos:
+   - Essential Event: 100€-120€ (1 hora de cobertura).
+   - Full Coverage: 180€-220€ (3 horas de cobertura y video de regalo).
+   - Premium Event: desde 300€ (jornadas completas).
+5. Marca Personal / Branding:
+   - Quick Start: 90€-110€ (15 fotos de marca).
+   - Brand Story: 200€-240€ (contenido para un mes de redes sociales).
+   - Total Identity: desde 350€ (incluye un video de presentación de 30 segundos).
+
+Ubicación de Javi: Basado en Valencia capital, con disponibilidad para desplazamientos en la provincia y Comunidad Valenciana.
+Datos de contacto directos de Javi:
+- Teléfono móvil y WhatsApp: +34 665 01 85 16 (o +34 665 018 516)
+- Correo electrónico: javierfernandezramos9@gmail.com
+Entrega de material: Enlace a galería digital privada con fotos editadas en alta resolución. Javi entrega un avance en 48 horas tras la sesión y el pack completo en 7-10 días laborables. No se entregan fotos sin editar (RAW).
+
+Enlaces exactos de la web (UTILIZA ESTAS RUTAS EN FORMATO MARKDOWN):
+- Página principal / Inicio: [/](/)
+- Página general de Servicios y precios: [servicios](/servicios)
+- Fotografía de Retratos: [retratos profesionales](/servicios/retratos-profesionales-valencia)
+- Fotógrafo Fitness: [fotógrafo fitness](/servicios/fotografo-fitness-valencia)
+- Fotógrafo de Eventos: [fotógrafo de eventos](/servicios/fotografo-eventos-valencia)
+- Fotografía de Marca Personal: [marca personal](/servicios/fotografia-marca-personal-valencia)
+- Fotógrafo Deportivo: [fotógrafo deportivo](/servicios/fotografo-deportivo-valencia)
+- Galería / Portfolio de trabajos: [galería](/galeria)
+- Videos: [videos](/videos)
+- Diseñar un pack personalizado: [personalizar pack](/personalizar-pack)
+- Página de Contacto y reservas: [contacto](/contacto)
+
+Reglas de comportamiento:
+- Responde siempre en español.
+- Mantén las respuestas muy cortas (máximo 2 o 3 frases breves).
+- Usa viñetas o listas cortas si listas precios para facilitar la lectura.
+- REGLA DE ENLACES OBLIGATORIA: Siempre que hables de un servicio o página de la web, DEBES incluir obligatoriamente su enlace Markdown exacto. 
+  Ejemplos:
+  * Si te preguntan qué servicios ofrece Javi, menciona los 5 tipos y enlaza cada uno con su ruta exacta, además de enlazar a la página general de [servicios](/servicios).
+  * Si preguntan por videos, guíales a la página de [videos](/videos).
+  * Si preguntan cómo reservar o contactar con Javi, añade el enlace a la página de [contacto](/contacto).
+- Si te preguntan algo de lo que no estás seguro (como disponibilidad de fechas), redirígelos amablemente a la sección de [contacto](/contacto) para hablar con Javier.`;
+
+    // Estado del historial de conversación
+    let conversationHistory = [];
+
+    // Intentar restaurar el historial de conversación desde sessionStorage
+    try {
+        const storedHistory = sessionStorage.getItem("chatbot_history");
+        if (storedHistory) {
+            conversationHistory = JSON.parse(storedHistory);
+        }
+    } catch (e) {
+        console.error("Error al restaurar historial del chat:", e);
+    }
+
+    // Elementos DOM
+    const chatbotToggle = document.getElementById("chatbot-toggle");
+    const chatbotWindow = document.getElementById("chatbot-window");
+    const chatbotClose = document.getElementById("chatbot-close");
+    const chatbotMessages = document.getElementById("chatbot-messages");
+    const inputForm = document.getElementById("chatbot-input-form");
+    const inputField = document.getElementById("chatbot-input-field");
+    const typingIndicator = document.getElementById("chatbot-typing");
+
+    // Restaurar los mensajes visuales del historial en el DOM al cargar
+    if (conversationHistory.length > 0) {
+        // Eliminar contenedor de chips de sugerencia iniciales si ya hay conversación
+        const initialChips = chatbotMessages?.querySelector(".suggestion-chips-container");
+        initialChips?.remove();
+
+        conversationHistory.forEach(msg => {
+            const isUser = msg.role === "user";
+            const text = msg.parts?.[0]?.text || "";
+            if (isUser) {
+                appendMessage(text, "user-message");
+            } else {
+                appendFormattedBotMessage(text);
+            }
+        });
+    }
+
+    // Restaurar el estado abierto/cerrado de la ventana
+    if (sessionStorage.getItem("chatbot_active") === "true") {
+        chatbotWindow?.classList.add("active");
+        setTimeout(scrollToBottom, 100); // Pequeño delay para asegurar renderizado correcto
+    }
+
+    // Abrir/Cerrar Ventana de Chat
+    chatbotToggle?.addEventListener("click", () => {
+        chatbotWindow?.classList.toggle("active");
+        const isActive = chatbotWindow?.classList.contains("active");
+        sessionStorage.setItem("chatbot_active", isActive ? "true" : "false");
+        if (isActive) {
+            inputField?.focus();
+            scrollToBottom();
+        }
+    });
+
+    chatbotClose?.addEventListener("click", () => {
+        chatbotWindow?.classList.remove("active");
+        sessionStorage.setItem("chatbot_active", "false");
+    });
+
+    // Cerrar si pulsan fuera
+    document.addEventListener("click", (e) => {
+        if (chatbotWindow?.classList.contains("active")) {
+            if (!chatbotWindow.contains(e.target) && !chatbotToggle.contains(e.target)) {
+                chatbotWindow.classList.remove("active");
+                sessionStorage.setItem("chatbot_active", "false");
+            }
+        }
+    });
+
+    // Escuchar clicks en suggestion chips
+    document.addEventListener("click", (e) => {
+        if (e.target && e.target.classList.contains("suggestion-chip")) {
+            const question = e.target.getAttribute("data-question");
+            if (question) {
+                // Remove suggestion chips container once clicked to keep clean
+                e.target.parentElement?.remove();
+                handleUserMessage(question);
+            }
+        }
+    });
+
+    // Manejo de Envío de Mensaje
+    inputForm?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const text = inputField.value.trim();
+        if (!text) return;
+        
+        inputField.value = "";
+        handleUserMessage(text);
+    });
+
+    async function handleUserMessage(text) {
+        // 1. Mostrar mensaje del usuario
+        appendMessage(text, "user-message");
+        scrollToBottom();
+
+        // Si la API key está vacía, mostrar error amigable sin intentar llamar a la API
+        if (!apiKey) {
+            console.warn("Falta la API Key de Gemini. Por favor configúrala en Vercel o en tu archivo .env local.");
+            typingIndicator?.classList.remove("hidden");
+            setTimeout(() => {
+                typingIndicator?.classList.add("hidden");
+                appendMessage("Vaya, parece que tengo un problema de conexión temporal. Puedes contactar directamente con Javier desde la sección de contacto (/contacto).", "bot-message");
+                scrollToBottom();
+            }, 800);
+            return;
+        }
+
+        // 2. Mostrar "escribiendo..."
+        typingIndicator?.classList.remove("hidden");
+        scrollToBottom();
+
+        // 3. Añadir al historial y persistir
+        conversationHistory.push({
+            role: "user",
+            parts: [{ text: text }]
+        });
+        sessionStorage.setItem("chatbot_history", JSON.stringify(conversationHistory));
+
+        try {
+            // 4. Llamar a la API de Google Gemini
+            const response = await fetch(`${API_URL}?key=${apiKey}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    contents: conversationHistory,
+                    systemInstruction: {
+                        parts: [{ text: systemInstruction }]
+                    },
+                    generationConfig: {
+                        temperature: 0.5,
+                        maxOutputTokens: 2048
+                    }
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error("Error en la respuesta de la API de Gemini");
+            }
+
+            const data = await response.json();
+            const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Lo siento, no he podido procesar tu solicitud. Por favor, contacta con Javier directamente desde la sección de contacto.";
+
+            // Ocultar typing
+            typingIndicator?.classList.add("hidden");
+
+            // Mostrar mensaje del bot con formateo básico (párrafos, viñetas, enlaces)
+            appendFormattedBotMessage(replyText);
+            scrollToBottom();
+
+            // Añadir respuesta del bot al historial y persistir
+            conversationHistory.push({
+                role: "model",
+                parts: [{ text: replyText }]
+            });
+            sessionStorage.setItem("chatbot_history", JSON.stringify(conversationHistory));
+
+        } catch (error) {
+            console.error("Chatbot Error:", error);
+            typingIndicator?.classList.add("hidden");
+            appendMessage("Vaya, parece que tengo un problema de conexión temporal. Puedes contactar directamente con Javier desde la sección de contacto (/contacto).", "bot-message");
+            scrollToBottom();
+        }
+    }
+
+    function appendMessage(text, className) {
+        const wrapper = document.createElement("div");
+        const isUser = className.includes("user-message");
+        wrapper.className = `message-wrapper ${isUser ? 'user-wrapper' : 'bot-wrapper'}`;
+        
+        const sender = document.createElement("span");
+        sender.className = "message-sender";
+        sender.textContent = isUser ? "Tú" : "Asistente";
+        
+        const msgDiv = document.createElement("div");
+        msgDiv.className = `message ${className}`;
+        msgDiv.textContent = text;
+        
+        wrapper.appendChild(sender);
+        wrapper.appendChild(msgDiv);
+        chatbotMessages?.appendChild(wrapper);
+    }
+
+    function appendFormattedBotMessage(rawText) {
+        const wrapper = document.createElement("div");
+        wrapper.className = "message-wrapper bot-wrapper";
+        
+        const sender = document.createElement("span");
+        sender.className = "message-sender";
+        sender.textContent = "Asistente";
+        
+        const msgDiv = document.createElement("div");
+        msgDiv.className = "message bot-message";
+
+        // Convertir saltos de línea y formatear Markdown
+        let htmlContent = rawText
+            .replace(/\n/g, "<br>")
+            // Reemplazar negrita de Markdown **texto** con <strong>texto</strong>
+            .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+            // Reemplazar viñetas de Markdown "* " o "- " al inicio de línea con viñetas elegantes "• "
+            .replace(/(^|<br>)\s*[-*]\s+/g, '$1• ')
+            // Reemplazar enlaces Markdown [texto](/ruta)
+            .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" style="color:var(--color-gold); text-decoration:underline; font-weight:600;">$1</a>');
+
+        msgDiv.innerHTML = htmlContent;
+        
+        wrapper.appendChild(sender);
+        wrapper.appendChild(msgDiv);
+        chatbotMessages?.appendChild(wrapper);
+    }
+
+    function scrollToBottom() {
+        if (chatbotMessages) {
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+    }
+</script>

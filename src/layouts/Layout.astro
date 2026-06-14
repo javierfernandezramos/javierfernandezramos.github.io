@@ -4,6 +4,7 @@ import Footer from '../components/Footer.astro';
 import '../styles/style.css';
 import defaultOgImage from '../assets/Fotos/hero-image.webp';
 import { contactInfo } from '../data/config';
+import ChatBot from '../components/ChatBot.astro';
 
 interface Props {
 	title: string;
@@ -202,15 +203,13 @@ const schema = {
         </div>
     </div>
 
-    <!-- Botón de WhatsApp -->
-    <a href={contactInfo.whatsappUrl} class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp" data-nosnippet>
-        <i class="fab fa-whatsapp"></i>
-    </a>
-
     <!-- Botón Volver Arriba -->
     <button id="back-to-top" class="back-to-top" aria-label="Volver arriba" data-nosnippet>
         <i class="fas fa-arrow-up"></i>
     </button>
+
+    <!-- Asistente de IA (Abajo a la Izquierda) -->
+    <ChatBot />
 
     <script src="../scripts/script.js"></script>
 </body>

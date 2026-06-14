@@ -5,6 +5,7 @@ import type { ImageMetadata } from "astro";
 import { contactInfo } from "../data/config";
 import Testimonials from "../components/Testimonials.astro";
 import ContactForm from "../components/ContactForm.astro";
+import Faq from "../components/Faq.astro";
 
 // Import images from assets relative to src/pages/
 const galleryImages = import.meta.glob<{ default: ImageMetadata }>(
@@ -97,17 +98,13 @@ const localBusinessSchema = {
     <section class="services-hero valencia-hero">
         <div class="container">
             <h1 class="section-title reveal hero-title">
-                Fotógrafo en Valencia - Deportes, Fitness, eventos y más
+                Fotógrafo en Valencia
             </h1>
-            <p class="section-subtitle reveal hero-subtitle">
-                Muchos fotografos en valencia hacen fotos, pero yo capturo la
-                intensidad de un movimiento, la fuerza de un levantamiento o la
-                adrenalina de un evento. Eso requiere algo más que presionar un
-                botón, hago que cada foto cuente una historia. Exige entender el
-                esfuerzo detrás de cada atleta. Soy Javier Fernández, la mente
-                detrás de <strong>JaviPhoto</strong>, y trabajo como <strong>fotógrafo en Valencia</strong> 
-                ayudando a atletas, entrenadores, centros de fitness y organizadores
-                de eventos a inmortalizar su rendimiento con imágenes que impactan.
+            <h2 class="section-subtitle reveal hero-subtitle">
+                Especializado en Eventos, retratos y deportes
+            </h2>
+            <p class="reveal intro-paragraph" style="margin-top: 1.5rem;">
+                Soy Javier Fernández Ramos, la persona detrás de <strong>JaviPhoto</strong>.
             </p>
             <div class="hero-cta-box reveal">
                 <a href="#contacto-landing" class="btn luxury-gallery-btn">Reserva tu Sesión <i class="fas fa-calendar-alt"></i></a>
@@ -139,7 +136,7 @@ const localBusinessSchema = {
                         }
                     </div>
                     <div class="service-detail-content">
-                        <h3>Fotografía Fitness y de Marca Personal</h3>
+                        <h3>Fotografía Fitness</h3>
                         <p>
                             Lleva tu marca al siguiente nivel. Realizo sesiones
                             de fotos en gimnasios, boxes de CrossFit o
@@ -171,7 +168,7 @@ const localBusinessSchema = {
                         }
                     </div>
                     <div class="service-detail-content">
-                        <h3>Fotografía Deportiva en Valencia</h3>
+                        <h3>Fotografía Deportiva</h3>
                         <p>
                             Especialista en congelar el tiempo en disciplinas de
                             fuerza, atletismo y deportes de equipo. Capturo el
@@ -202,7 +199,7 @@ const localBusinessSchema = {
                         }
                     </div>
                     <div class="service-detail-content">
-                        <h3>Fotografía de eventos Valencia</h3>
+                        <h3>Fotografía de eventos</h3>
                         <p>
                             Desde competiciones locales en la Comunidad
                             Valenciana hasta eventos corporativos o deportivos
@@ -501,33 +498,11 @@ const localBusinessSchema = {
     <Testimonials title="Opiniones de Atletas y Clientes" showGoogleButton={true} />
 
     <!-- PREGUNTAS FRECUENTES (FAQs) -->
-    <section class="section-padding reveal secondary-bg">
-        <div class="container">
-            <h2 class="section-title">
-                Preguntas Frecuentes: Servicios Fotografía
-            </h2>
-            <p class="text-center tariffs-subtitle">
-                Resuelvo tus dudas principales antes de planificar tu sesión
-                fotográfica.
-            </p>
-
-            <div class="faq-container-narrow">
-                {
-                    faqs.map((faq) => (
-                        <div class="faq-sub-item faq-item-interactive">
-                            <div class="faq-question-bar">
-                                <h3 class="faq-sub-q">{faq.q}</h3>
-                                <i class="fas fa-plus toggle-icon" />
-                            </div>
-                            <div class="faq-answer-block">
-                                <p>{faq.a}</p>
-                            </div>
-                        </div>
-                    ))
-                }
-            </div>
-        </div>
-    </section>
+    <Faq 
+        title="Preguntas Frecuentes: Servicios Fotografía" 
+        subtitle="Resuelvo tus dudas principales antes de planificar tu sesión fotográfica." 
+        faqs={faqs} 
+    />
 
     <!-- CONTACTO Y RESERVAS -->
     <ContactForm 
@@ -538,16 +513,6 @@ const localBusinessSchema = {
         formSubjectPrefix="Reserva Landing Valencia"
     />
 </Layout>
-
-<script>
-    // Accordion interaction logic
-    document.querySelectorAll(".faq-item-interactive").forEach((item) => {
-        const questionBar = item.querySelector(".faq-question-bar");
-        questionBar?.addEventListener("click", () => {
-            item.classList.toggle("active");
-        });
-    });
-</script>
 
 <style define:vars={{ heroUrl: `url('${heroImg?.src}')` }}>
     .valencia-hero {
@@ -801,62 +766,7 @@ const localBusinessSchema = {
     }
 
     /* FAQs Styles */
-    .faq-container-narrow {
-        max-width: 800px;
-        margin: 0 auto;
-    }
 
-    .faq-item-interactive {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        padding: 1.5rem 0;
-        cursor: pointer;
-    }
-
-    .faq-question-bar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .faq-sub-q {
-        color: var(--color-gold);
-        font-size: 1.2rem;
-        margin-bottom: 0 !important;
-        font-weight: 700;
-        transition: color 0.3s ease;
-    }
-
-    .toggle-icon {
-        color: var(--color-gold);
-        font-size: 0.9rem;
-        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .faq-answer-block {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .faq-answer-block p {
-        padding: 1rem 0 0 0;
-        color: var(--color-text-light);
-        font-size: 0.98rem;
-        line-height: 1.6;
-    }
-
-    .faq-item-interactive.active .faq-answer-block {
-        max-height: 300px;
-    }
-
-    .faq-item-interactive.active .toggle-icon {
-        transform: rotate(45deg);
-        color: #fff;
-    }
-
-    .faq-item-interactive.active .faq-sub-q {
-        color: #fff;
-    }
 
     /* Formulario centrado sin grid ni card background, igual a /contacto */
 
@@ -1033,9 +943,7 @@ const localBusinessSchema = {
             gap: 1.2rem;
         }
 
-        .faq-sub-q {
-            font-size: 1.05rem;
-        }
+
     }
 
     /* EEAT Pillars Guarantee Section styling */

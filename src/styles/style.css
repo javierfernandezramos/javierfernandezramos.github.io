@@ -292,7 +292,7 @@ section:not(.hero-section):not(.error-section) {
     padding: 1rem;
 }
 
-.hero-content h1 {
+.hero-content .hero-title {
     font-family: var(--font-sans);
     font-size: clamp(2rem, 6vw, 4rem);
     margin-bottom: 0.5rem;
@@ -308,7 +308,7 @@ section:not(.hero-section):not(.error-section) {
 }
 
 
-.hero-content p {
+.hero-content .hero-subtitle {
     font-family: var(--font-sans);
     font-size: clamp(1.1rem, 2.5vw, 1.8rem);
     /* Escala inteligentemente: 1.8rem en PC, 1.1rem en Móvil */
@@ -323,7 +323,7 @@ section:not(.hero-section):not(.error-section) {
     margin-right: auto;
 }
 
-.hero-content p a {
+.hero-content .hero-subtitle a {
     color: var(--color-gold);
     font-weight: 600;
     text-transform: uppercase;
@@ -334,7 +334,7 @@ section:not(.hero-section):not(.error-section) {
     transition: all 0.3s ease;
 }
 
-.hero-content p a:hover {
+.hero-content .hero-subtitle a:hover {
     color: #fff;
     transform: translateX(5px);
     /* Pequeña interacción */
@@ -1737,7 +1737,7 @@ section:not(.hero-section):not(.error-section) {
 
 /* --- MEDIA QUERIES (RESPONSIVE) --- */
 @media (max-width: 900px) {
-    .hero-content h1 {
+    .hero-content .hero-title {
         font-size: 3rem;
     }
 
@@ -1942,13 +1942,13 @@ section:not(.hero-section):not(.error-section) {
         padding: 0 2rem;
     }
 
-    .hero-content h1 {
+    .hero-content .hero-title {
         font-size: 1.6rem;
         letter-spacing: 4px;
         margin-bottom: 0.5rem;
     }
 
-    .hero-content p {
+    .hero-content .hero-subtitle {
         font-size: 0.9rem;
     }
 
@@ -2138,34 +2138,6 @@ section:not(.hero-section):not(.error-section) {
     backdrop-filter: blur(5px);
 }
 
-/* --- WHATSAPP FLOAT BUTTON --- */
-.whatsapp-float {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 50px;
-    height: 50px;
-    background-color: #25d366;
-    color: #fff;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.5rem;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    z-index: 1001;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.whatsapp-float:hover {
-    transform: scale(1.1);
-    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
-}
-
-.whatsapp-float i {
-    margin-top: 2px;
-}
-
 /* Update Back to Top Position to be above WhatsApp */
 .back-to-top {
     bottom: 95px;
@@ -2191,14 +2163,6 @@ section:not(.hero-section):not(.error-section) {
         width: 40px;
         height: 40px;
         font-size: 1rem;
-    }
-
-    .whatsapp-float {
-        right: 20px;
-        bottom: 20px;
-        width: 45px;
-        height: 45px;
-        font-size: 1.3rem;
     }
 }
 

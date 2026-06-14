@@ -2,6 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import PricingPacks from "../../components/PricingPacks.astro";
 import type { ImageMetadata } from "astro";
+import Faq from "../../components/Faq.astro";
 
 // Import images
 const galleryImages = import.meta.glob<{ default: ImageMetadata }>("../../assets/Fotos/**/*.{jpg,jpeg,png,webp}", {
@@ -65,10 +66,10 @@ const faqs = [
 
     <section class="services-hero subpage-hero">
         <div class="container">
-            <h1 class="section-title reveal hero-title">Fotógrafo de Retrato Profesional en Valencia - Fotos de Perfil para LinkedIn y Currículum</h1>
-            <p class="section-subtitle reveal hero-subtitle">
+            <h1 class="section-title reveal hero-title">Fotógrafo de Retrato Profesional en Valencia</h1>
+            <h2 class="section-subtitle reveal hero-subtitle">
                 {subtitle}
-            </p>
+            </h2>
         </div>
     </section>
 
@@ -209,21 +210,10 @@ const faqs = [
         </div>
     </section>
 
-    <section class="section-padding reveal secondary-bg">
-        <div class="container">
-            <h2 class="section-title">Preguntas frecuentes sobre retratos profesionales en Valencia</h2>
-            <div class="faq-container-narrow">
-                {
-                    faqs.map((faq) => (
-                        <div class="faq-sub-item">
-                            <h3 class="faq-sub-q">{faq.q}</h3>
-                            <p>{faq.a}</p>
-                        </div>
-                    ))
-                }
-            </div>
-        </div>
-    </section>
+    <Faq 
+        title="Preguntas frecuentes sobre retratos profesionales en Valencia" 
+        faqs={faqs} 
+    />
 
     <section class="section-padding reveal related-services-section">
         <div class="container text-center">
@@ -279,20 +269,7 @@ const faqs = [
         background: var(--color-secondary);
     }
 
-    .faq-container-narrow {
-        max-width: 800px;
-        margin: 0 auto;
-    }
 
-    .faq-sub-item {
-        margin-bottom: 2rem;
-    }
-
-    .faq-sub-q {
-        color: var(--color-gold);
-        font-size: 1.15rem;
-        margin-bottom: 0.5rem;
-    }
 
     .cta-subtitle {
         margin-bottom: 2rem;
