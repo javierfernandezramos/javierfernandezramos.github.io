@@ -506,7 +506,7 @@ const apiKey = (import.meta.env.PUBLIC_GEMINI_API_KEY || "").trim();
 
 <script define:vars={{ apiKey }}>
     // Guardamos la configuración y API key en scope
-    const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent";
+    const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
     
     // Instrucciones de sistema para moldear la personalidad de la IA
     const systemInstruction = `Eres el asistente virtual de JaviPhoto (Javier Fernández Ramos), fotógrafo profesional en Valencia.
