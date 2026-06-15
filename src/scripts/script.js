@@ -133,12 +133,14 @@ document.addEventListener('DOMContentLoaded', () => {
             currentActiveImg = lightboxImg1;
         }
 
-        // Pre-carga predictiva: Siguiente y Anterior
-        const nextIdx = (window.lightboxState.currentIndex + 1) % window.lightboxState.images.length;
-        const prevIdx = (window.lightboxState.currentIndex - 1 + window.lightboxState.images.length) % window.lightboxState.images.length;
-        
-        preloadImage(window.lightboxState.images[nextIdx]);
-        preloadImage(window.lightboxState.images[prevIdx]);
+        // Pre-carga predictiva: 2 Siguientes y 2 Anteriores
+        const len = window.lightboxState.images.length;
+        if (len > 0) {
+            preloadImage(window.lightboxState.images[(window.lightboxState.currentIndex + 1) % len]);
+            preloadImage(window.lightboxState.images[(window.lightboxState.currentIndex + 2) % len]);
+            preloadImage(window.lightboxState.images[(window.lightboxState.currentIndex - 1 + len) % len]);
+            preloadImage(window.lightboxState.images[(window.lightboxState.currentIndex - 2 + len * 2) % len]);
+        }
     };
 
     window.showNextImage = () => {

@@ -1354,6 +1354,10 @@ section:not(.hero-section):not(.error-section) {
     max-width: 90%;
     max-height: 80vh;
     display: block;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'%3E%3Ccircle cx='25' cy='25' r='20' fill='none' stroke='%23c5a059' stroke-width='4' stroke-dasharray='31.4 31.4' stroke-linecap='round'%3E%3CanimateTransform attributeName='transform' type='rotate' from='0 25 25' to='360 25 25' dur='1s' repeatCount='indefinite'/%3E%3C/circle%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 50px 50px;
     border-radius: 4px;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
     opacity: 0;

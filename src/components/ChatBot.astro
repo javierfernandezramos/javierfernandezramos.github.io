@@ -63,6 +63,7 @@ import { contactInfo } from '../data/config';
                 id="chatbot-input-field" 
                 placeholder="Escribe tu mensaje..." 
                 autocomplete="off" 
+                maxlength="200"
                 required 
             />
             <button type="submit" id="chatbot-send-btn" aria-label="Enviar mensaje">
@@ -823,6 +824,13 @@ Reglas de comportamiento:
         const text = inputField.value.trim();
         if (!text) return;
         
+        // Verificación de límite de caracteres (anti-tampering HTML)
+        if (text.length > 200) {
+            appendWarningMessage("El mensaje es demasiado largo (máximo 200 caracteres).");
+            scrollToBottom();
+            return;
+        }
+
         lastMessageTime = now;
         inputField.value = "";
         handleUserMessage(text);
