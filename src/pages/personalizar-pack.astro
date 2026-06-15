@@ -17,6 +17,21 @@ import { servicesPacks } from '../data/packs';
                 <p>Cargando detalles del pack...</p>
             </div>
 
+            <!-- Selector de Packs si se accede directamente -->
+            <div id="pack-selector-container" class="pack-selector-wrapper hidden">
+                <h2 class="selector-title">Selecciona un tipo de servicio</h2>
+                <div class="services-selector-grid" id="services-selector-grid">
+                    <!-- Inyección dinámica -->
+                </div>
+                
+                <div id="packs-selector-subgrid-container" class="packs-selector-subgrid-container hidden">
+                    <h3 class="selector-subtitle text-center">Selecciona un Pack para personalizar</h3>
+                    <div class="packs-selector-grid" id="packs-selector-grid">
+                        <!-- Inyección dinámica -->
+                    </div>
+                </div>
+            </div>
+
             <div id="calculator-content" class="calculator-wrapper hidden">
                 <div class="calculator-grid">
                     <!-- Columna Izquierda: Detalle -->
@@ -147,10 +162,19 @@ import { servicesPacks } from '../data/packs';
         retratos: '/servicios/retratos-profesionales-valencia',
         branding: '/servicios/fotografia-marca-personal-valencia'
     };
+    const serviceIcons = {
+        deportes: 'fas fa-running',
+        retratos: 'fas fa-user-alt',
+        eventos: 'fas fa-calendar-check',
+        branding: 'fas fa-briefcase',
+        fitness: 'fas fa-dumbbell'
+    };
+
     // Get Elements
     const loadingEl = document.getElementById('calculator-loading');
     const contentEl = document.getElementById('calculator-content');
     const errorEl = document.getElementById('calculator-error');
+    const selectorEl = document.getElementById('pack-selector-container');
 
     const uiPackName = document.getElementById('ui-pack-name');
     const uiServiceTitle = document.getElementById('ui-service-title');
@@ -165,6 +189,15 @@ import { servicesPacks } from '../data/packs';
     const extrasTotalEl = document.getElementById('extras-total');
     const grandTotalEl = document.getElementById('grand-total');
     const btnFinalizar = document.getElementById('btn-finalizar');
+    const btnVolver = document.getElementById('btn-volver');
+
+    // State
+    let currentService = null;
+    let currentPack = null;
+    let basePrice = 0;
+    let extraPhotos = 0;
+    let extraPacks = 0;
+    let directEntry = false;
 
     // Parse URL Params
     const urlParams = new URLSearchParams(window.location.search);
@@ -174,39 +207,151 @@ import { servicesPacks } from '../data/packs';
     const service = allPacks[serviceId];
     const pack = service ? service.packs.find(p => p.id === packId) : null;
 
-    let basePrice = 0;
-    let extraPhotos = 0;
-    let extraPacks = 0;
+    if (serviceId && packId && pack) {
+        directEntry = false;
+        loadPackIntoCalculator(serviceId, packId);
+    } else {
+        directEntry = true;
+        showSelector();
+    }
 
-    if (pack) {
+    function showSelector() {
+        loadingEl.classList.add('hidden');
+        contentEl.classList.add('hidden');
+        errorEl.classList.add('hidden');
+        selectorEl.classList.remove('hidden');
+
+        const servicesGrid = document.getElementById('services-selector-grid');
+        servicesGrid.innerHTML = '';
+
+        const keys = Object.keys(allPacks);
+
+        keys.forEach(sKey => {
+            const s = allPacks[sKey];
+            const card = document.createElement('div');
+            card.className = 'service-select-card';
+            card.setAttribute('data-id', sKey);
+            
+            const iconClass = serviceIcons[sKey] || 'fas fa-camera';
+            card.innerHTML = `
+                <i class="${iconClass}"></i>
+                <h4>${s.title}</h4>
+            `;
+
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.service-select-card').forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+                showPacksForService(sKey);
+            });
+
+            servicesGrid.appendChild(card);
+        });
+
+        // Seleccionar por defecto el primero
+        if (keys.length > 0) {
+            const firstCard = servicesGrid.querySelector(`[data-id="${keys[0]}"]`);
+            if (firstCard) {
+                firstCard.classList.add('active');
+                showPacksForService(keys[0], true);
+            }
+        }
+    }
+
+    function showPacksForService(sId, preventScroll = false) {
+        const subgridContainer = document.getElementById('packs-selector-subgrid-container');
+        const packsGrid = document.getElementById('packs-selector-grid');
+        
+        packsGrid.innerHTML = '';
+        const serviceData = allPacks[sId];
+        if (!serviceData) return;
+
+        serviceData.packs.forEach(p => {
+            const pCard = document.createElement('div');
+            pCard.className = 'pack-select-card';
+            
+            let badgeHTML = p.isPopular ? `<span class="pack-badge">Popular</span>` : '';
+            let priceText = p.priceLabel ? p.priceLabel : `${p.price}€`;
+            
+            pCard.innerHTML = `
+                ${badgeHTML}
+                <div>
+                    <h4>${p.name}</h4>
+                    <div class="pack-price">${priceText}</div>
+                    <p>${p.description}</p>
+                </div>
+                <button class="pack-select-btn">Personalizar Pack</button>
+            `;
+
+            pCard.addEventListener('click', () => {
+                loadPackIntoCalculator(sId, p.id);
+            });
+
+            packsGrid.appendChild(pCard);
+        });
+
+        subgridContainer.classList.remove('hidden');
+        if (!preventScroll) {
+            subgridContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    }
+
+    function loadPackIntoCalculator(sId, pId) {
+        currentService = allPacks[sId];
+        currentPack = currentService ? currentService.packs.find(p => p.id === pId) : null;
+
+        if (!currentPack) {
+            showSelector();
+            return;
+        }
+
+        // Reset
+        extraPhotos = 0;
+        extraPacks = 0;
+        photosInput.value = '0';
+        packsInput.value = '0';
+
         // Populate UI
-        basePrice = pack.price;
-        uiPackName.textContent = pack.name;
-        uiServiceTitle.textContent = service.title;
-        uiBasePrice.textContent = `${pack.price}€`;
-        uiSummaryBase.textContent = `${pack.price}€`;
-        grandTotalEl.textContent = `${pack.price}€`;
+        basePrice = currentPack.price;
+        uiPackName.textContent = currentPack.name;
+        uiServiceTitle.textContent = currentService.title;
+        uiBasePrice.textContent = `${currentPack.price}€`;
+        uiSummaryBase.textContent = `${currentPack.price}€`;
+        grandTotalEl.textContent = `${currentPack.price}€`;
 
         // Features
         uiFeaturesList.innerHTML = '';
-        pack.features.forEach(feature => {
+        currentPack.features.forEach(feature => {
             const li = document.createElement('li');
             li.innerHTML = `<i class="fas fa-check"></i> ${feature}`;
             uiFeaturesList.appendChild(li);
         });
 
         // Bonus
-        if (pack.bonus) {
+        if (currentPack.bonus) {
             uiBonusBox.style.display = 'block';
-            uiBonusText.textContent = pack.bonus;
+            uiBonusText.textContent = currentPack.bonus;
+        } else {
+            uiBonusBox.style.display = 'none';
         }
+
+        // Set back button link
+        if (sId && slugMap[sId]) {
+            btnVolver.href = slugMap[sId];
+        } else {
+            btnVolver.href = '/servicios';
+        }
+
+        updateTotals();
 
         // Show Content
         loadingEl.classList.add('hidden');
+        selectorEl.classList.add('hidden');
+        errorEl.classList.add('hidden');
         contentEl.classList.remove('hidden');
-    } else {
-        loadingEl.classList.add('hidden');
-        errorEl.classList.remove('hidden');
+
+        // Update URL query parameters dynamically
+        const newUrl = `${window.location.pathname}?service=${sId}&pack=${pId}`;
+        window.history.pushState({ service: sId, pack: pId }, '', newUrl);
     }
 
     function updateTotals() {
@@ -246,10 +391,18 @@ import { servicesPacks } from '../data/packs';
     });
 
     // Set back button link
-    const btnVolver = document.getElementById('btn-volver');
-    if (serviceId && slugMap[serviceId]) {
-        btnVolver.href = slugMap[serviceId];
-    }
+    btnVolver?.addEventListener('click', (e) => {
+        if (directEntry) {
+            e.preventDefault();
+            contentEl.classList.add('hidden');
+            selectorEl.classList.remove('hidden');
+            // Remove params from URL
+            window.history.pushState({}, '', window.location.pathname);
+            // Reset active classes
+            document.querySelectorAll('.service-select-card').forEach(c => c.classList.remove('active'));
+            document.getElementById('packs-selector-subgrid-container').classList.add('hidden');
+        }
+    });
 
     // Handle Finalize
     btnFinalizar?.addEventListener('click', async () => {
@@ -271,9 +424,9 @@ import { servicesPacks } from '../data/packs';
         
         // Prepare data for Formspree
         const formData = new FormData();
-        formData.append('_subject', `Nueva Reserva: ${pack.name} - ${service.title}`);
-        formData.append('pack_name', pack.name);
-        formData.append('servicio', service.title);
+        formData.append('_subject', `Nueva Reserva: ${currentPack.name} - ${currentService.title}`);
+        formData.append('pack_name', currentPack.name);
+        formData.append('servicio', currentService.title);
         formData.append('precio_base', `${basePrice}€`);
         formData.append('fotos_extra', extraPhotos.toString());
         formData.append('packs_extra', extraPacks.toString());
@@ -656,5 +809,200 @@ import { servicesPacks } from '../data/packs';
     .small-text {
         font-size: 0.8rem;
         color: var(--color-text-light);
+    }
+</style>
+
+<style is:global>
+    /* Estilos del Selector de Packs */
+    .pack-selector-wrapper {
+        max-width: 1000px;
+        margin: 0 auto;
+        animation: fadeIn 0.4s ease-out;
+    }
+
+    .selector-title {
+        font-size: 1.8rem;
+        margin-bottom: 2.5rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: #fff;
+        text-align: center;
+        background: linear-gradient(135deg, #fff 0%, var(--color-gold) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .selector-subtitle {
+        font-size: 1.4rem;
+        margin: 3rem 0 1.5rem;
+        letter-spacing: 1px;
+        color: var(--color-gold);
+        text-transform: uppercase;
+    }
+
+    .services-selector-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .service-select-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        padding: 2rem 1.5rem;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .service-select-card i {
+        font-size: 2rem;
+        color: var(--color-gold);
+        opacity: 0.8;
+        transition: transform 0.3s ease;
+    }
+
+    .service-select-card h4 {
+        margin: 0;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.9);
+        letter-spacing: 0.5px;
+    }
+
+    .service-select-card:hover {
+        background: rgba(197, 160, 89, 0.06);
+        border-color: var(--color-gold);
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(197, 160, 89, 0.15);
+    }
+
+    .service-select-card:hover i {
+        transform: scale(1.15);
+    }
+
+    .service-select-card.active {
+        background: rgba(197, 160, 89, 0.12);
+        border-color: var(--color-gold);
+        box-shadow: 0 0 15px rgba(197, 160, 89, 0.25);
+    }
+
+    .packs-selector-subgrid-container {
+        animation: slideDown 0.4s ease-out;
+    }
+
+    .packs-selector-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .pack-select-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .pack-select-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+        transform: translateX(-100%);
+        transition: transform 0.5s ease;
+    }
+
+    .pack-select-card:hover::before {
+        transform: translateX(100%);
+    }
+
+    .pack-select-card:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(197, 160, 89, 0.5);
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .pack-select-card h4 {
+        font-size: 1.25rem;
+        margin: 0 0 0.5rem;
+        color: #fff;
+        font-weight: 700;
+    }
+
+    .pack-select-card .pack-price {
+        font-size: 1.4rem;
+        color: var(--color-gold);
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .pack-select-card p {
+        font-size: 0.85rem;
+        color: var(--color-text-light);
+        margin: 0 0 1.5rem;
+        line-height: 1.4;
+        flex-grow: 1;
+    }
+
+    .pack-select-btn {
+        width: 100%;
+        text-align: center;
+        background: transparent;
+        border: 1px solid var(--color-gold);
+        color: var(--color-gold);
+        padding: 0.75rem;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.2s ease;
+    }
+
+    .pack-select-card:hover .pack-select-btn {
+        background: var(--color-gold);
+        color: var(--color-secondary);
+    }
+
+    .pack-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: var(--color-gold);
+        color: var(--color-secondary);
+        font-size: 0.6rem;
+        font-weight: 800;
+        padding: 0.2rem 0.5rem;
+        text-transform: uppercase;
+        border-radius: 2px;
+        letter-spacing: 0.5px;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 </style>

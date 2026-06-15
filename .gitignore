@@ -3,6 +3,7 @@ dist/
 .vscode
 # generated types
 .astro/
+.vercel/
 
 # dependencies
 node_modules/

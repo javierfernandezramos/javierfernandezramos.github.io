@@ -1,7 +1,6 @@
 ---
-// ChatBot.astro - Asistente de IA para JaviPhoto usando Google Gemini 1.5 Flash
+// ChatBot.astro - Asistente de IA para JaviPhoto usando Google Gemini
 import { contactInfo } from '../data/config';
-const apiKey = (import.meta.env.PUBLIC_GEMINI_API_KEY || "").trim();
 ---
 
 <div class="chatbot-wrapper" data-nosnippet>
@@ -503,9 +502,9 @@ const apiKey = (import.meta.env.PUBLIC_GEMINI_API_KEY || "").trim();
     }
 </style>
 
-<script define:vars={{ apiKey }}>
-    // Guardamos la configuración y API key en scope
-    const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent";
+<script>
+    // URL del endpoint de backend seguro en Vercel
+    const API_URL = "/api/chat";
     
     // Instrucciones de sistema para moldear la personalidad de la IA
     const systemInstruction = `Eres el asistente virtual de JaviPhoto (Javier Fernández Ramos), fotógrafo profesional en Valencia.
@@ -545,7 +544,7 @@ Ubicación de Javi: Basado en Valencia capital, con disponibilidad para desplaza
 Datos de contacto directos de Javi:
 - Teléfono móvil y WhatsApp: +34 665 01 85 16 (o +34 665 018 516)
 - Correo electrónico: javierfernandezramos9@gmail.com
-Entrega de material: Enlace a galería digital privada con fotos editadas en alta resolución. Javi entrega un avance en 48 horas tras la sesión y el pack completo en 7-10 días laborables. No se entregan fotos sin editar (RAW).
+- Entrega de material: Enlace a galería digital privada con fotos editadas en alta resolución. Javi entrega un avance en 48 horas tras la sesión y el pack completo en 7-10 días laborables. No se entregan fotos sin editar (RAW).
 
 Enlaces exactos de la web (UTILIZA ESTAS RUTAS EN FORMATO MARKDOWN):
 - Página principal / Inicio: [/](/)
@@ -562,6 +561,7 @@ Enlaces exactos de la web (UTILIZA ESTAS RUTAS EN FORMATO MARKDOWN):
 
 Reglas de comportamiento:
 - Responde siempre en español.
+- REGLA DE TEMÁTICA EXCLUSIVA (CRÍTICO): Si el usuario pregunta por cualquier tema que NO esté relacionado con Javier Fernández Ramos, sus servicios de fotografía, tarifas, galería, videos o contacto, debes indicarle amablemente que no puedes responder a esa pregunta porque tu función es únicamente ayudarle con consultas sobre los servicios fotográficos de Javi. Guíalo de vuelta a la temática de fotografía de Javi o redirígele a la página de [contacto](/contacto). No respondas preguntas de cultura general, idiomas, traducciones, programación u otros temas ajenos.
 - Mantén las respuestas muy cortas (máximo 2 o 3 frases breves).
 - Usa viñetas o listas cortas si listas precios para facilitar la lectura.
 - REGLA DE ENLACES OBLIGATORIA: Siempre que hables de un servicio o página de la web, DEBES incluir obligatoriamente su enlace Markdown exacto. 
@@ -572,7 +572,7 @@ Reglas de comportamiento:
 - Si te preguntan algo de lo que no estás seguro (como disponibilidad de fechas), redirígelos amablemente a la sección de [contacto](/contacto) para hablar con Javier.`;
 
     // Saneamiento profundo para asegurar que el historial sea alterno (user/model) y válido para Gemini
-    function sanitizeHistory(history) {
+    function sanitizeHistory(history: any[]) {
         if (!Array.isArray(history)) return [];
         const clean = [];
         let expectedRole = "user";
@@ -596,7 +596,7 @@ Reglas de comportamiento:
     }
 
     // Estado del historial de conversación
-    let conversationHistory = [];
+    let conversationHistory: any[] = [];
 
     // Intentar restaurar el historial de conversación desde sessionStorage
     try {
@@ -615,7 +615,7 @@ Reglas de comportamiento:
     const chatbotClose = document.getElementById("chatbot-close");
     const chatbotMessages = document.getElementById("chatbot-messages");
     const inputForm = document.getElementById("chatbot-input-form");
-    const inputField = document.getElementById("chatbot-input-field");
+    const inputField = document.getElementById("chatbot-input-field") as HTMLInputElement | null;
     const typingIndicator = document.getElementById("chatbot-typing");
 
     // Control de límites y anti-abuso
@@ -634,7 +634,7 @@ Reglas de comportamiento:
         return false;
     }
 
-    function appendWarningMessage(text) {
+    function appendWarningMessage(text: string) {
         const wrapper = document.createElement("div");
         wrapper.className = "message-wrapper system-wrapper";
         wrapper.style.alignSelf = "center";
@@ -679,7 +679,7 @@ Reglas de comportamiento:
     const chatbotWrapper = document.querySelector(".chatbot-wrapper");
 
     // Helper para bloquear/desbloquear scroll de fondo en móvil
-    function toggleScrollLock(isLocked) {
+    function toggleScrollLock(isLocked: boolean) {
         if (isLocked) {
             document.documentElement.classList.add("chatbot-active-scroll-lock");
             document.body.classList.add("chatbot-active-scroll-lock");
@@ -690,7 +690,7 @@ Reglas de comportamiento:
     }
 
     // Helper centralizado para abrir/cerrar el chat
-    function toggleChatbot(isOpen) {
+    function toggleChatbot(isOpen: boolean) {
         if (isOpen) {
             chatbotWindow?.classList.add("active");
             chatbotWrapper?.classList.add("active-chat");
@@ -740,24 +740,31 @@ Reglas de comportamiento:
     // Cerrar si pulsan fuera (solo para desktop, en móvil cubre toda la pantalla)
     document.addEventListener("click", (e) => {
         if (chatbotWindow?.classList.contains("active")) {
-            if (!chatbotWindow.contains(e.target) && !chatbotToggle.contains(e.target)) {
-                toggleChatbot(false);
+            const target = e.target;
+            if (target instanceof Node && chatbotWindow && chatbotToggle) {
+                if (!chatbotWindow.contains(target) && !chatbotToggle.contains(target)) {
+                    toggleChatbot(false);
+                }
             }
         }
     });
 
     // Cerrar el chat inmediatamente cuando se pulsa sobre cualquier enlace interno
     chatbotMessages?.addEventListener("click", (e) => {
-        const link = e.target.closest("a");
-        if (link) {
-            toggleChatbot(false);
+        const target = e.target;
+        if (target instanceof Element) {
+            const link = target.closest("a");
+            if (link) {
+                toggleChatbot(false);
+            }
         }
     });
 
     // Escuchar clicks en suggestion chips
     document.addEventListener("click", (e) => {
-        if (e.target && e.target.classList.contains("suggestion-chip")) {
-            const question = e.target.getAttribute("data-question");
+        const target = e.target;
+        if (target instanceof Element && target.classList.contains("suggestion-chip")) {
+            const question = target.getAttribute("data-question");
             if (question) {
                 // Verificar límite de mensajes por sesión
                 if (messageCount >= 10) {
@@ -774,7 +781,7 @@ Reglas de comportamiento:
                 }
 
                 // Remove suggestion chips container once clicked to keep clean
-                e.target.parentElement?.remove();
+                target.parentElement?.remove();
                 lastMessageTime = now;
                 handleUserMessage(question);
             }
@@ -785,6 +792,8 @@ Reglas de comportamiento:
     inputForm?.addEventListener("submit", (e) => {
         e.preventDefault();
         
+        if (!inputField) return;
+
         // Verificar límite de mensajes por sesión
         if (messageCount >= 10) {
             checkMessageLimit();
@@ -807,7 +816,7 @@ Reglas de comportamiento:
         handleUserMessage(text);
     });
 
-    async function handleUserMessage(text) {
+    async function handleUserMessage(text: string) {
         // Incrementar y persistir contador de mensajes exitosos
         messageCount++;
         sessionStorage.setItem("chatbot_msg_count", messageCount.toString());
@@ -815,18 +824,6 @@ Reglas de comportamiento:
         // 1. Mostrar mensaje del usuario
         appendMessage(text, "user-message");
         scrollToBottom();
-
-        // Si la API key está vacía, mostrar error amigable sin intentar llamar a la API
-        if (!apiKey) {
-            console.warn("Falta la API Key de Gemini. Por favor configúrala en Vercel o en tu archivo .env local.");
-            typingIndicator?.classList.remove("hidden");
-            setTimeout(() => {
-                typingIndicator?.classList.add("hidden");
-                appendFormattedBotMessage("Vaya, parece que tengo un problema de conexión temporal. Puedes contactar directamente con Javier a través de [contacto](/contacto).");
-                scrollToBottom();
-            }, 800);
-            return;
-        }
 
         // 2. Mostrar "escribiendo..."
         typingIndicator?.classList.remove("hidden");
@@ -850,8 +847,8 @@ Reglas de comportamiento:
                 apiHistory = apiHistory.slice(1);
             }
 
-            // 4. Llamar a la API de Google Gemini
-            const response = await fetch(`${API_URL}?key=${apiKey}`, {
+            // 4. Llamar al endpoint de backend seguro en Vercel
+            const response = await fetch(API_URL, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -897,7 +894,7 @@ Reglas de comportamiento:
             // Verificar si tras esta respuesta se alcanzó el límite de 10 mensajes
             checkMessageLimit();
 
-        } catch (error) {
+        } catch (error: any) {
             console.error("Chatbot Error:", error);
             typingIndicator?.classList.add("hidden");
             
@@ -922,7 +919,7 @@ Reglas de comportamiento:
         }
     }
 
-    function appendMessage(text, className) {
+    function appendMessage(text: string, className: string) {
         const wrapper = document.createElement("div");
         const isUser = className.includes("user-message");
         wrapper.className = `message-wrapper ${isUser ? 'user-wrapper' : 'bot-wrapper'}`;
@@ -940,7 +937,7 @@ Reglas de comportamiento:
         chatbotMessages?.appendChild(wrapper);
     }
 
-    function appendFormattedBotMessage(rawText) {
+    function appendFormattedBotMessage(rawText: string) {
         const wrapper = document.createElement("div");
         wrapper.className = "message-wrapper bot-wrapper";
         
