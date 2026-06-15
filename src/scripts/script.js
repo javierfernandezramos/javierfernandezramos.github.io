@@ -206,6 +206,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Desactivar estado 'active' del botón móvil inmediatamente para sincronizar animación
         if (mobileMenuBtn) mobileMenuBtn.classList.remove('active');
         
+        // Restaurar estado de scroll y barra inmediatamente para mejor UX
+        document.documentElement.style.overflow = ''; 
+        document.body.style.overflow = '';            
+        document.body.style.paddingRight = '';
+        if (navbar) navbar.style.paddingRight = '';
+        
         setTimeout(() => {
             lightbox.style.display = 'none'; 
             lightbox.classList.remove('closing');
@@ -224,10 +230,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             currentActiveImg = lightboxImg1;
             window.lightboxState.isOpen = false;
-            document.documentElement.style.overflow = ''; 
-            document.body.style.overflow = '';            
-            document.body.style.paddingRight = '';
-            if (navbar) navbar.style.paddingRight = '';
         }, 200); // Duración de la animación de cierre (200ms)
     };
 
