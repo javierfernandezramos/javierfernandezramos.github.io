@@ -19,9 +19,17 @@ import { servicesPacks } from '../data/packs';
 
             <!-- Selector de Packs si se accede directamente -->
             <div id="pack-selector-container" class="pack-selector-wrapper hidden">
-                <h2 class="selector-title">Selecciona un tipo de servicio</h2>
-                <div class="services-selector-grid" id="services-selector-grid">
-                    <!-- Inyección dinámica -->
+                <p class="selector-description">Selecciona un tipo de servicio</p>
+                
+                <!-- Desplegable Personalizado -->
+                <div class="custom-dropdown-container">
+                    <button class="dropdown-trigger" id="dropdown-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+                        <span id="dropdown-selected-text">Selecciona un servicio...</span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </button>
+                    <ul class="dropdown-menu hidden" id="dropdown-menu" role="listbox">
+                        <!-- Inyección dinámica de los ítems -->
+                    </ul>
                 </div>
                 
                 <div id="packs-selector-subgrid-container" class="packs-selector-subgrid-container hidden">
@@ -190,6 +198,8 @@ import { servicesPacks } from '../data/packs';
     const grandTotalEl = document.getElementById('grand-total');
     const btnFinalizar = document.getElementById('btn-finalizar');
     const btnVolver = document.getElementById('btn-volver');
+    const dropdownMenu = document.getElementById('dropdown-menu');
+    const dropdownContainer = document.querySelector('.custom-dropdown-container');
 
     // State
     let currentService = null;
@@ -215,44 +225,82 @@ import { servicesPacks } from '../data/packs';
         showSelector();
     }
 
+    // Manejador del click para abrir/cerrar y cerrar al hacer clic fuera del desplegable
+    document.addEventListener('click', (e) => {
+        const trigger = document.getElementById('dropdown-trigger');
+        if (!trigger || !dropdownMenu || !dropdownContainer) return;
+
+        if (trigger.contains(e.target)) {
+            const isOpen = dropdownContainer.classList.contains('open');
+            if (isOpen) {
+                dropdownContainer.classList.remove('open');
+                dropdownMenu.classList.add('hidden');
+            } else {
+                dropdownContainer.classList.add('open');
+                dropdownMenu.classList.remove('hidden');
+            }
+        } else if (!dropdownContainer.contains(e.target)) {
+            dropdownContainer.classList.remove('open');
+            dropdownMenu.classList.add('hidden');
+        }
+    });
+
+    function selectDropdownItem(sKey, itemEl, preventScroll = false) {
+        if (!dropdownContainer || !dropdownMenu) return;
+        
+        document.querySelectorAll('.dropdown-item').forEach(el => el.classList.remove('selected'));
+        itemEl.classList.add('selected');
+
+        const s = allPacks[sKey];
+        const iconClass = serviceIcons[sKey] || 'fas fa-camera';
+        
+        const triggerText = document.getElementById('dropdown-selected-text');
+        if (triggerText) {
+            triggerText.innerHTML = `<span style="display: flex; align-items: center; gap: 10px;"><i class="${iconClass}" style="color: var(--color-gold);"></i> ${s.title}</span>`;
+        }
+        
+        dropdownContainer.classList.remove('open');
+        dropdownMenu.classList.add('hidden');
+
+        showPacksForService(sKey, preventScroll);
+    }
+
     function showSelector() {
         loadingEl.classList.add('hidden');
         contentEl.classList.add('hidden');
         errorEl.classList.add('hidden');
         selectorEl.classList.remove('hidden');
 
-        const servicesGrid = document.getElementById('services-selector-grid');
-        servicesGrid.innerHTML = '';
+        dropdownMenu.innerHTML = '';
 
         const keys = Object.keys(allPacks);
 
         keys.forEach(sKey => {
             const s = allPacks[sKey];
-            const card = document.createElement('div');
-            card.className = 'service-select-card';
-            card.setAttribute('data-id', sKey);
+            const li = document.createElement('li');
+            li.className = 'dropdown-item';
+            li.setAttribute('data-id', sKey);
+            li.setAttribute('role', 'option');
             
             const iconClass = serviceIcons[sKey] || 'fas fa-camera';
-            card.innerHTML = `
+            li.innerHTML = `
+                <span>${s.title}</span>
                 <i class="${iconClass}"></i>
-                <h4>${s.title}</h4>
             `;
 
-            card.addEventListener('click', () => {
-                document.querySelectorAll('.service-select-card').forEach(c => c.classList.remove('active'));
-                card.classList.add('active');
-                showPacksForService(sKey);
+            li.addEventListener('click', (e) => {
+                e.stopPropagation();
+                selectDropdownItem(sKey, li);
             });
 
-            servicesGrid.appendChild(card);
+            dropdownMenu.appendChild(li);
         });
 
         // Seleccionar por defecto el primero
         if (keys.length > 0) {
-            const firstCard = servicesGrid.querySelector(`[data-id="${keys[0]}"]`);
-            if (firstCard) {
-                firstCard.classList.add('active');
-                showPacksForService(keys[0], true);
+            const firstItem = dropdownMenu.querySelector(`[data-id="${keys[0]}"]`);
+            if (firstItem) {
+                selectDropdownItem(keys[0], firstItem, true);
             }
         }
     }
@@ -399,8 +447,17 @@ import { servicesPacks } from '../data/packs';
             // Remove params from URL
             window.history.pushState({}, '', window.location.pathname);
             // Reset active classes
-            document.querySelectorAll('.service-select-card').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.dropdown-item').forEach(c => c.classList.remove('selected'));
             document.getElementById('packs-selector-subgrid-container').classList.add('hidden');
+            
+            const triggerText = document.getElementById('dropdown-selected-text');
+            if (triggerText) {
+                triggerText.textContent = 'Selecciona un servicio...';
+            }
+
+            // Open the dropdown menu automatically for convenience
+            dropdownContainer.classList.add('open');
+            dropdownMenu.classList.remove('hidden');
         }
     });
 
@@ -820,16 +877,16 @@ import { servicesPacks } from '../data/packs';
         animation: fadeIn 0.4s ease-out;
     }
 
-    .selector-title {
-        font-size: 1.8rem;
-        margin-bottom: 2.5rem;
-        letter-spacing: 1.5px;
+    .selector-description {
+        font-size: 0.95rem;
+        color: var(--color-text-light);
+        margin: 0 auto 1.5rem auto;
+        text-align: center !important;
+        font-weight: 500;
+        letter-spacing: 0.5px;
         text-transform: uppercase;
-        color: #fff;
-        text-align: center;
-        background: linear-gradient(135deg, #fff 0%, var(--color-gold) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        display: block;
+        width: 100%;
     }
 
     .selector-subtitle {
@@ -840,57 +897,131 @@ import { servicesPacks } from '../data/packs';
         text-transform: uppercase;
     }
 
-    .services-selector-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 2rem;
+    /* Desplegable Personalizado */
+    .custom-dropdown-container {
+        position: relative;
+        max-width: 450px;
+        margin: 0 auto 3rem;
+        font-family: 'Outfit', sans-serif;
     }
 
-    .service-select-card {
+    .dropdown-trigger {
+        width: 100%;
         background: rgba(255, 255, 255, 0.02);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 12px;
-        padding: 2rem 1.5rem;
-        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 1.1rem 1.5rem;
+        color: #fff;
+        font-size: 0.95rem;
+        font-weight: 600;
         cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         display: flex;
-        flex-direction: column;
+        justify-content: space-between;
         align-items: center;
-        gap: 12px;
+        transition: all 0.3s ease;
+        text-align: left;
+        backdrop-filter: blur(10px);
     }
 
-    .service-select-card i {
-        font-size: 2rem;
+    .dropdown-trigger:hover {
+        border-color: var(--color-gold);
+        box-shadow: 0 0 15px rgba(197, 160, 89, 0.15);
+        background: rgba(197, 160, 89, 0.02);
+    }
+
+    .dropdown-trigger .arrow-icon {
         color: var(--color-gold);
-        opacity: 0.8;
+        font-size: 0.85rem;
         transition: transform 0.3s ease;
     }
 
-    .service-select-card h4 {
+    .custom-dropdown-container.open .dropdown-trigger .arrow-icon {
+        transform: rotate(180deg);
+    }
+
+    .custom-dropdown-container.open .dropdown-trigger {
+        border-color: var(--color-gold);
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: #0f0f0f;
+        border: 1px solid var(--color-gold);
+        border-top: none;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+        list-style: none;
+        padding: 0.5rem 0;
         margin: 0;
-        font-size: 0.95rem;
+        z-index: 100;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        max-height: 300px;
+        overflow-y: auto;
+        backdrop-filter: blur(20px);
+        animation: dropdownFadeIn 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+        scrollbar-width: thin;
+        scrollbar-color: rgba(197, 160, 89, 0.3) transparent;
+    }
+
+    .dropdown-menu::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .dropdown-menu::-webkit-scrollbar-thumb {
+        background: rgba(197, 160, 89, 0.3);
+        border-radius: 4px;
+    }
+
+    .dropdown-item {
+        padding: 0.9rem 1.5rem;
+        color: rgba(255, 255, 255, 0.85);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.92rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+
+    .dropdown-item i {
+        color: var(--color-gold);
+        opacity: 0.7;
+        font-size: 1rem;
+        transition: transform 0.2s ease;
+    }
+
+    .dropdown-item:hover {
+        background: rgba(197, 160, 89, 0.1);
+        color: #fff;
+        padding-left: 1.8rem;
+    }
+
+    .dropdown-item:hover i {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+
+    .dropdown-item.selected {
+        background: rgba(197, 160, 89, 0.15);
+        color: var(--color-gold);
         font-weight: 700;
-        color: rgba(255, 255, 255, 0.9);
-        letter-spacing: 0.5px;
     }
 
-    .service-select-card:hover {
-        background: rgba(197, 160, 89, 0.06);
-        border-color: var(--color-gold);
-        transform: translateY(-4px);
-        box-shadow: 0 8px 20px rgba(197, 160, 89, 0.15);
-    }
-
-    .service-select-card:hover i {
-        transform: scale(1.15);
-    }
-
-    .service-select-card.active {
-        background: rgba(197, 160, 89, 0.12);
-        border-color: var(--color-gold);
-        box-shadow: 0 0 15px rgba(197, 160, 89, 0.25);
+    @keyframes dropdownFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-5px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     .packs-selector-subgrid-container {

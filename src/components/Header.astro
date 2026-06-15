@@ -18,7 +18,7 @@ const { activePage } = Astro.props;
                 <!-- Dropdown de Servicios -->
                 <div class="nav-dropdown">
                     <div class="nav-dropdown-trigger-wrapper">
-                        <a href="/servicios" class={`nav-dropdown-trigger ${activePage === 'servicios' ? 'active' : ''}`}>
+                        <a href="/servicios" class={`nav-dropdown-trigger ${activePage === 'servicios' ? 'active' : ''}`} aria-label="Servicios de fotografía">
                             <i class="fa-solid fa-camera"></i> Servicios <i class="fa-solid fa-chevron-down chevron-icon"></i>
                         </a>
                         <button class="dropdown-toggle-btn" aria-label="Desplegar servicios">
@@ -26,11 +26,11 @@ const { activePage } = Astro.props;
                         </button>
                     </div>
                     <div class="nav-dropdown-menu">
-                        <a href="/servicios/fotografo-deportivo-valencia">Deportes</a>
-                        <a href="/servicios/fotografo-eventos-valencia">Eventos</a>
-                        <a href="/servicios/fotografo-fitness-valencia">Fitness</a>
-                        <a href="/servicios/retratos-profesionales-valencia">Retratos</a>
-                        <a href="/servicios/fotografia-marca-personal-valencia">Marca Personal</a>
+                        <a href="/servicios/fotografo-deportivo-valencia" aria-label="Fotografía deportiva">Deportes</a>
+                        <a href="/servicios/fotografo-eventos-valencia" aria-label="Fotografía de eventos">Eventos</a>
+                        <a href="/servicios/fotografo-fitness-valencia" aria-label="Fotografía de fitness">Fitness</a>
+                        <a href="/servicios/retratos-profesionales-valencia" aria-label="Retratos profesionales">Retratos</a>
+                        <a href="/servicios/fotografia-marca-personal-valencia" aria-label="Fotografía de marca personal">Marca Personal</a>
                     </div>
                 </div>
 
