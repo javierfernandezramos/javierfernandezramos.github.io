@@ -472,8 +472,7 @@ const apiKey = (import.meta.env.PUBLIC_GEMINI_API_KEY || "").trim();
             right: 0;
             bottom: 0;
             width: 100vw;
-            height: 100%;
-            height: 100dvh;
+            height: auto;
             max-width: none;
             border-radius: 0;
             border: none;
@@ -506,7 +505,7 @@ const apiKey = (import.meta.env.PUBLIC_GEMINI_API_KEY || "").trim();
 
 <script define:vars={{ apiKey }}>
     // Guardamos la configuración y API key en scope
-    const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
+    const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent";
     
     // Instrucciones de sistema para moldear la personalidad de la IA
     const systemInstruction = `Eres el asistente virtual de JaviPhoto (Javier Fernández Ramos), fotógrafo profesional en Valencia.
@@ -619,6 +618,44 @@ Reglas de comportamiento:
     const inputField = document.getElementById("chatbot-input-field");
     const typingIndicator = document.getElementById("chatbot-typing");
 
+    // Control de límites y anti-abuso
+    let lastMessageTime = 0;
+    let messageCount = parseInt(sessionStorage.getItem("chatbot_msg_count") || "0", 10);
+
+    function checkMessageLimit() {
+        if (messageCount >= 10) {
+            if (inputForm) {
+                inputForm.innerHTML = `<p style="color: rgba(255,255,255,0.65); font-size: 0.82rem; margin: 0; padding: 0.2rem 0; text-align: center; width: 100%; font-family: 'Outfit', sans-serif;">Has alcanzado el límite de 10 mensajes. Puedes contactar con Javier a través de [contacto](/contacto).</p>`;
+                // Convertir el enlace de Markdown en el formulario de aviso
+                inputForm.innerHTML = inputForm.innerHTML.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" style="color:var(--color-gold); text-decoration:underline; font-weight:600;">$1</a>');
+            }
+            return true;
+        }
+        return false;
+    }
+
+    function appendWarningMessage(text) {
+        const wrapper = document.createElement("div");
+        wrapper.className = "message-wrapper system-wrapper";
+        wrapper.style.alignSelf = "center";
+        wrapper.style.margin = "8px 0";
+        wrapper.style.maxWidth = "90%";
+        
+        const msgDiv = document.createElement("div");
+        msgDiv.className = "message system-message";
+        msgDiv.style.background = "rgba(197, 160, 89, 0.08)";
+        msgDiv.style.border = "1px dashed rgba(197, 160, 89, 0.4)";
+        msgDiv.style.color = "var(--color-gold)";
+        msgDiv.style.fontSize = "0.78rem";
+        msgDiv.style.padding = "0.45rem 0.9rem";
+        msgDiv.style.borderRadius = "8px";
+        msgDiv.style.textAlign = "center";
+        msgDiv.textContent = text;
+        
+        wrapper.appendChild(msgDiv);
+        chatbotMessages?.appendChild(wrapper);
+    }
+
     // Restaurar los mensajes visuales del historial en el DOM al cargar
     if (conversationHistory.length > 0) {
         // Eliminar contenedor de chips de sugerencia iniciales si ya hay conversación
@@ -635,6 +672,9 @@ Reglas de comportamiento:
             }
         });
     }
+
+    // Verificar el límite en la carga inicial
+    checkMessageLimit();
 
     const chatbotWrapper = document.querySelector(".chatbot-wrapper");
 
@@ -657,11 +697,6 @@ Reglas de comportamiento:
             sessionStorage.setItem("chatbot_active", "true");
             toggleScrollLock(true);
             
-            // Ajustar altura inicial en móvil basada en el área visible real (visualViewport)
-            if (window.innerWidth <= 600 && window.visualViewport) {
-                chatbotWindow.style.height = `${window.visualViewport.height}px`;
-            }
-
             setTimeout(() => {
                 const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
                 if (window.innerWidth > 768 && !isTouchDevice) {
@@ -675,11 +710,6 @@ Reglas de comportamiento:
             sessionStorage.setItem("chatbot_active", "false");
             toggleScrollLock(false);
             inputField?.blur();
-            
-            // Limpiar altura en línea al cerrar
-            if (chatbotWindow) {
-                chatbotWindow.style.height = "";
-            }
         }
     }
 
@@ -698,16 +728,11 @@ Reglas de comportamiento:
         toggleChatbot(false);
     });
 
-    // Ajustar altura dinámica en móvil según el Visual Viewport (para evitar que el teclado o barras del OS oculten el input)
+    // Hacer scroll al final cuando el teclado se despliegue en móvil (el redimensionamiento lo maneja el OS nativamente gracias a interactive-widget)
     if (window.visualViewport) {
         window.visualViewport.addEventListener("resize", () => {
-            if (chatbotWindow?.classList.contains("active")) {
-                if (window.innerWidth <= 600) {
-                    chatbotWindow.style.height = `${window.visualViewport.height}px`;
-                    scrollToBottom();
-                } else {
-                    chatbotWindow.style.height = "";
-                }
+            if (chatbotWindow?.classList.contains("active") && window.innerWidth <= 600) {
+                scrollToBottom();
             }
         });
     }
@@ -734,8 +759,23 @@ Reglas de comportamiento:
         if (e.target && e.target.classList.contains("suggestion-chip")) {
             const question = e.target.getAttribute("data-question");
             if (question) {
+                // Verificar límite de mensajes por sesión
+                if (messageCount >= 10) {
+                    checkMessageLimit();
+                    return;
+                }
+
+                // Cooldown de 5 segundos
+                const now = Date.now();
+                if (now - lastMessageTime < 5000) {
+                    appendWarningMessage("Estás enviando mensajes demasiado rápido. Por favor, espera unos segundos.");
+                    scrollToBottom();
+                    return;
+                }
+
                 // Remove suggestion chips container once clicked to keep clean
                 e.target.parentElement?.remove();
+                lastMessageTime = now;
                 handleUserMessage(question);
             }
         }
@@ -744,14 +784,34 @@ Reglas de comportamiento:
     // Manejo de Envío de Mensaje
     inputForm?.addEventListener("submit", (e) => {
         e.preventDefault();
+        
+        // Verificar límite de mensajes por sesión
+        if (messageCount >= 10) {
+            checkMessageLimit();
+            return;
+        }
+
+        // Cooldown de 5 segundos
+        const now = Date.now();
+        if (now - lastMessageTime < 5000) {
+            appendWarningMessage("Estás enviando mensajes demasiado rápido. Por favor, espera unos segundos.");
+            scrollToBottom();
+            return;
+        }
+
         const text = inputField.value.trim();
         if (!text) return;
         
+        lastMessageTime = now;
         inputField.value = "";
         handleUserMessage(text);
     });
 
     async function handleUserMessage(text) {
+        // Incrementar y persistir contador de mensajes exitosos
+        messageCount++;
+        sessionStorage.setItem("chatbot_msg_count", messageCount.toString());
+
         // 1. Mostrar mensaje del usuario
         appendMessage(text, "user-message");
         scrollToBottom();
@@ -783,6 +843,13 @@ Reglas de comportamiento:
         sessionStorage.setItem("chatbot_history", JSON.stringify(conversationHistory));
 
         try {
+            // Limitar historial para la API a los últimos 5 mensajes (Truco 1)
+            let apiHistory = conversationHistory.slice(-5);
+            // Asegurar que el historial para la API comience siempre con el rol 'user'
+            if (apiHistory.length > 0 && apiHistory[0].role === "model") {
+                apiHistory = apiHistory.slice(1);
+            }
+
             // 4. Llamar a la API de Google Gemini
             const response = await fetch(`${API_URL}?key=${apiKey}`, {
                 method: "POST",
@@ -790,7 +857,7 @@ Reglas de comportamiento:
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    contents: conversationHistory,
+                    contents: apiHistory,
                     systemInstruction: {
                         parts: [{ text: systemInstruction }]
                     },
@@ -827,6 +894,9 @@ Reglas de comportamiento:
             });
             sessionStorage.setItem("chatbot_history", JSON.stringify(conversationHistory));
 
+            // Verificar si tras esta respuesta se alcanzó el límite de 10 mensajes
+            checkMessageLimit();
+
         } catch (error) {
             console.error("Chatbot Error:", error);
             typingIndicator?.classList.add("hidden");
@@ -835,6 +905,12 @@ Reglas de comportamiento:
             if (conversationHistory.length > 0 && conversationHistory[conversationHistory.length - 1].role === "user") {
                 conversationHistory.pop();
                 sessionStorage.setItem("chatbot_history", JSON.stringify(conversationHistory));
+            }
+
+            // Deshacer incremento del contador de mensajes en caso de error
+            if (messageCount > 0) {
+                messageCount--;
+                sessionStorage.setItem("chatbot_msg_count", messageCount.toString());
             }
 
             if (error.message === "RATE_LIMIT_ERROR") {
