@@ -1,6 +1,6 @@
 import { contactInfo } from '../data/config';
 
-document.addEventListener('DOMContentLoaded', () => {
+const init = () => {
 
     // --- 2. OPTIMIZACIÓN DE SCROLL UNIFICADA ---
     const navbar = document.getElementById('navbar');
@@ -367,4 +367,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         startAutoScroll();
     }
-});
+};
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+} else {
+    init();
+}
