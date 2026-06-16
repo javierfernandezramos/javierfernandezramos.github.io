@@ -178,6 +178,18 @@ const schema = {
     <div id="loader" data-nosnippet>
         <div class="spinner"></div>
     </div>
+    <script is:inline>
+        // Ocultar el loader en cuanto se empiece a cargar el DOM, sin esperar a scripts pesados
+        document.addEventListener('DOMContentLoaded', () => {
+            const loader = document.getElementById('loader');
+            if (loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 400);
+            }
+        });
+    </script>
 
     <Header activePage={activePage} />
 

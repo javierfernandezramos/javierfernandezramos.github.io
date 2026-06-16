@@ -2,17 +2,6 @@ import { contactInfo } from '../data/config';
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- 0. LOADER INICIAL (PRIORIDAD MÁXIMA) ---
-    const loader = document.getElementById('loader');
-    if (loader) {
-        setTimeout(() => {
-            loader.style.opacity = '0';
-            setTimeout(() => {
-                loader.style.display = 'none';
-            }, 500);
-        }, 100);
-    }
-
     // --- 2. OPTIMIZACIÓN DE SCROLL UNIFICADA ---
     const navbar = document.getElementById('navbar');
     const backToTopBtn = document.getElementById('back-to-top');
