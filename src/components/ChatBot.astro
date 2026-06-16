@@ -516,30 +516,44 @@ import { contactInfo } from '../data/config';
 </style>
 
 <script>
-    // Carga diferida y optimizada del asistente de IA
+    // Carga diferida del asistente de IA basada puramente en interacción real del usuario
     window.addEventListener('load', () => {
         let loaded = false;
         
-        const loadChatbot = () => {
+        const loadChatbot = (e?: any) => {
             if (loaded) return;
             loaded = true;
+            
+            // Si el usuario hizo clic directamente en el botón de abrir chat antes de cargarlo,
+            // guardamos el estado activo para que al cargar se abra automáticamente
+            if (e && (e.type === 'click' || e.target?.closest('#chatbot-toggle'))) {
+                sessionStorage.setItem("chatbot_active", "true");
+            }
             
             // Importar dinámicamente el script del chatbot
             import('../scripts/chatbot');
             
-            // Eliminar listeners de interacción
+            // Eliminar todos los listeners de interacción
             window.removeEventListener('scroll', loadChatbot);
             document.removeEventListener('touchstart', loadChatbot);
             document.removeEventListener('mousemove', loadChatbot);
+            
+            const toggleBtn = document.getElementById('chatbot-toggle');
+            if (toggleBtn) {
+                toggleBtn.removeEventListener('click', loadChatbot);
+            }
         };
 
-        // Cargar tras 2.5 segundos de inactividad
-        setTimeout(loadChatbot, 2500);
-
-        // O al primer gesto del usuario
+        // Escuchar gestos reales del usuario
         window.addEventListener('scroll', loadChatbot, { passive: true });
         document.addEventListener('touchstart', loadChatbot, { passive: true });
         document.addEventListener('mousemove', loadChatbot, { passive: true });
+        
+        // También cargar si hacen clic directamente en el botón flotante
+        const toggleBtn = document.getElementById('chatbot-toggle');
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', loadChatbot);
+        }
     });
 </script>
 
