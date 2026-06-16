@@ -82,15 +82,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 incomingImg.style.transition = '';
                 incomingImg.style.opacity = '';
 
-                // Forzar reflow para registrar el punto de partida
-                incomingImg.offsetHeight;
-
-                // Iniciar la transición
-                setTimeout(() => {
-                    const outClass = direction === 'next' ? 'slide-out-left' : 'slide-out-right';
-                    activeImg.className = 'lightbox-content ' + outClass;
-                    incomingImg.className = 'lightbox-content active';
-                }, 20);
+                // Usar requestAnimationFrame para evitar reflow síncrono forzado
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        const outClass = direction === 'next' ? 'slide-out-left' : 'slide-out-right';
+                        activeImg.className = 'lightbox-content ' + outClass;
+                        incomingImg.className = 'lightbox-content active';
+                    });
+                });
 
                 // Limpieza tras finalizar la transición (270ms)
                 setTimeout(() => {
