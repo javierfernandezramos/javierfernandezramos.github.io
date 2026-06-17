@@ -179,8 +179,8 @@ const schema = {
         <div class="spinner"></div>
     </div>
     <script is:inline>
-        // Ocultar el loader una vez que la página (imágenes incluidas) haya cargado completamente
-        window.addEventListener('load', () => {
+        // Ocultar el loader en cuanto el HTML base cargue (ignora iframes y recursos lentos)
+        document.addEventListener('DOMContentLoaded', () => {
             const loader = document.getElementById('loader');
             if (loader) {
                 loader.style.opacity = '0';

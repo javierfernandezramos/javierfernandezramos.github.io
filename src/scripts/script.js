@@ -228,8 +228,8 @@ const init = () => {
     galleryItems.forEach(item => {
         item.addEventListener('click', () => {
             const highRes = item.getAttribute('data-src');
-            const parentGrid = item.closest('.gallery-grid');
-            const allItems = Array.from(parentGrid ? parentGrid.querySelectorAll('.gallery-item') : document.querySelectorAll('.gallery-grid .gallery-item'));
+            const parentGrid = item.closest('.gallery-grid, .masonry-layout');
+            const allItems = Array.from(parentGrid ? parentGrid.querySelectorAll('.gallery-item') : document.querySelectorAll('.gallery-grid .gallery-item, .masonry-layout .gallery-item'));
             const allUrls = allItems.map(i => i.getAttribute('data-src')).filter(src => src);
             window.openSmartLightbox(highRes, allUrls);
         });

@@ -526,7 +526,7 @@ import { contactInfo } from '../data/config';
             
             // Si el usuario hizo clic directamente en el botón de abrir chat antes de cargarlo,
             // guardamos el estado activo para que al cargar se abra automáticamente
-            if (e && (e.type === 'click' || e.target?.closest('#chatbot-toggle'))) {
+            if (e && (e.type === 'click' || (e.target && typeof e.target.closest === 'function' && e.target.closest('#chatbot-toggle')))) {
                 sessionStorage.setItem("chatbot_active", "true");
             }
             
