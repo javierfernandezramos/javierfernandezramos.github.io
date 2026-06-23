@@ -6,7 +6,7 @@ import Testimonials from "../components/Testimonials.astro";
 import Faq from "../components/Faq.astro";
 
 // Import fixed images
-import photographerImg from "../assets/Fotos/photographer.webp";
+import photographerImg from "../assets/Fotos/photo.png";
 import heroImg from "../assets/Fotos/hero-image.webp";
 
 // Import gallery images for the "Featured Gallery" section
@@ -111,13 +111,13 @@ const faqs = [
         <div class="container reveal">
             <h2 class="section-title" id="galeriaDestacada">Galería Destacada</h2>
             <div class="gallery-grid">
-                <div class="gallery-item reveal active" data-src={getImg("Modelo/retrato-flex-form-f3.webp")?.src}>
+                <div class="gallery-item reveal active" data-src={getImg("Deportes/f-madelman.webp")?.src}>
                     <Image
-                        src={getImg("Modelo/retrato-flex-form-f3.webp") || heroImg}
+                        src={getImg("Deportes/f-madelman.webp") || heroImg}
                         alt="Retrato minimalista"
                         width={600}
                     />
-                    <div class="overlay"><span>Retrato</span></div>
+                    <div class="overlay"><span>Fitness</span></div>
                 </div>
                 <div class="gallery-item reveal active" data-src={getImg("playa-sunset-99.webp")?.src}>
                     <Image src={getImg("playa-sunset-99.webp") || heroImg} alt="Novios en la playa" width={600} />
