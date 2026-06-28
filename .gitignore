@@ -33,3 +33,9 @@ DOCUMENTATION.md
 
 # Carpeta de contexto de negocio y estrategia SEO (solo local)
 negocio/
+
+# Herramientas locales (generadores, scripts, etc. que no deben subirse)
+src/pages/local-tools/
+
+# Copia de seguridad de fotos originales antes de optimizar
+fotos-originales/

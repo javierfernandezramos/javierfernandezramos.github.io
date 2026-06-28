@@ -72,7 +72,7 @@ import { contactInfo } from "../data/config";
                 <div class="footer-col">
                     <h3>Servicios</h3>
                     <ul class="footer-links">
-                        <li><a href="/fotografo-en-valencia">Valencia</a></li>
+                        <li><a href="/fotografo-en-valencia">Fotógrafo en Valencia</a></li>
                         <li><a href="/servicios/fotografo-deportivo-valencia">Deportes</a></li>
                         <li><a href="/servicios/fotografo-fitness-valencia">Fitness</a></li>
                         <li><a href="/servicios/fotografo-eventos-valencia">Eventos</a></li>
@@ -285,6 +285,12 @@ import { contactInfo } from "../data/config";
         gap: 8rem;
     }
 
+    @media (min-width: 769px) {
+        .footer-nav-columns .footer-col {
+            min-width: 180px;
+        }
+    }
+
     .footer-col h3 {
         background: linear-gradient(to right, #fff, var(--color-gold));
         -webkit-background-clip: text;
@@ -323,21 +329,21 @@ import { contactInfo } from "../data/config";
     }
 
     .footer-links a:hover {
-        padding-left: 10px;
+        transform: translateX(8px);
         color: var(--color-gold) !important;
     }
 
     .footer-links a::before {
         content: "→";
         position: absolute;
-        left: -15px;
+        left: -23px;
         opacity: 0;
         transition: all 0.3s ease;
         color: var(--color-gold);
     }
 
     .footer-links a:hover::before {
-        left: -5px;
+        left: -15px;
         opacity: 1;
     }
 

@@ -9,6 +9,18 @@ export default defineConfig({
   trailingSlash: 'never',
   output: 'static',
   adapter: vercel(),
+  image: {
+    service: {
+      config: {
+        webp: {
+          quality: 92,
+        },
+        jpeg: {
+          quality: 92,
+        },
+      },
+    },
+  },
   integrations: [
     sitemap({
       filter: (page) => 

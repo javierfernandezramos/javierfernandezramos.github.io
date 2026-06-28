@@ -149,6 +149,9 @@ const schema = {
     <!-- Robots meta tag for control indexing -->
     {noIndex ? <meta name="robots" content="noindex, nofollow" /> : <meta name="robots" content="index, follow" />}
     
+    <!-- RSS Feed -->
+    <link rel="alternate" type="application/rss+xml" title="JaviPhoto Blog RSS Feed" href="/rss.xml" />
+    
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
@@ -231,7 +234,7 @@ const schema = {
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <!-- Asistente de IA (Abajo a la Izquierda) -->
+    <!-- Asistente de IA (Abajo a la derecha) -->
     <ChatBot />
 
     <script src="../scripts/script.js"></script>
