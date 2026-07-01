@@ -13,8 +13,8 @@ if (import.meta.env.DEV) {
   articulos = Object.entries(postsObj).map(([filepath, post]: [string, any]) => {
     const filename = filepath.split('/').pop() || filepath.split('\\').pop() || '';
     const imgPath = post.frontmatter.image;
-    const imgModule = imgPath ? imagesObj[imgPath] as any : undefined;
-    const resolvedImage = imgModule ? imgModule.default : undefined;
+    // import.meta.glob devuelve el módulo de imagen directamente (sin .default)
+    const resolvedImage = imgPath ? (imagesObj[imgPath] as any) : undefined;
     
     return {
       id: filename.replace('.md', ''),
