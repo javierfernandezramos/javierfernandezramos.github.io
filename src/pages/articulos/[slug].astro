@@ -14,7 +14,7 @@ let Content: any;
 
 if (import.meta.env.DEV) {
   const postsObj = import.meta.glob('../../content/articulos/*.md', { eager: true });
-  const imagesObj = import.meta.glob('../../assets/Fotos/**/*', { eager: true, as: 'url' });
+  const imagesObj = import.meta.glob('../../assets/Fotos/**/*', { eager: true, query: '?url', import: 'default' });
   
   const matchedEntry = Object.entries(postsObj).find(([filepath]) => {
     const filename = filepath.split('/').pop() || filepath.split('\\').pop() || '';
@@ -61,7 +61,7 @@ const ogImage = entry.data.image
 let todosLosArticulos = [];
 if (import.meta.env.DEV) {
   const postsObj = import.meta.glob('../../content/articulos/*.md', { eager: true });
-  const imagesObj = import.meta.glob('../../assets/Fotos/**/*', { eager: true, as: 'url' });
+  const imagesObj = import.meta.glob('../../assets/Fotos/**/*', { eager: true, query: '?url', import: 'default' });
   
   todosLosArticulos = Object.entries(postsObj).map(([filepath, post]: [string, any]) => {
     const filename = filepath.split('/').pop() || filepath.split('\\').pop() || '';
@@ -156,7 +156,7 @@ const articleSchema = {
                         {articulosRelacionados.map(art => (
                             <a href={`/articulos/${art.id}`} class="related-card">
                                 <div class="related-card-img-wrapper">
-                                    <img src={art.data.image ? art.data.image.src : '/assets/Fotos/hero-image.webp'} alt={art.data.title} />
+                                    <img src={art.data.image ? (typeof art.data.image === 'string' ? art.data.image : art.data.image.src) : '/assets/Fotos/hero-image.webp'} alt={art.data.title} />
                                 </div>
                                 <div class="related-card-content">
                                     <span class="related-date">

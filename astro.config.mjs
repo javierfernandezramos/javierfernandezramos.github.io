@@ -42,8 +42,12 @@ export default defineConfig({
   vite: {
     build: {
       modulePreload: false
-    }
+    },
+    ssr: {
+      external: ['ioredis'],
+    },
   }
 });
+
 
 // Sync timestamp: 1782937801847

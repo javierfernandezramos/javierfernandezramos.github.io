@@ -1,4 +1,4 @@
-import { kv } from '@vercel/kv';
+import Redis from 'ioredis';
 import fs from 'fs/promises';
 import path from 'path';
 
@@ -25,9 +25,24 @@ export interface Invoice {
 // Ruta del archivo de base de datos local en desarrollo
 const LOCAL_DB_PATH = path.resolve(process.cwd(), 'src/data/invoices_db.json');
 
+const REDIS_URL = process.env.KV_REDIS_URL;
+
 function useLocalDb(): boolean {
-  const hasKv = !!(import.meta.env.KV_REST_API_URL || process.env.KV_REST_API_URL);
-  return !hasKv;
+  return !REDIS_URL;
+}
+
+// Cliente Redis singleton (solo se crea si hay URL)
+let redisClient: Redis | null = null;
+function getRedis(): Redis {
+  if (!redisClient) {
+    redisClient = new Redis(REDIS_URL!, {
+      // Necesario para Upstash / Redis.io TLS
+      tls: REDIS_URL!.startsWith('rediss://') ? {} : undefined,
+      lazyConnect: false,
+      maxRetriesPerRequest: 3,
+    });
+  }
+  return redisClient;
 }
 
 // Inicializar el archivo local si no existe
@@ -50,14 +65,19 @@ export async function getInvoices(): Promise<Invoice[]> {
     return Object.values(db);
   } else {
     try {
-      const ids = await kv.smembers('invoices');
+      const redis = getRedis();
+      const ids = await redis.smembers('invoices');
       if (!ids || ids.length === 0) return [];
-      
-      const keys = ids.map(id => `invoice:${id}`);
-      const invoices = await kv.mget<Invoice[]>(...keys);
-      return invoices.filter((inv): inv is Invoice => inv !== null);
+
+      const pipeline = redis.pipeline();
+      ids.forEach(id => pipeline.get(`invoice:${id}`));
+      const results = await pipeline.exec();
+
+      return (results ?? [])
+        .map(([err, val]) => (err || !val ? null : JSON.parse(val as string)))
+        .filter((inv): inv is Invoice => inv !== null);
     } catch (error) {
-      console.error('Error fetching invoices from Vercel KV:', error);
+      console.error('Error fetching invoices from Redis:', error);
       return [];
     }
   }
@@ -71,9 +91,11 @@ export async function getInvoice(docNumber: string): Promise<Invoice | null> {
     return db[docNumber] || null;
   } else {
     try {
-      return await kv.get<Invoice>(`invoice:${docNumber}`);
+      const redis = getRedis();
+      const val = await redis.get(`invoice:${docNumber}`);
+      return val ? JSON.parse(val) : null;
     } catch (error) {
-      console.error(`Error fetching invoice ${docNumber} from Vercel KV:`, error);
+      console.error(`Error fetching invoice ${docNumber} from Redis:`, error);
       return null;
     }
   }
@@ -91,10 +113,11 @@ export async function saveInvoice(invoice: Invoice): Promise<void> {
     await fs.writeFile(LOCAL_DB_PATH, JSON.stringify(db, null, 2), 'utf-8');
   } else {
     try {
-      await kv.set(`invoice:${docNumber}`, invoice);
-      await kv.sadd('invoices', docNumber);
+      const redis = getRedis();
+      await redis.set(`invoice:${docNumber}`, JSON.stringify(invoice));
+      await redis.sadd('invoices', docNumber);
     } catch (error) {
-      console.error(`Error saving invoice ${docNumber} to Vercel KV:`, error);
+      console.error(`Error saving invoice ${docNumber} to Redis:`, error);
       throw error;
     }
   }
@@ -111,10 +134,11 @@ export async function deleteInvoice(docNumber: string): Promise<void> {
     }
   } else {
     try {
-      await kv.del(`invoice:${docNumber}`);
-      await kv.srem('invoices', docNumber);
+      const redis = getRedis();
+      await redis.del(`invoice:${docNumber}`);
+      await redis.srem('invoices', docNumber);
     } catch (error) {
-      console.error(`Error deleting invoice ${docNumber} from Vercel KV:`, error);
+      console.error(`Error deleting invoice ${docNumber} from Redis:`, error);
       throw error;
     }
   }
