@@ -8,13 +8,14 @@ export const prerender = false;
 let articulos = [];
 if (import.meta.env.DEV) {
   const postsObj = import.meta.glob('../../content/articulos/*.md', { eager: true });
-  const imagesObj = import.meta.glob('../../assets/Fotos/**/*', { eager: true });
+  // En dev mode usamos 'as: url' para obtener la URL directamente como string
+  const imagesObj = import.meta.glob('../../assets/Fotos/**/*', { eager: true, as: 'url' });
   
   articulos = Object.entries(postsObj).map(([filepath, post]: [string, any]) => {
     const filename = filepath.split('/').pop() || filepath.split('\\').pop() || '';
     const imgPath = post.frontmatter.image;
-    // import.meta.glob devuelve el módulo de imagen directamente (sin .default)
-    const resolvedImage = imgPath ? (imagesObj[imgPath] as any) : undefined;
+    // as:'url' devuelve el string URL directamente
+    const resolvedImageUrl: string | undefined = imgPath ? (imagesObj[imgPath] as string) : undefined;
     
     return {
       id: filename.replace('.md', ''),
@@ -22,7 +23,7 @@ if (import.meta.env.DEV) {
         title: post.frontmatter.title,
         description: post.frontmatter.description,
         pubDate: new Date(post.frontmatter.pubDate),
-        image: resolvedImage,
+        image: resolvedImageUrl,
         tags: post.frontmatter.tags || []
       }
     };
@@ -54,7 +55,14 @@ const description = "Explora mis artículos sobre fotografía en Valencia: conse
                 {articulos.map((articulo) => (
                     <a href={`/articulos/${articulo.id}`} class="article-card">
                         <div class="article-image-wrapper">
-                            {articulo.data.image ? (
+                            {articulo.data.image && typeof articulo.data.image === 'string' ? (
+                                <img 
+                                    src={articulo.data.image} 
+                                    alt={articulo.data.title} 
+                                    class="article-image"
+                                    loading="lazy"
+                                />
+                            ) : articulo.data.image ? (
                                 <Image 
                                     src={articulo.data.image} 
                                     alt={articulo.data.title} 

@@ -14,7 +14,7 @@ let Content: any;
 
 if (import.meta.env.DEV) {
   const postsObj = import.meta.glob('../../content/articulos/*.md', { eager: true });
-  const imagesObj = import.meta.glob('../../assets/Fotos/**/*', { eager: true });
+  const imagesObj = import.meta.glob('../../assets/Fotos/**/*', { eager: true, as: 'url' });
   
   const matchedEntry = Object.entries(postsObj).find(([filepath]) => {
     const filename = filepath.split('/').pop() || filepath.split('\\').pop() || '';
@@ -27,7 +27,7 @@ if (import.meta.env.DEV) {
   
   const [filepath, post]: [string, any] = matchedEntry;
   const imgPath = post.frontmatter.image;
-  const resolvedImage = imgPath ? (imagesObj[imgPath] as any) : undefined;
+  const resolvedImageUrl: string | undefined = imgPath ? (imagesObj[imgPath] as string) : undefined;
   
   entry = {
     id: slug,
@@ -35,7 +35,7 @@ if (import.meta.env.DEV) {
       title: post.frontmatter.title,
       description: post.frontmatter.description,
       pubDate: new Date(post.frontmatter.pubDate),
-      image: resolvedImage,
+      image: resolvedImageUrl,
       tags: post.frontmatter.tags || []
     }
   };
@@ -52,18 +52,21 @@ if (import.meta.env.DEV) {
 
 const title = entry.data.title;
 const description = entry.data.description;
-const ogImage = entry.data.image ? entry.data.image.src : undefined;
+// image puede ser string (dev mode) u objeto ImageMetadata (prod)
+const ogImage = entry.data.image 
+  ? (typeof entry.data.image === 'string' ? entry.data.image : entry.data.image.src) 
+  : undefined;
 
 // Obtener otros artículos para enlazarlos al final
 let todosLosArticulos = [];
 if (import.meta.env.DEV) {
   const postsObj = import.meta.glob('../../content/articulos/*.md', { eager: true });
-  const imagesObj = import.meta.glob('../../assets/Fotos/**/*', { eager: true });
+  const imagesObj = import.meta.glob('../../assets/Fotos/**/*', { eager: true, as: 'url' });
   
   todosLosArticulos = Object.entries(postsObj).map(([filepath, post]: [string, any]) => {
     const filename = filepath.split('/').pop() || filepath.split('\\').pop() || '';
     const imgPath = post.frontmatter.image;
-    const resolvedImage = imgPath ? (imagesObj[imgPath] as any) : undefined;
+    const resolvedImageUrl: string | undefined = imgPath ? (imagesObj[imgPath] as string) : undefined;
     
     return {
       id: filename.replace('.md', ''),
@@ -71,7 +74,7 @@ if (import.meta.env.DEV) {
         title: post.frontmatter.title,
         description: post.frontmatter.description,
         pubDate: new Date(post.frontmatter.pubDate),
-        image: resolvedImage,
+        image: resolvedImageUrl,
         tags: post.frontmatter.tags || []
       }
     };
