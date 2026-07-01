@@ -3,7 +3,7 @@ title: "5 Mejores sitios para hacer fotos en Valencia"
 description: "Descubre las localizaciones más fotogénicas de Valencia para tus sesiones de fotos. Guía detallada con consejos sobre luz, composición y mejores horas."
 pubDate: 2026-05-06
 image: "../../assets/Fotos/playa-sunset-99.webp"
-tags: ["Valencia", "Localizaciones", "Fotógrafo Valencia"]
+tags: ["Valencia","Localizaciones","Fotógrafo Valencia"]
 ---
 
 Valencia es una de las ciudades más versátiles y bellas de España para la realización de reportajes fotográficos. Su combinación única de arquitectura vanguardista, patrimonio histórico, amplias zonas verdes y la inconfundible luz del mar Mediterráneo la convierten en el escenario ideal para sesiones de retrato, moda, deporte o fotografía de marca personal.

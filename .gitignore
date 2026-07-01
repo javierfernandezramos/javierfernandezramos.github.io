@@ -39,3 +39,6 @@ src/pages/local-tools/
 
 # Copia de seguridad de fotos originales antes de optimizar
 fotos-originales/
+
+# Base de datos local de facturas (contiene datos privados de clientes)
+src/data/invoices_db.json

@@ -2,6 +2,8 @@ User-agent: *
 Allow: /
 Disallow: /debug
 Disallow: /404
+Disallow: /admin
+Disallow: /local-tools
 
 # AI Crawler optimization
 User-agent: GPTBot

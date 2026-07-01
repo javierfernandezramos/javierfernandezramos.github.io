@@ -124,6 +124,20 @@ const schema = {
 
 
     <meta charset="UTF-8" />
+    {import.meta.env.DEV && (
+      <>
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />
+        <script is:inline>
+          window.addEventListener('pageshow', (event) => {
+            if (event.persisted) {
+              window.location.reload();
+            }
+          });
+        </script>
+      </>
+    )}
     <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />

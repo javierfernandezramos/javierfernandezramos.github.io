@@ -1,0 +1,877 @@
+---
+import { isAuthenticated } from '../../lib/auth';
+import { getInvoice } from '../../lib/kv';
+
+export const prerender = false;
+
+// Proteger la ruta: si no está autenticado, redirigir al login
+if (!isAuthenticated(Astro.cookies)) {
+  return Astro.redirect('/admin/login');
+}
+
+// Comprobar si se ha solicitado editar o clonar una factura existente
+const editId = Astro.url.searchParams.get('edit');
+const cloneId = Astro.url.searchParams.get('clone');
+
+let loadedInvoice = null;
+let isEditMode = false;
+let isCloneMode = false;
+
+if (editId) {
+  loadedInvoice = await getInvoice(editId);
+  isEditMode = !!loadedInvoice;
+} else if (cloneId) {
+  loadedInvoice = await getInvoice(cloneId);
+  isCloneMode = !!loadedInvoice;
+  if (loadedInvoice) {
+    // Si clonamos, modificamos el número ligeramente para evitar sobreescribir sin querer
+    loadedInvoice.docNumber = `${loadedInvoice.docNumber}-COPIA`;
+  }
+}
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>{isEditMode ? 'Editar Documento' : 'Nuevo Documento'} - JaviPhoto Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        :root {
+            --color-primary: #ffffff;
+            --color-secondary: #0a0a0a;
+            --color-accent: #1a1a1a;
+            --color-hover: #d4af37;
+            --color-gold: #c5a059;
+            --font-family: 'Outfit', sans-serif;
+            
+            --invoice-bg: #ffffff;
+            --invoice-text: #333333;
+            --invoice-gray: #f5f5f5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* --- SCROLLBAR --- */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--color-accent); }
+        ::-webkit-scrollbar-thumb { background: rgba(197, 160, 89, 0.4); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--color-gold); }
+        * { scrollbar-width: thin; scrollbar-color: rgba(197, 160, 89, 0.4) var(--color-accent); }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--color-secondary);
+            color: var(--color-primary);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- SIDEBAR FORM --- */
+        .sidebar {
+            width: 420px;
+            flex-shrink: 0;
+            background-color: var(--color-accent);
+            border-right: 1px solid rgba(197, 160, 89, 0.2);
+            padding: 2rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .sidebar h2 {
+            font-size: 1.3rem;
+            color: var(--color-gold);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 0.8rem;
+            border-radius: 6px;
+            font-family: var(--font-family);
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control option {
+            background-color: var(--color-accent);
+            color: white;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--color-gold);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+        .form-row .form-group { flex: 1; }
+
+        .btn-action-primary {
+            background-color: var(--color-gold);
+            color: var(--color-secondary);
+            border: none;
+            padding: 1rem;
+            border-radius: 6px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+        .btn-action-primary:hover { background-color: white; }
+
+        .btn-save-db {
+            background-color: transparent;
+            color: var(--color-primary);
+            border: 2px solid var(--color-gold);
+            padding: 0.9rem;
+            border-radius: 6px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+        .btn-save-db:hover {
+            background-color: var(--color-gold);
+            color: var(--color-secondary);
+            transform: translateY(-1px);
+        }
+
+        .btn-back-dashboard {
+            color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+            text-decoration: none;
+            margin-top: 5px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: color 0.3s;
+        }
+        .btn-back-dashboard:hover {
+            color: var(--color-gold);
+        }
+
+        /* --- INVOICE PREVIEW --- */
+        .preview-area {
+            flex: 1;
+            background-color: #151515;
+            padding: 2rem;
+            overflow: auto;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .invoice-wrapper {
+            background-color: var(--invoice-bg);
+            color: var(--invoice-text);
+            width: 210mm;
+            min-width: 210mm;
+            min-height: 297mm;
+            padding: 20mm;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .invoice-header {
+            background-color: var(--invoice-gray);
+            color: var(--invoice-text);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--color-gold);
+            padding: 25px 20mm;
+            margin: -20mm -20mm 30px -20mm;
+        }
+
+        .invoice-logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+        }
+        .invoice-logo img {
+            width: 36px;
+            height: 36px;
+            margin-right: 12px;
+            border-radius: 6px;
+        }
+        .invoice-logo div {
+            background: linear-gradient(to right, var(--color-secondary), var(--color-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+        }
+
+        .invoice-meta {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .invoice-meta h1 {
+            font-size: 1.8rem;
+            color: var(--color-gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 0;
+            line-height: 1.1;
+        }
+        .invoice-meta-details {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 4px;
+            display: flex;
+            gap: 15px;
+        }
+        .invoice-meta-details strong {
+            color: var(--color-secondary);
+        }
+
+        .info-box {
+            background-color: var(--invoice-gray);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--color-gold);
+            width: 48%;
+        }
+        .info-box h4 {
+            color: #777;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        .info-box p {
+            margin-bottom: 4px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            color: var(--invoice-text);
+        }
+        .info-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        .invoice-table th {
+            background-color: var(--color-secondary);
+            color: white;
+            text-align: left;
+            padding: 12px;
+            font-weight: 600;
+        }
+        .invoice-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .invoice-totals {
+            width: 300px;
+            margin-left: auto;
+        }
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .total-row.grand-total {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--color-gold);
+            border-bottom: none;
+            border-top: 2px solid var(--color-secondary);
+            padding-top: 15px;
+        }
+
+        .invoice-footer {
+            position: absolute;
+            bottom: 20mm;
+            left: 20mm;
+            right: 20mm;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #777;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        .invoice-bottom-logo {
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+        }
+        .invoice-bottom-logo img {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: block;
+        }
+
+        /* --- TOAST NOTIFICATION --- */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--color-accent);
+            border: 1px solid var(--color-gold);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .toast i {
+            color: var(--color-gold);
+            font-size: 1.2rem;
+        }
+
+        /* --- PRINT STYLES --- */
+        @media print {
+            @page { margin: 0; size: A4; }
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            body { background: white; display: block; overflow: visible; height: auto; }
+            .sidebar { display: none !important; }
+            .preview-area { padding: 0; background: white; display: block; overflow: visible; }
+            .invoice-wrapper { box-shadow: none; min-height: 100vh; width: 100%; min-width: 100%; padding: 20mm; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR FORM -->
+    <div class="sidebar" data-nosnippet>
+        <h2><i class="fas fa-file-invoice"></i> {isEditMode ? 'Editar' : 'Crear'} Factura</h2>
+        <a href="/admin" class="btn-back-dashboard">
+            <i class="fas fa-arrow-left"></i> Volver al Panel
+        </a>
+        
+        <hr style="border-color: rgba(255,255,255,0.1)">
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Tipo Documento</label>
+                <select id="docType" class="form-control">
+                    <option value="RECIBO" selected>Recibo</option>
+                    <option value="FACTURA">Factura</option>
+                    <option value="PRESUPUESTO">Presupuesto</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Número</label>
+                <input type="text" id="docNumber" class="form-control" value="2026-001" readonly={isEditMode} style={isEditMode ? "opacity: 0.6; cursor: not-allowed;" : undefined}>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Fecha</label>
+            <input type="date" id="docDate" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label>Cliente (Nombre / Empresa)</label>
+            <input type="text" id="clientName" class="form-control" placeholder="Ej. Juan Pérez">
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label>Correo</label>
+                <input type="email" id="clientEmail" class="form-control" placeholder="ejemplo@correo.com">
+            </div>
+            <div class="form-group">
+                <label>Teléfono</label>
+                <input type="text" id="clientPhone" class="form-control" placeholder="+34 600 000 000">
+            </div>
+        </div>
+
+        <hr style="border-color: rgba(255,255,255,0.1)">
+
+        <div class="form-group">
+            <label>Concepto de la sesión</label>
+            <textarea id="conceptName" class="form-control" rows="2" placeholder="Ej. Sesión fotográfica deportiva..." style="resize: none;"></textarea>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Fotos Editadas</label>
+                <input type="number" id="fotosEditadas" class="form-control" value="0">
+            </div>
+            <div class="form-group">
+                <label>Fotos Reveladas</label>
+                <input type="number" id="fotosReveladas" class="form-control" value="0">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Total Fotos a Entregar</label>
+            <input type="number" id="fotosTotal" class="form-control" value="0">
+        </div>
+
+        <hr style="border-color: rgba(255,255,255,0.1)">
+
+        <div class="form-group">
+            <label style="color:var(--color-gold);">Precio Final al Cliente (€)</label>
+            <input type="number" id="priceTotal" class="form-control" value="150" step="0.01">
+            <small style="color:rgba(255,255,255,0.5); font-size:0.8rem; margin-top:4px;">Pon lo que quieres cobrar. La base se calculará sola.</small>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>IVA (%)</label>
+                <input type="number" id="taxIva" class="form-control" value="21">
+            </div>
+            <div class="form-group">
+                <label>IRPF (%)</label>
+                <input type="number" id="taxIrpf" class="form-control" value="0">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Forma de pago</label>
+            <select id="paymentMethodSelect" class="form-control" style="margin-bottom: 0.5rem;">
+                <option value="Efectivo">Efectivo</option>
+                <option value="Tarjeta">Tarjeta</option>
+                <option value="Transferencia bancaria (ESXX XXXX XXXX XXXX XXXX)">Transferencia bancaria</option>
+                <option value="Bizum">Bizum</option>
+                <option value="Otro">Otro (escribir manualmente)...</option>
+            </select>
+            <input type="text" id="paymentMethod" class="form-control" style="display: none;" placeholder="Escribe la forma de pago...">
+        </div>
+
+        <hr style="border-color: rgba(255,255,255,0.1)">
+
+        <button class="btn-save-db" id="btnSaveDb">
+            <i class="fas fa-save"></i> Guardar en BD
+        </button>
+
+        <button class="btn-action-primary" id="btnPrint">
+            <i class="fas fa-print"></i> Imprimir / PDF
+        </button>
+    </div>
+
+    <!-- INVOICE PREVIEW -->
+    <div class="preview-area">
+        <div class="invoice-wrapper">
+            
+            <div class="invoice-header">
+                <div class="invoice-logo">
+                    <img src="/favicon.ico" alt="Logo">
+                    <div>JAVI<span>PHOTO</span></div>
+                </div>
+                <div class="invoice-meta">
+                    <h1 id="outDocType">RECIBO</h1>
+                    <div class="invoice-meta-details">
+                        <span><strong>Nº:</strong> <span id="outDocNumber">2026-001</span></span>
+                        <span><strong>Fecha:</strong> <span id="outDocDate">--/--/----</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; margin-bottom:30px;">
+                <div class="info-box">
+                    <h4>Datos del Profesional</h4>
+                    <p><strong>Javier Fernández Ramos</strong></p>
+                    <p>Valencia, España</p>
+                    <p>javiphoto.es/contacto</p>
+                </div>
+                <div class="info-box">
+                    <h4>Cliente</h4>
+                    <p><strong id="outClientName">Nombre del Cliente</strong></p>
+                    <p>Correo: <span id="outClientEmail"></span></p>
+                    <p>Tel: <span id="outClientPhone"></span></p>
+                </div>
+            </div>
+
+            <table class="invoice-table">
+                <thead>
+                    <tr>
+                        <th style="width:50%">Concepto</th>
+                        <th style="text-align:center">Detalles</th>
+                        <th style="text-align:right">Precio Base</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <strong id="outConceptName">Sesión Fotográfica</strong>
+                        </td>
+                        <td style="text-align:center; font-size:0.9rem; color:#555;">
+                            <div id="outDetails">
+                                Fotos Editadas: 0<br>
+                                Fotos Reveladas: 0<br>
+                                Total Entrega: 0
+                            </div>
+                        </td>
+                        <td style="text-align:right" id="outPriceBase">123,97 €</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="invoice-totals">
+                <div class="total-row">
+                    <span>Base Imponible:</span>
+                    <strong id="outBase">123,97 €</strong>
+                </div>
+                <div class="total-row" id="rowIva">
+                    <span>IVA (<span id="outIvaPercent">21</span>%):</span>
+                    <strong id="outIvaValue">26,03 €</strong>
+                </div>
+                <div class="total-row" id="rowIrpf" style="color: #d9534f;">
+                    <span>Retención IRPF (<span id="outIrpfPercent">15</span>%):</span>
+                    <strong id="outIrpfValue">- 18,60 €</strong>
+                </div>
+                <div class="total-row grand-total">
+                    <span>TOTAL:</span>
+                    <span id="outGrandTotal">150,00 €</span>
+                </div>
+            </div>
+
+            <div class="invoice-footer">
+                <p>Gracias por confiar en JaviPhoto.</p>
+                <p>Forma de pago: <strong id="outPaymentMethod">Efectivo</strong></p>
+            </div>
+
+            <div class="invoice-bottom-logo">
+                <img src="/favicon.ico" alt="Logo">
+            </div>
+
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle" id="toastIcon"></i>
+        <span id="toastMsg">Documento guardado con éxito</span>
+    </div>
+
+    <!-- Pasar datos de Astro a JS Cliente -->
+    <script define:vars={{ initialInvoiceData: loadedInvoice, isEditMode }} is:inline>
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputs = [
+                'docType', 'docNumber', 'docDate', 'clientName', 'clientEmail', 'clientPhone',
+                'conceptName', 'fotosEditadas', 'fotosReveladas', 'fotosTotal',
+                'priceTotal', 'taxIva', 'taxIrpf', 'paymentMethodSelect', 'paymentMethod'
+            ];
+
+            const getVal = (id) => {
+                const el = document.getElementById(id);
+                return el ? el.value : '';
+            };
+
+            const setVal = (id, value) => {
+                const el = document.getElementById(id);
+                if (el) el.value = value;
+            };
+
+            const setTxt = (id, text) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = text;
+            };
+
+            const setHtml = (id, html) => {
+                const el = document.getElementById(id);
+                if (el) el.innerHTML = html;
+            };
+
+            // Mostrar tostada informativa
+            const showToast = (message, isSuccess = true) => {
+                const toast = document.getElementById('toast');
+                const toastMsg = document.getElementById('toastMsg');
+                const toastIcon = document.getElementById('toastIcon');
+                
+                toastMsg.textContent = message;
+                if (!isSuccess) {
+                    toastIcon.className = 'fas fa-exclamation-circle';
+                    toastIcon.style.color = '#e74c3c';
+                    toast.style.borderColor = '#e74c3c';
+                } else {
+                    toastIcon.className = 'fas fa-check-circle';
+                    toastIcon.style.color = '#c5a059';
+                    toast.style.borderColor = '#c5a059';
+                }
+                
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            };
+
+            // Cargar datos
+            if (initialInvoiceData) {
+                // Si venimos de editar/clonar
+                Object.keys(initialInvoiceData).forEach(id => {
+                    if (inputs.includes(id)) {
+                        setVal(id, initialInvoiceData[id] || '');
+                    }
+                });
+            } else {
+                // Si no, intentar cargar borrador en localStorage
+                const savedData = localStorage.getItem('admin_invoice_draft');
+                if (savedData) {
+                    try {
+                        const data = JSON.parse(savedData);
+                        Object.keys(data).forEach(id => {
+                            setVal(id, data[id] || '');
+                        });
+                    } catch(e) {
+                        console.error("Error cargando borrador local:", e);
+                    }
+                } else {
+                    // Poner fecha de hoy por defecto
+                    const dateInput = document.getElementById('docDate');
+                    if (dateInput) {
+                        const today = new Date().toISOString().split('T')[0];
+                        dateInput.value = today;
+                    }
+                }
+            }
+
+            const saveToLocalStorage = () => {
+                // Solo guardar borrador local si NO estamos editando una factura real
+                if (isEditMode) return;
+                const data = {};
+                inputs.forEach(id => {
+                    data[id] = getVal(id);
+                });
+                localStorage.setItem('admin_invoice_draft', JSON.stringify(data));
+            };
+
+            const updateInvoice = () => {
+                const docType = getVal('docType');
+                const docNumber = getVal('docNumber');
+                let docDate = getVal('docDate');
+                if(docDate) {
+                    const d = new Date(docDate);
+                    docDate = d.toLocaleDateString('es-ES');
+                }
+                
+                const clientName = getVal('clientName') || 'Nombre del Cliente';
+                const clientEmail = getVal('clientEmail');
+                const clientPhone = getVal('clientPhone');
+                
+                const conceptName = getVal('conceptName') || 'Sesión Fotográfica';
+                const fEditadas = parseInt(getVal('fotosEditadas')) || 0;
+                const fReveladas = parseInt(getVal('fotosReveladas')) || 0;
+                const fTotal = parseInt(getVal('fotosTotal')) || 0;
+                
+                const pms = getVal('paymentMethodSelect');
+                const pmi = document.getElementById('paymentMethod');
+                if(pmi) {
+                    if(pms === 'Otro') {
+                        pmi.style.display = 'block';
+                    } else {
+                        pmi.style.display = 'none';
+                    }
+                }
+                const paymentMethod = pms === 'Otro' ? (getVal('paymentMethod') || '') : pms;
+
+                const pFinal = parseFloat(getVal('priceTotal')) || 0;
+                const ivaP = parseFloat(getVal('taxIva')) || 0;
+                const irpfP = parseFloat(getVal('taxIrpf')) || 0;
+
+                const rate = 1 + (ivaP / 100) - (irpfP / 100);
+                const pBase = rate !== 0 ? (pFinal / rate) : 0;
+                
+                const ivaValue = pBase * (ivaP / 100);
+                const irpfValue = pBase * (irpfP / 100);
+
+                setTxt('outDocType', docType);
+                setTxt('outDocNumber', docNumber);
+                setTxt('outDocDate', docDate || '--/--/----');
+                
+                setTxt('outClientName', clientName);
+                setTxt('outClientEmail', clientEmail);
+                setTxt('outClientPhone', clientPhone);
+                
+                setTxt('outConceptName', conceptName);
+                setTxt('outPaymentMethod', paymentMethod);
+                
+                let detailsHtml = '';
+                if(fEditadas > 0) detailsHtml += `Fotos Editadas: ${fEditadas}<br>`;
+                if(fReveladas > 0) detailsHtml += `Fotos Reveladas: ${fReveladas}<br>`;
+                if(fTotal > 0) {
+                    if (fEditadas > 0 || fReveladas > 0) {
+                        detailsHtml += `<div style="border-top: 1px solid #ddd; margin: 6px 0; padding-top: 6px; font-weight: 600;">Total Entrega: ${fTotal}</div>`;
+                    } else {
+                        detailsHtml += `Total Entrega: ${fTotal}`;
+                    }
+                }
+                setHtml('outDetails', detailsHtml);
+
+                const format = (num) => num.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+
+                setTxt('outPriceBase', format(pBase));
+                setTxt('outBase', format(pBase));
+                
+                const rowIva = document.getElementById('rowIva');
+                if(rowIva) {
+                    if(ivaP > 0) {
+                        rowIva.style.display = 'flex';
+                        setTxt('outIvaPercent', ivaP.toString());
+                        setTxt('outIvaValue', format(ivaValue));
+                    } else {
+                        rowIva.style.display = 'none';
+                    }
+                }
+
+                const rowIrpf = document.getElementById('rowIrpf');
+                if(rowIrpf) {
+                    if(irpfP > 0) {
+                        rowIrpf.style.display = 'flex';
+                        setTxt('outIrpfPercent', irpfP.toString());
+                        setTxt('outIrpfValue', '- ' + format(irpfValue));
+                    } else {
+                        rowIrpf.style.display = 'none';
+                    }
+                }
+
+                setTxt('outGrandTotal', format(pFinal));
+
+                saveToLocalStorage();
+            };
+
+            // Escuchar cambios en los campos
+            inputs.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.addEventListener('input', updateInvoice);
+            });
+
+            // Imprimir
+            const printBtn = document.getElementById('btnPrint');
+            if (printBtn) {
+                printBtn.addEventListener('click', () => {
+                    window.print();
+                });
+            }
+
+            // Guardar en Base de Datos (API)
+            const saveDbBtn = document.getElementById('btnSaveDb');
+            if (saveDbBtn) {
+                saveDbBtn.addEventListener('click', async () => {
+                    // Validar campos obligatorios básicos
+                    const docNumber = getVal('docNumber').trim();
+                    const clientName = getVal('clientName').trim();
+                    if (!docNumber) {
+                        showToast('El número de documento es obligatorio', false);
+                        return;
+                    }
+                    if (!clientName) {
+                        showToast('El nombre del cliente es obligatorio', false);
+                        return;
+                    }
+
+                    // Deshabilitar botón
+                    saveDbBtn.disabled = true;
+                    saveDbBtn.style.opacity = '0.5';
+                    saveDbBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
+
+                    // Construir payload
+                    const payload = {};
+                    inputs.forEach(id => {
+                        payload[id] = getVal(id);
+                    });
+
+                    try {
+                        const res = await fetch('/api/admin/invoices', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (res.ok) {
+                            showToast('Documento guardado en base de datos');
+                            // Limpiar borrador local si guardamos con éxito
+                            if (!isEditMode) {
+                                localStorage.removeItem('admin_invoice_draft');
+                            }
+                            
+                            // Redirigir al panel de control después de un segundo
+                            setTimeout(() => {
+                                window.location.href = '/admin';
+                            }, 1200);
+                        } else {
+                            const data = await res.json();
+                            showToast(`Error: ${data.error || 'No se pudo guardar'}`, false);
+                            saveDbBtn.disabled = false;
+                            saveDbBtn.style.opacity = '1';
+                            saveDbBtn.innerHTML = '<i class="fas fa-save"></i> Guardar en BD';
+                        }
+                    } catch (error) {
+                        console.error('Error guardando en BD:', error);
+                        showToast('Error al conectar con el servidor', false);
+                        saveDbBtn.disabled = false;
+                        saveDbBtn.style.opacity = '1';
+                        saveDbBtn.innerHTML = '<i class="fas fa-save"></i> Guardar en BD';
+                    }
+                });
+            }
+
+            // Llamada inicial para pintar el recibo
+            updateInvoice();
+        });
+    </script>
+</body>
+</html>

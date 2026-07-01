@@ -25,7 +25,9 @@ export default defineConfig({
     sitemap({
       filter: (page) => 
         !page.endsWith('/personalizar-pack') && 
-        !page.endsWith('/debug')
+        !page.endsWith('/debug') &&
+        !page.includes('/admin') &&
+        !page.includes('/local-tools')
     }),
     partytown({
       config: {
@@ -43,3 +45,5 @@ export default defineConfig({
     }
   }
 });
+
+// Sync timestamp: 1782937801847

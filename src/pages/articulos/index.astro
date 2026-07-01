@@ -3,7 +3,34 @@ import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import { Image } from 'astro:assets';
 
-const articulos = await getCollection('articulos');
+export const prerender = false;
+
+let articulos = [];
+if (import.meta.env.DEV) {
+  const postsObj = import.meta.glob('../../content/articulos/*.md', { eager: true });
+  const imagesObj = import.meta.glob('../../assets/Fotos/**/*', { eager: true });
+  
+  articulos = Object.entries(postsObj).map(([filepath, post]: [string, any]) => {
+    const filename = filepath.split('/').pop() || filepath.split('\\').pop() || '';
+    const imgPath = post.frontmatter.image;
+    const imgModule = imgPath ? imagesObj[imgPath] as any : undefined;
+    const resolvedImage = imgModule ? imgModule.default : undefined;
+    
+    return {
+      id: filename.replace('.md', ''),
+      data: {
+        title: post.frontmatter.title,
+        description: post.frontmatter.description,
+        pubDate: new Date(post.frontmatter.pubDate),
+        image: resolvedImage,
+        tags: post.frontmatter.tags || []
+      }
+    };
+  });
+} else {
+  articulos = await getCollection('articulos');
+}
+
 // Ordenar por fecha descendente
 articulos.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 

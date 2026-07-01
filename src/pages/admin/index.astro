@@ -1,0 +1,672 @@
+---
+import { isAuthenticated } from '../../lib/auth';
+import { getInvoices } from '../../lib/kv';
+
+export const prerender = false;
+
+// Proteger la ruta: si no está autenticado, redirigir al login
+if (!isAuthenticated(Astro.cookies)) {
+  return Astro.redirect('/admin/login');
+}
+
+// Obtener todas las facturas guardadas
+const invoices = await getInvoices();
+
+// Ordenar las facturas por fecha de actualización (la más reciente primero)
+invoices.sort((a, b) => {
+  const dateA = a.updatedAt ? new Date(a.updatedAt).getTime() : 0;
+  const dateB = b.updatedAt ? new Date(b.updatedAt).getTime() : 0;
+  return dateB - dateA;
+});
+
+// Calcular estadísticas rápidas
+const totalInvoices = invoices.length;
+const totalAmount = invoices.reduce((acc, inv) => {
+  const price = parseFloat(inv.priceTotal) || 0;
+  return acc + price;
+}, 0);
+
+// Formateador de moneda en Euros
+const formatCurrency = (num: number) => {
+  return num.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+};
+
+const isDev = import.meta.env.DEV;
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Panel de Administración - JaviPhoto</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        :root {
+            --color-primary: #ffffff;
+            --color-secondary: #0a0a0a;
+            --color-accent: #1a1a1a;
+            --color-gold: #c5a059;
+            --color-hover: #d4af37;
+            --font-family: 'Outfit', sans-serif;
+            --color-card-bg: #151515;
+            --color-success: #2ecc71;
+            --color-danger: #e74c3c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--color-secondary);
+            color: var(--color-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- HEADER --- */
+        header {
+            background-color: var(--color-accent);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: linear-gradient(to right, #ffffff, var(--color-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-logo i {
+            color: var(--color-gold);
+            -webkit-text-fill-color: initial;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .badge-admin {
+            background-color: rgba(197, 160, 89, 0.1);
+            border: 1px solid var(--color-gold);
+            color: var(--color-gold);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-logout {
+            background-color: transparent;
+            color: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-logout:hover {
+            border-color: var(--color-danger);
+            color: var(--color-danger);
+            background-color: rgba(231, 76, 60, 0.05);
+        }
+
+        /* --- MAIN WRAPPER --- */
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2.5rem 2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        /* --- STATS CARDS --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(197, 160, 89, 0.2);
+        }
+
+        .stat-icon {
+            font-size: 2.2rem;
+            color: var(--color-gold);
+            background-color: rgba(197, 160, 89, 0.05);
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .stat-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        /* --- SPLIT LAYOUT --- */
+        .dashboard-content {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .dashboard-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* --- INVOICES SECTION --- */
+        .main-panel {
+            background-color: var(--color-card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--color-gold);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-create {
+            background-color: var(--color-gold);
+            color: var(--color-secondary);
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-create:hover {
+            background-color: white;
+            transform: translateY(-1px);
+        }
+
+        /* Table design */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            padding: 1rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.95rem;
+            vertical-align: middle;
+        }
+
+        tr:hover td {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .doc-badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .badge-recibo { background-color: rgba(46, 204, 113, 0.1); color: var(--color-success); border: 1px solid rgba(46, 204, 113, 0.2); }
+        .badge-factura { background-color: rgba(197, 160, 89, 0.1); color: var(--color-gold); border: 1px solid rgba(197, 160, 89, 0.2); }
+        .badge-presupuesto { background-color: rgba(52, 152, 219, 0.1); color: #3498db; border: 1px solid rgba(52, 152, 219, 0.2); }
+
+        .client-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .client-name { font-weight: 600; }
+        .client-email { font-size: 0.8rem; color: rgba(255, 255, 255, 0.4); }
+
+        .price-val {
+            font-weight: 700;
+            color: var(--color-gold);
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-action {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.03);
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        .btn-action:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: white;
+        }
+
+        .btn-action.btn-edit:hover {
+            color: var(--color-gold);
+            border-color: var(--color-gold);
+            background-color: rgba(197, 160, 89, 0.05);
+        }
+
+        .btn-action.btn-delete:hover {
+            color: var(--color-danger);
+            border-color: var(--color-danger);
+            background-color: rgba(231, 76, 60, 0.05);
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: rgba(255, 255, 255, 0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        .no-data i { font-size: 3rem; color: rgba(255, 255, 255, 0.1); }
+
+        /* --- SIDEBAR PANEL --- */
+        .sidebar-panel {
+            background-color: var(--color-card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 1.8rem;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .sidebar-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--color-gold);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 0.8rem;
+        }
+
+        .tool-link-card {
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .tool-link-card.active:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-color: rgba(197, 160, 89, 0.3);
+        }
+
+        .tool-link-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        .tool-link-header i {
+            color: var(--color-gold);
+        }
+
+        .tool-link-desc {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.4;
+        }
+
+        .btn-tool {
+            width: 100%;
+            padding: 0.6rem;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-tool.primary {
+            background-color: var(--color-gold);
+            color: var(--color-secondary);
+        }
+        .btn-tool.primary:hover {
+            background-color: white;
+        }
+
+        .btn-tool.disabled {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .badge-status {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            align-self: flex-start;
+            font-weight: 600;
+        }
+        .badge-status.local-only {
+            background-color: rgba(243, 156, 18, 0.1);
+            color: #f39c12;
+            border: 1px solid rgba(243, 156, 18, 0.2);
+        }
+        .badge-status.online-active {
+            background-color: rgba(46, 204, 113, 0.1);
+            color: var(--color-success);
+            border: 1px solid rgba(46, 204, 113, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <a href="/admin" class="header-logo">
+            <i class="fas fa-camera"></i> JaviPhoto Admin
+        </a>
+        <div class="user-info">
+            <span class="badge-admin">Admin Mode</span>
+            <a href="/admin/logout" class="btn-logout">
+                Salir <i class="fas fa-sign-out-alt"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <div class="container">
+        
+        <!-- QUICK STATS -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-file-invoice"></i></div>
+                <div class="stat-info">
+                    <span class="stat-label">Documentos</span>
+                    <span class="stat-value">{totalInvoices}</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-euro-sign"></i></div>
+                <div class="stat-info">
+                    <span class="stat-label">Total Involucrado</span>
+                    <span class="stat-value">{formatCurrency(totalAmount)}</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-server"></i></div>
+                <div class="stat-info">
+                    <span class="stat-label">Base de Datos</span>
+                    <span class="stat-value">{isDev ? 'Local Fallback' : 'Vercel KV'}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SPLIT LAYOUT -->
+        <div class="dashboard-content">
+            
+            <!-- MAIN TABLE -->
+            <div class="main-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title"><i class="fas fa-history"></i> Documentos Guardados</h2>
+                    <a href="/admin/facturas" class="btn-create">
+                        <i class="fas fa-plus"></i> Nuevo Documento
+                    </a>
+                </div>
+
+                <div class="table-responsive">
+                    {invoices.length === 0 ? (
+                        <div class="no-data">
+                            <i class="fas fa-folder-open"></i>
+                            <p>No hay facturas o presupuestos guardados todavía.</p>
+                            <p style="font-size: 0.85rem">¡Crea tu primera factura haciendo clic en "Nuevo Documento"!</p>
+                        </div>
+                    ) : (
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Número</th>
+                                    <th>Tipo</th>
+                                    <th>Fecha</th>
+                                    <th>Cliente</th>
+                                    <th>Total</th>
+                                    <th style="text-align: right">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {invoices.map((invoice) => (
+                                    <tr id={`row-${invoice.docNumber}`}>
+                                        <td style="font-weight: 700;">{invoice.docNumber}</td>
+                                        <td>
+                                            <span class={`doc-badge badge-${invoice.docType.toLowerCase()}`}>
+                                                {invoice.docType}
+                                            </span>
+                                        </td>
+                                        <td style="color: rgba(255,255,255,0.7)">
+                                            {invoice.docDate ? new Date(invoice.docDate).toLocaleDateString('es-ES') : '--/--/----'}
+                                        </td>
+                                        <td>
+                                            <div class="client-info">
+                                                <span class="client-name">{invoice.clientName || 'Sin Nombre'}</span>
+                                                {invoice.clientEmail && <span class="client-email">{invoice.clientEmail}</span>}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="price-val">{formatCurrency(parseFloat(invoice.priceTotal) || 0)}</span>
+                                        </td>
+                                        <td>
+                                            <div class="action-btns" style="justify-content: flex-end;">
+                                                <a href={`/admin/facturas?edit=${invoice.docNumber}`} class="btn-action btn-edit" title="Editar">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a href={`/admin/facturas?clone=${invoice.docNumber}`} class="btn-action" title="Duplicar">
+                                                    <i class="fas fa-copy"></i>
+                                                </a>
+                                                <button class="btn-action btn-delete" onclick={`deleteInvoiceItem('${invoice.docNumber}')`} title="Eliminar">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
+                </div>
+            </div>
+
+            <!-- SIDEBAR PANEL: TOOLS -->
+            <div class="sidebar-panel">
+                <h3 class="sidebar-title"><i class="fas fa-tools"></i> Herramientas</h3>
+                
+                <!-- FACTURADOR -->
+                <div class="tool-link-card active">
+                    <div class="tool-link-header">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                        <span>Facturador Cloud</span>
+                    </div>
+                    <span class="badge-status online-active">Disponible Online</span>
+                    <p class="tool-link-desc">Generador interactivo de facturas, recibos y presupuestos con almacenamiento seguro en la nube.</p>
+                    <a href="/admin/facturas" class="btn-tool primary">Abrir Herramienta</a>
+                </div>
+
+                <!-- GESTOR BLOG -->
+                <div class="tool-link-card">
+                    <div class="tool-link-header">
+                        <i class="fas fa-newspaper"></i>
+                        <span>Gestor de Artículos</span>
+                    </div>
+                    <span class="badge-status local-only">Solo Local</span>
+                    <p class="tool-link-desc">Crea y edita artículos directamente en el sistema de archivos de tu ordenador. Evita conflictos de Git y sincronización.</p>
+                    {isDev ? (
+                        <a href="/local-tools/articulos" class="btn-tool primary">Abrir Localmente</a>
+                    ) : (
+                        <span class="btn-tool disabled" title="Esta herramienta solo se puede usar de forma local">Deshabilitado Online</span>
+                    )}
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script is:inline>
+        async function deleteInvoiceItem(docNumber) {
+            if (!confirm(`¿Estás seguro de que deseas eliminar el documento ${docNumber}?`)) {
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/admin/invoices', {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ docNumber })
+                });
+
+                if (res.ok) {
+                    const row = document.getElementById(`row-${docNumber}`);
+                    if (row) {
+                        row.style.transition = 'all 0.5s ease';
+                        row.style.opacity = '0';
+                        row.style.transform = 'translateX(-20px)';
+                        setTimeout(() => {
+                            row.remove();
+                            // Recargar si no quedan filas para mostrar la pantalla de "no-data"
+                            const tbody = document.querySelector('tbody');
+                            if (tbody && tbody.children.length === 0) {
+                                window.location.reload();
+                            }
+                        }, 500);
+                    }
+                } else {
+                    const data = await res.json();
+                    alert(`Error: ${data.error || 'No se pudo eliminar el documento'}`);
+                }
+            } catch (error) {
+                console.error('Error deleting invoice:', error);
+                alert('Ocurrió un error inesperado al intentar borrar el documento.');
+            }
+        }
+    </script>
+</body>
+</html>

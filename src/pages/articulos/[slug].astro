@@ -1,23 +1,87 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection, getEntry, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 
-export async function getStaticPaths() {
-  const articulos = await getCollection('articulos');
-  return articulos.map(entry => ({
-    params: { slug: entry.id }, props: { entry },
-  }));
+export const prerender = false;
+
+const { slug } = Astro.params;
+if (!slug) {
+  return Astro.redirect('/404');
 }
 
-const { entry } = Astro.props;
-const { Content } = await render(entry);
+let entry: any;
+let Content: any;
+
+if (import.meta.env.DEV) {
+  const postsObj = import.meta.glob('../../content/articulos/*.md', { eager: true });
+  const imagesObj = import.meta.glob('../../assets/Fotos/**/*', { eager: true });
+  
+  const matchedEntry = Object.entries(postsObj).find(([filepath]) => {
+    const filename = filepath.split('/').pop() || filepath.split('\\').pop() || '';
+    return filename.replace('.md', '') === slug;
+  });
+  
+  if (!matchedEntry) {
+    return Astro.redirect('/404');
+  }
+  
+  const [filepath, post]: [string, any] = matchedEntry;
+  const imgPath = post.frontmatter.image;
+  const imgModule = imgPath ? imagesObj[imgPath] as any : undefined;
+  const resolvedImage = imgModule ? imgModule.default : undefined;
+  
+  entry = {
+    id: slug,
+    data: {
+      title: post.frontmatter.title,
+      description: post.frontmatter.description,
+      pubDate: new Date(post.frontmatter.pubDate),
+      image: resolvedImage,
+      tags: post.frontmatter.tags || []
+    }
+  };
+  Content = post.default;
+} else {
+  const realEntry = await getEntry('articulos', slug);
+  if (!realEntry) {
+    return Astro.redirect('/404');
+  }
+  entry = realEntry;
+  const rendered = await render(realEntry);
+  Content = rendered.Content;
+}
 
 const title = entry.data.title;
 const description = entry.data.description;
 const ogImage = entry.data.image ? entry.data.image.src : undefined;
 
 // Obtener otros artículos para enlazarlos al final
-const todosLosArticulos = await getCollection('articulos');
+let todosLosArticulos = [];
+if (import.meta.env.DEV) {
+  const postsObj = import.meta.glob('../../content/articulos/*.md', { eager: true });
+  const imagesObj = import.meta.glob('../../assets/Fotos/**/*', { eager: true });
+  
+  todosLosArticulos = Object.entries(postsObj).map(([filepath, post]: [string, any]) => {
+    const filename = filepath.split('/').pop() || filepath.split('\\').pop() || '';
+    const imgPath = post.frontmatter.image;
+    const imgModule = imgPath ? imagesObj[imgPath] as any : undefined;
+    const resolvedImage = imgModule ? imgModule.default : undefined;
+    
+    return {
+      id: filename.replace('.md', ''),
+      data: {
+        title: post.frontmatter.title,
+        description: post.frontmatter.description,
+        pubDate: new Date(post.frontmatter.pubDate),
+        image: resolvedImage,
+        tags: post.frontmatter.tags || []
+      }
+    };
+  });
+} else {
+  todosLosArticulos = await getCollection('articulos');
+}
+
 const articulosRelacionados = todosLosArticulos
   .filter(art => art.id !== entry.id)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
