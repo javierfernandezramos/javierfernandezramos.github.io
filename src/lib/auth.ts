@@ -2,10 +2,10 @@ import type { AstroCookies } from 'astro';
 
 // Obtiene el token de sesión esperado basado en las variables de entorno
 export function getSessionToken(): string {
-  // En Astro, podemos usar process.env en SSR y import.meta.env en estático
-  const username = import.meta.env.ADMIN_USERNAME || process.env.ADMIN_USERNAME || 'admin';
-  const password = import.meta.env.ADMIN_PASSWORD || process.env.ADMIN_PASSWORD || 'admin';
-  return Buffer.from(`${username}:${password}`).toString('base64');
+  const username = import.meta.env.ADMIN_USERNAME || 'admin';
+  const password = import.meta.env.ADMIN_PASSWORD || 'admin';
+  // btoa() es compatible con todos los entornos (Node, Edge, Browser)
+  return btoa(`${username}:${password}`);
 }
 
 // Verifica si la solicitud contiene la cookie de sesión correcta

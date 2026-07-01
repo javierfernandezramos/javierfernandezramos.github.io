@@ -16,8 +16,8 @@ if (Astro.request.method === 'POST') {
     const username = data.get('username')?.toString() || '';
     const password = data.get('password')?.toString() || '';
 
-    const expectedUser = import.meta.env.ADMIN_USERNAME || process.env.ADMIN_USERNAME || 'admin';
-    const expectedPass = import.meta.env.ADMIN_PASSWORD || process.env.ADMIN_PASSWORD || 'admin';
+    const expectedUser = import.meta.env.ADMIN_USERNAME || 'admin';
+    const expectedPass = import.meta.env.ADMIN_PASSWORD || 'admin';
 
     if (username === expectedUser && password === expectedPass) {
       setSession(Astro.cookies);
