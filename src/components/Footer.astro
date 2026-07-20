@@ -86,6 +86,9 @@ import { contactInfo } from "../data/config";
     <div class="footer-bottom" data-nosnippet>
         <div class="container">
             <p>&copy; 2026 Javier Fernández Ramos. JaviPhoto Valencia.</p>
+            <p class="collab-text">
+                En colaboración con <a href="https://flexformfitness.com" target="_blank" class="collab-link">Flex Form Fitness</a>
+            </p>
         </div>
     </div>
 </footer>
@@ -494,5 +497,23 @@ import { contactInfo } from "../data/config";
         font-size: 0.85rem;
         letter-spacing: 1px;
         margin: 0;
+    }
+
+    .collab-text {
+        margin-top: 0.5rem;
+        font-size: 0.75rem !important;
+        color: rgba(255, 255, 255, 0.25) !important;
+    }
+
+    .collab-link {
+        color: var(--color-gold) !important;
+        opacity: 0.7;
+        text-decoration: none;
+        transition: opacity 0.3s, text-shadow 0.3s;
+    }
+
+    .collab-link:hover {
+        opacity: 1;
+        text-shadow: 0 0 8px rgba(197, 160, 89, 0.4);
     }
 </style>
