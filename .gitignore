@@ -28,6 +28,7 @@ pnpm-debug.log*
 
 # Optimization scripts
 optimize-images.ps1
+optimize-images.js
 optimizar-fotos.bat
 DOCUMENTATION.md
 
